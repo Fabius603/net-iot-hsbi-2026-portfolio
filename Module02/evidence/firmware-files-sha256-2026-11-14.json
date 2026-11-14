@@ -1,0 +1,16 @@
+{
+  "recorded_on": "2026-11-14",
+  "note": "Hashes calculated retrospectively from the firmware files currently present on the laptop; not a log of verification before the original flash. No firmware images included.",
+  "files": [
+    {
+      "file": "openwrt-tr1200-transition-firmware.bin",
+      "bytes": 6357147,
+      "sha256": "cef2a4bfced0cbf87b761ebea706f83ee5251e6fb1b613a4ff0bd4f9d6d95b08"
+    },
+    {
+      "file": "openwrt-25.12.6-cudy_tr1200-v1-squashfs-sysupgrade-custom.bin",
+      "bytes": 9240851,
+      "sha256": "210ae96f049fd63094afff331ee3a6a32910e0bbb39a8e3523c53beecc102bdd"
+    }
+  ]
+}

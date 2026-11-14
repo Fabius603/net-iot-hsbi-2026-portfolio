@@ -1,0 +1,35 @@
+{
+  "recorded_at": "2026-11-14T15:16:35.054322+01:00",
+  "commands": [
+    {
+      "command": "ipconfig /release \"Ethernet 2\"",
+      "exit_code": 0,
+      "output": "Ethernet-Adapter Ethernet 2 (Auszug):\n   Verbindungsspezifisches DNS-Suffix: \n   Standardgateway . . . . . . . . . : "
+    },
+    {
+      "command": "ipconfig /renew \"Ethernet 2\"",
+      "exit_code": 0,
+      "output": "Ethernet-Adapter Ethernet 2 (Auszug):\n   Verbindungsspezifisches DNS-Suffix: lan\n   IPv4-Adresse  . . . . . . . . . . : 192.168.14.139\n   Subnetzmaske  . . . . . . . . . . : 255.255.255.0\n   Standardgateway . . . . . . . . . : 192.168.14.1"
+    },
+    {
+      "command": "nslookup openwrt.org 192.168.14.1",
+      "output": "Server:  OpenWrt.lan\r\nAddress:  192.168.14.1\r\n\r\nName:    openwrt.org\r\nAddresses:  2a03:b0c0:3:d0::1a51:c001\r\n\t  64.226.122.113\r\n\r\n"
+    }
+  ],
+  "mqtt": {
+    "subscriber_host": "192.168.14.1",
+    "subscriber_port": 1883,
+    "subscriber_bind": "automatic",
+    "publisher_host": "192.168.14.1",
+    "topic": "pod12/portfolio/capture",
+    "sent": "module02-capture-151634",
+    "received": [
+      {
+        "topic": "pod12/portfolio/capture",
+        "payload": "module02-capture-151634",
+        "qos": 0
+      }
+    ]
+  },
+  "note": "ipconfig output reduced to relevant Ethernet 2 IPv4 fields; unrelated adapters omitted."
+}

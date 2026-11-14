@@ -1,0 +1,51 @@
+{
+  "recorded_at": "2026-11-14T15:20:40.266509+01:00",
+  "before": "LAN 192.168.14.1/24; Laptop 192.168.14.139/24; DHCP start=100, limit=150 (see saved baseline).",
+  "after": "13: br-lan: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000\n    inet 192.168.14.1/26 brd 192.168.14.63 scope global br-lan\n       valid_lft forever preferred_lft forever\ndhcp.lan=dhcp\ndhcp.lan.interface='lan'\ndhcp.lan.start='10'\ndhcp.lan.limit='40'\ndhcp.lan.leasetime='12h'\ndhcp.lan.dhcpv4='server'\ndhcp.lan.dhcpv6='server'\ndhcp.lan.ra='server'\ndhcp.lan.ra_flags='managed-config' 'other-config'\ndhcp.lan.ra_preference='medium'\ndhcp.portfolio_laptop=host\ndhcp.portfolio_laptop.name='LaptopFabius'\ndhcp.portfolio_laptop.mac='80:3f:5d:fb:9b:4d'\ndhcp.portfolio_laptop.ip='192.168.14.50'\n1794709217 80:3f:5d:fb:9b:4d 192.168.14.50 LaptopFabius 01:80:3f:5d:fb:9b:4d\ndefault via 192.168.178.1 dev phy1-sta1 proto static src 192.168.178.83 \n192.168.14.0/26 dev br-lan proto kernel scope link src 192.168.14.1 \n192.168.178.0/24 dev phy1-sta1 proto kernel scope link src 192.168.178.83 \nPING 1.1.1.1 (1.1.1.1): 56 data bytes\n64 bytes from 1.1.1.1: seq=0 ttl=58 time=15.525 ms\n\n--- 1.1.1.1 ping statistics ---\n1 packets transmitted, 1 packets received, 0% packet loss\nround-trip min/avg/max = 15.525/15.525/15.525 ms\n",
+  "client_ipv4": "{\"IPAddress\":\"192.168.14.50\",\"PrefixLength\":26}\n",
+  "subnets": [
+    {
+      "prefix": 24,
+      "mask": "255.255.255.0",
+      "network": "192.168.14.0",
+      "broadcast": "192.168.14.255",
+      "first_host": "192.168.14.1",
+      "last_host": "192.168.14.254",
+      "usable_hosts": 254
+    },
+    {
+      "prefix": 26,
+      "mask": "255.255.255.192",
+      "network": "192.168.14.0",
+      "broadcast": "192.168.14.63",
+      "first_host": "192.168.14.1",
+      "last_host": "192.168.14.62",
+      "usable_hosts": 62
+    },
+    {
+      "prefix": 28,
+      "mask": "255.255.255.240",
+      "network": "192.168.14.0",
+      "broadcast": "192.168.14.15",
+      "first_host": "192.168.14.1",
+      "last_host": "192.168.14.14",
+      "usable_hosts": 14
+    }
+  ],
+  "rollback": "cancelled after verified LAN and upstream connectivity",
+  "mqtt_after": {
+    "subscriber_host": "192.168.14.1",
+    "subscriber_port": 1883,
+    "subscriber_bind": "automatic",
+    "publisher_host": "192.168.14.1",
+    "topic": "pod12/portfolio/subnet",
+    "sent": "module02-subnet-152040",
+    "received": [
+      {
+        "topic": "pod12/portfolio/subnet",
+        "payload": "module02-subnet-152040",
+        "qos": 0
+      }
+    ]
+  }
+}
