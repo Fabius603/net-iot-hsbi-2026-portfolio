@@ -1,0 +1,13 @@
+Auszug aus ipconfig /all und route print
+Aufzeichnung: 2026-11-05T11:46:57+01:00
+Identifizierende Angaben und andere Adapter ausgelassen.
+
+   IPv4-Adresse  . . . . . . . . . . : 172.20.10.3(Bevorzugt)
+   Subnetzmaske  . . . . . . . . . . : 255.255.255.240
+   DHCP-Server . . . . . . . . . . . : 172.20.10.1
+          0.0.0.0          0.0.0.0      172.20.10.1      172.20.10.3     30
+      172.20.10.0  255.255.255.240   Auf Verbindung       172.20.10.3    286
+      172.20.10.3  255.255.255.255   Auf Verbindung       172.20.10.3    286
+     172.20.10.15  255.255.255.255   Auf Verbindung       172.20.10.3    286
+        224.0.0.0        240.0.0.0   Auf Verbindung       172.20.10.3    286
+  255.255.255.255  255.255.255.255   Auf Verbindung       172.20.10.3    286

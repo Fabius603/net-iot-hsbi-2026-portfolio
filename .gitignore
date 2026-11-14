@@ -1,0 +1,9 @@
+# Vollständige Netzwerkdaten bleiben lokal.
+private/
+__pycache__/
+*.pyc
+.venv/
+.env
+*.key
+*.pem
+node_modules/

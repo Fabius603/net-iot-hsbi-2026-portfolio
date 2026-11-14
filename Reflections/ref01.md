@@ -1,52 +1,63 @@
-# Reflection 1
+# Reflexion 1 – Netzwerkgrundlagen, MQTT und Node-RED
 
-> This is the only reflection file that spells out the prompts. fill in the [short description here]
-> In the future, copy the [reflection template](TEMPLATE.md) to the respective refnn.md file
-> and write your answers there.
-> Remove this note.
+**14.11.2026 · Erfahrungen aus Pre-Study und Modul 1**
 
-# Reflection template
+## Was ich mitnehme
 
-> Copy this file to `ref01.md`, `ref02.md`, … and replace each `[short description here]`
-> with your answer. Keep each section short — a few sentences is plenty.
+Mir ist der Unterschied zwischen Switch und Router klarer geworden.
+Ein Switch arbeitet im lokalen Netz mit MAC-Adressen. Ein Router verbindet
+IP-Netze und entscheidet, wohin ein Paket als Nächstes geht.
 
-## Take-away
+Ich verstehe auch besser, warum mein Laptop Pakete an das Standardgateway
+schickt. `1.1.1.1` lag außerhalb meines Subnetzes, also ging die Verbindung
+über die Standardroute.
 
-What do you want to remember? What would be your advice?
+## Was gut funktioniert hat
 
-[short description here]
+Beim MQTT-Test kam meine eigene Nachricht im abonnierten Topic wieder an.
+Ich brauchte dafür kein zweites Gerät. Im IoTempower-Video fand ich die
+Idee interessant, mehrere Sensorwerte an einem Ort zu sammeln. Dazu passt
+die Idee einer Raumklima-Anzeige aus der Pre-Study.
 
-## What was good?
+In Modul 1 haben Jonas und ich den Temperatursensor selbst angeschlossen.
+Die Firmware hat unser Professor über WLAN aktualisiert. Danach haben wir
+die Werte im Debug-Bereich und im Dashboard gesehen. Auch die LED und die
+Textausgabe auf dem Display haben wir angesteuert.
 
-[short description here]
+## Was schwierig war
 
-## What was difficult?
+Bei der Traceroute stand an vielen Stellen nur `* * *`. Ich konnte deshalb
+nicht erkennen, wo der Übergang von privaten zu öffentlichen Adressen lag.
+Das Ziel war trotzdem erreichbar und antwortete bei Hop 13.
 
-Where did you struggle? What was the root cause?
+Bei der LED wollten wir die Umschaltung erst selbst schreiben. Wir haben
+versucht, den Zustand abzufragen und davon abhängig neu zu schalten.
+Das hat nicht geklappt. Am Ende haben wir den fertigen Baustein verwendet.
 
-[short description here]
+Für das Dashboard hatten wir zuerst die falsche IP-Adresse genommen.
+Ich glaube, es war die des Brokers. Nach Absprache mit dem Professor
+hatten wir die richtige Adresse und konnten die Temperaturwerte sehen.
 
-## Exploration and show stoppers
+## Abgleich mit den Versuchen
 
-Was there any good/fun “struggling” or exploration?
-Anything where you should reach out to peers or instructors?
+In den gespeicherten Netzwerkauszügen stehen IP-Adresse, Subnetz und
+Standardroute. Die Traceroute zeigt die Antwort des Ziels bei Hop 13.
+Auf dem MQTT-Screenshot stehen die empfangene Nachricht und die
+QoS-Einstellungen. Damit lassen sich diese Erklärungen überprüfen.
 
-[short description here]
+Die übrigen Versuche haben im Unterricht nicht mehr geklappt. Danach
+wurde die Hardware eingesammelt, und wir haben zu den offenen Teilen nur
+noch recherchiert. Den Flow für die LED eines anderen Pods hatten wir
+vorbereitet, aber nicht ausprobiert. Beim Header-Overhead haben wir mit
+einem Beispiel gerechnet und keinen Mitschnitt ausgewertet. Die
+Systemgeschichte steht als schriftlicher Entwurf im Bericht. Einen Pitch
+haben wir nicht gehalten.
 
-## Interaction with peers and instructors
+## Zusammenarbeit
 
-[short description here]
+Die Pre-Study habe ich allein bearbeitet. Ab Modul 1 arbeite ich mit Jonas
+zusammen. Mit einem anderen Pod haben wir verglichen, wie die Temperatursensoren
+auf das Anfassen reagieren, und über das OTA-Update gesprochen. Der Professor
+hat uns bei der Dashboard-Adresse weitergeholfen.
 
-## How did you verify AI suggestions?
-
-What did you ask an AI, and how did you check the answer against a datasheet,
-a measurement, a packet capture, or a live test? Where was it wrong?
-
-[short description here]
-
-## Help and extra work
-
-Who helped you, gave feedback, and was it valuable?
-Who did you help? Did you present, implement, make a PR, or fix something crucial for the class?
-
-[short description here]
+Die Erfahrungen aus den Modulen 2–3 ergänze ich hier später.

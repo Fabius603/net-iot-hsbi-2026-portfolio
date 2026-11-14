@@ -1,77 +1,35 @@
-# Personal Portfolio for the IoT/MCU class <at university/school>
+# Portfolio – Vernetzung und IoT-Lösungen
 
-> When you start editing this file, remove this description.
->
-> Use this repository as a **template** (do not fork it).
-> Everything that you do for this class should be documented here
-> as well as include documented links for the work of your peers.
-> This is an artifact that you can come back to any time later to
-> connect and remember this class. It might even come in handy for
-> a job application where projects are more important than grades. 
-> Make this portfolio **public** (or at least readable by your instructor) and share it with your peers
-> (initially you will have a partner, later several team or group-mates).
-> You will mainly document your own work in this git repository.
-> If you work on a module in a team and distribute several tasks among your peers,
-> just link to your peer's task into their github repository. When linking, describe
-> in one sentence what you understood that your peer did in this task.
-> Your peers should respectively link back to you, so that for each one
-> there is a full module description that can be assessed individually.
-> 
-> Make sure to follow good git etiquette in this repository.
-> The only binaries that are allowed to be checked in are images
-> and GIFs (small animations), exception: tables can be done as pdf
-> or google sheet link but are preferred in markup.
-> This means, no zip, jar, word, libre office documents or PDFs in
-> should be checked into this repository.
-> Documentation has to be written in markdown or restructured text.
-> PDFs, google documents, or videos can be linked,
-> but cannot include "personal" documentation.
-> Pictures you took in class but also links to pictures or videos are welcome.
-> If you have hand written notes, just add them as image
-> (or process them with an AI tool into markup).
->  
-> For the final project consider having its own repository, but still document
-> your own work here and link to the produced artifacts in that project repository.
->
-> Start with the optional `PreStudy/` folder (if your class has a pre-study) and then Module 1: have a small log (keywords are fine, we appreciate sentences, but can read keywords quicker as you usually have to present your tasks to an instructor this is more a help for yourself than for us) and pictures from class and lab tasks in here.
->
-> **`Module01` and `Module02` are examples** from the IoT introduction class. Adjust their headings, tasks, and reflections to match your actual course content.
-> Create further modules as `Module03`, `Module04`, … — always a capital `M` and two digits, matching `Module01` and `Module02`.
-> Use [ModuleNN.md](ModuleNN.md) as the content template for a new module; copy it into `Module03/README.md`, `Module04/README.md`, … and fill in the placeholders.
->
-> **`PreStudy/` is optional.** Not all classes have a pre-study. If yours does not, simply delete the folder and remove it from the table of contents.
-> Any code goes into git repo (needs to be linked in portfolio). If you use example codes without changes, you can also link to it.
->
-> Resources:
-> - A nice markdown cheatsheet: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
-> - The beginner's guide to git & github: https://www.freecodecamp.org/news/the-beginners-guide-to-git-github/
-> - Slightly longer git-intro tutorial video: https://youtu.be/8Dd7KRpKeaE
-> - If you want to take a class on git and even potentially get certified:
->   https://education.github.com/experiences/foundations_certificate
+**Fabius Schlieper** · HSBI Gütersloh · Modul 3264 · WS 2026/27
 
-Author: <replace these pointy brackets with your full name>
+In diesem Portfolio halte ich meine Versuche und Ergebnisse aus dem Modul
+Vernetzung und IoT-Lösungen fest. Zu den Aufgaben gehören meine Notizen,
+verwendete Einstellungen, Screenshots und Messdaten. In den Reflexionen
+beschreibe ich, was ich daraus mitgenommen habe und wo es Schwierigkeiten gab.
 
-My partner is <replace these pointy brackets with their full name>, [portfolio link](https://github.com/partner/iot-portfolio)
+## Zusammenarbeit
 
-In my team for the final project, I also had the following members:
-- <replace these pointy brackets with their full name>, [portfolio link](https://github.com/partner/iot-portfolio)
-- <replace these pointy brackets with their full name>, [portfolio link](https://github.com/partner/iot-portfolio)
+Die Pre-Study habe ich allein bearbeitet. Die weiteren Module bearbeite ich
+zusammen mit **Jonas Prijic**. Sein Portfolio ist hier zu finden:
+[Jonas’ IoT-Portfolio](https://github.com/OffBeatAtze/net-iot-hsbi-2026-portfolio).
+Die Einträge in diesem Repository sind meine persönliche Dokumentation;
+die Aufteilung einzelner Aufgaben steht im jeweiligen Modul.
 
-Our team final project repository is [here](https://github.com/somewhere/final-iot-project)
+## Inhalt
 
-My personal profile and expectations, you can find [here](Module01/README.md#task-personal-profile).
+| Bereich | Inhalt |
+| --- | --- |
+| [Pre-Study](PreStudy/README.md) | Videonotizen, Projektidee und Antworten auf die fünf Leitfragen |
+| [Netzwerkversuch](PreStudy/network-discovery.md) | IP-Adresse, Subnetz, Standardgateway und Traceroute |
+| [MQTT-Test](PreStudy/mqtt.md) | Nachricht über einen öffentlichen Broker senden und empfangen |
+| [Modul 1](Module01/README.md) | MQTT und Node-RED, Taster/LED, Temperatursensor und Dashboard |
+| [Reflexion 1](Reflections/ref01.md) | Erfahrungen aus Pre-Study und Modul 1 |
 
-## Table of Contents
+Weitere Module ergänze ich nach der Bearbeitung mit den zugehörigen Ergebnissen.
+Die Aufgaben und Anforderungen stehen im
+[Syllabus](materialien/hsbi-networking-iot-10d/syllabus.md).
 
-- [Pre-study (optional)](PreStudy/README.md)
-- [Module 1: IoT Introduction — example](Module01/README.md), 
-  [Reflection 1](Reflections/ref01.md)
-- [Module 2: Hardware and Basic Electronics — example](Module02/README.md),
-  [Reflection 2](Reflections/ref02.md), [Reflection 3](Reflections/ref03.md)
-- ...
+## Hilfsmittel
 
-## Miscellanious
-
-- [Hardware in my/our possession](Hardware/README.md)
-
-
+Die Texte wurden mit Unterstützung von KI verfasst. Grundlage sind meine
+Notizen und Erinnerungen sowie die vorhandenen Ausgaben und Screenshots.
