@@ -1,0 +1,16 @@
+{
+  "recorded_at": "2026-11-14T15:16:09.613704+01:00",
+  "subscriber_host": "192.168.14.1",
+  "subscriber_port": 1883,
+  "subscriber_bind": "automatic",
+  "publisher_host": "192.168.14.1",
+  "topic": "pod12/portfolio/lan",
+  "sent": "module02-lan-151609",
+  "received": [
+    {
+      "topic": "pod12/portfolio/lan",
+      "payload": "module02-lan-151609",
+      "qos": 0
+    }
+  ]
+}

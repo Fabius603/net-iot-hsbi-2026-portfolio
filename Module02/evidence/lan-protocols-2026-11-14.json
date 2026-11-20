@@ -1,0 +1,248 @@
+{
+  "recorded_at": "2026-11-14T15:16:43.233970+01:00",
+  "interface": "br-lan",
+  "note": "Filtered to own DHCP client, controlled ARP/MQTT traffic and openwrt.org DNS; raw capture retained privately.",
+  "counts": {
+    "ARP": 11,
+    "DHCP": 5,
+    "DNS": 4,
+    "MQTT_TCP": 27
+  },
+  "packets": [
+    {
+      "time": "2026-11-14T15:16:29.640005+01:00",
+      "frame_bytes": 342,
+      "detail": "DHCP Release: yiaddr=0.0.0.0, server=192.168.14.1, mask=None, router=None"
+    },
+    {
+      "time": "2026-11-14T15:16:29.949656+01:00",
+      "frame_bytes": 342,
+      "detail": "DHCP Discover: yiaddr=0.0.0.0, server=None, mask=None, router=None"
+    },
+    {
+      "time": "2026-11-14T15:16:33.100335+01:00",
+      "frame_bytes": 342,
+      "detail": "DHCP Offer: yiaddr=192.168.14.139, server=192.168.14.1, mask=255.255.255.0, router=192.168.14.1"
+    },
+    {
+      "time": "2026-11-14T15:16:33.103869+01:00",
+      "frame_bytes": 365,
+      "detail": "DHCP Request: yiaddr=0.0.0.0, server=192.168.14.1, mask=None, router=None"
+    },
+    {
+      "time": "2026-11-14T15:16:33.106738+01:00",
+      "frame_bytes": 360,
+      "detail": "DHCP ACK: yiaddr=192.168.14.139, server=192.168.14.1, mask=255.255.255.0, router=192.168.14.1"
+    },
+    {
+      "time": "2026-11-14T15:16:33.139210+01:00",
+      "frame_bytes": 60,
+      "detail": "ARP op=1: 192.168.14.139 (80:3f:5d:fb:9b:4d) -> 192.168.14.1 (00:00:00:00:00:00)"
+    },
+    {
+      "time": "2026-11-14T15:16:33.139404+01:00",
+      "frame_bytes": 42,
+      "detail": "ARP op=2: 192.168.14.1 (d4:0d:ab:52:c1:a0) -> 192.168.14.139 (80:3f:5d:fb:9b:4d)"
+    },
+    {
+      "time": "2026-11-14T15:16:33.173571+01:00",
+      "frame_bytes": 60,
+      "detail": "ARP op=1: 0.0.0.0 (80:3f:5d:fb:9b:4d) -> 192.168.14.139 (00:00:00:00:00:00)"
+    },
+    {
+      "time": "2026-11-14T15:16:33.213490+01:00",
+      "frame_bytes": 60,
+      "detail": "ARP op=1: 192.168.14.139 (80:3f:5d:fb:9b:4d) -> 192.168.14.1 (00:00:00:00:00:00)"
+    },
+    {
+      "time": "2026-11-14T15:16:33.213677+01:00",
+      "frame_bytes": 42,
+      "detail": "ARP op=2: 192.168.14.1 (d4:0d:ab:52:c1:a0) -> 192.168.14.139 (80:3f:5d:fb:9b:4d)"
+    },
+    {
+      "time": "2026-11-14T15:16:33.453634+01:00",
+      "frame_bytes": 71,
+      "detail": "DNS query id=4: openwrt.org, answers=0"
+    },
+    {
+      "time": "2026-11-14T15:16:33.454198+01:00",
+      "frame_bytes": 87,
+      "detail": "DNS response id=4: openwrt.org, answers=1"
+    },
+    {
+      "time": "2026-11-14T15:16:33.459395+01:00",
+      "frame_bytes": 71,
+      "detail": "DNS query id=5: openwrt.org, answers=0"
+    },
+    {
+      "time": "2026-11-14T15:16:33.459994+01:00",
+      "frame_bytes": 99,
+      "detail": "DNS response id=5: openwrt.org, answers=1"
+    },
+    {
+      "time": "2026-11-14T15:16:33.473664+01:00",
+      "frame_bytes": 60,
+      "detail": "ARP op=1: 192.168.14.139 (80:3f:5d:fb:9b:4d) -> 192.168.14.1 (00:00:00:00:00:00)"
+    },
+    {
+      "time": "2026-11-14T15:16:33.473854+01:00",
+      "frame_bytes": 42,
+      "detail": "ARP op=2: 192.168.14.1 (d4:0d:ab:52:c1:a0) -> 192.168.14.139 (80:3f:5d:fb:9b:4d)"
+    },
+    {
+      "time": "2026-11-14T15:16:34.179369+01:00",
+      "frame_bytes": 60,
+      "detail": "ARP op=1: 0.0.0.0 (80:3f:5d:fb:9b:4d) -> 192.168.14.139 (00:00:00:00:00:00)"
+    },
+    {
+      "time": "2026-11-14T15:16:34.563251+01:00",
+      "frame_bytes": 42,
+      "detail": "ARP op=1: 192.168.14.1 (d4:0d:ab:52:c1:a0) -> 192.168.14.139 (00:00:00:00:00:00)"
+    },
+    {
+      "time": "2026-11-14T15:16:34.564535+01:00",
+      "frame_bytes": 60,
+      "detail": "ARP op=2: 192.168.14.139 (80:3f:5d:fb:9b:4d) -> 192.168.14.1 (d4:0d:ab:52:c1:a0)"
+    },
+    {
+      "time": "2026-11-14T15:16:34.808603+01:00",
+      "frame_bytes": 66,
+      "detail": "MQTT/TCP 192.168.14.139:56662 -> 192.168.14.1:1883; flags=S; data=b''"
+    },
+    {
+      "time": "2026-11-14T15:16:34.808993+01:00",
+      "frame_bytes": 66,
+      "detail": "MQTT/TCP 192.168.14.1:1883 -> 192.168.14.139:56662; flags=SA; data=b''"
+    },
+    {
+      "time": "2026-11-14T15:16:34.810363+01:00",
+      "frame_bytes": 60,
+      "detail": "MQTT/TCP 192.168.14.139:56662 -> 192.168.14.1:1883; flags=A; data=b''"
+    },
+    {
+      "time": "2026-11-14T15:16:34.825546+01:00",
+      "frame_bytes": 89,
+      "detail": "MQTT/TCP 192.168.14.139:56662 -> 192.168.14.1:1883; flags=PA; data=b'\\x10!\\x00\\x04MQTT\\x04\\x02\\x00\\x14\\x00\\x15portfolio-sub-capture'"
+    },
+    {
+      "time": "2026-11-14T15:16:34.825879+01:00",
+      "frame_bytes": 54,
+      "detail": "MQTT/TCP 192.168.14.1:1883 -> 192.168.14.139:56662; flags=A; data=b''"
+    },
+    {
+      "time": "2026-11-14T15:16:34.826506+01:00",
+      "frame_bytes": 58,
+      "detail": "MQTT/TCP 192.168.14.1:1883 -> 192.168.14.139:56662; flags=PA; data=b' \\x02\\x00\\x00'"
+    },
+    {
+      "time": "2026-11-14T15:16:34.828752+01:00",
+      "frame_bytes": 84,
+      "detail": "MQTT/TCP 192.168.14.139:56662 -> 192.168.14.1:1883; flags=PA; data=b'\\x82\\x1c\\x00\\x01\\x00\\x17pod12/portfolio/capture\\x00'"
+    },
+    {
+      "time": "2026-11-14T15:16:34.829337+01:00",
+      "frame_bytes": 59,
+      "detail": "MQTT/TCP 192.168.14.1:1883 -> 192.168.14.139:56662; flags=PA; data=b'\\x90\\x03\\x00\\x01\\x00'"
+    },
+    {
+      "time": "2026-11-14T15:16:34.838546+01:00",
+      "frame_bytes": 66,
+      "detail": "MQTT/TCP 192.168.14.139:56665 -> 192.168.14.1:1883; flags=S; data=b''"
+    },
+    {
+      "time": "2026-11-14T15:16:34.838889+01:00",
+      "frame_bytes": 66,
+      "detail": "MQTT/TCP 192.168.14.1:1883 -> 192.168.14.139:56665; flags=SA; data=b''"
+    },
+    {
+      "time": "2026-11-14T15:16:34.839605+01:00",
+      "frame_bytes": 60,
+      "detail": "MQTT/TCP 192.168.14.139:56665 -> 192.168.14.1:1883; flags=A; data=b''"
+    },
+    {
+      "time": "2026-11-14T15:16:34.839902+01:00",
+      "frame_bytes": 89,
+      "detail": "MQTT/TCP 192.168.14.139:56665 -> 192.168.14.1:1883; flags=PA; data=b'\\x10!\\x00\\x04MQTT\\x04\\x02\\x00\\x14\\x00\\x15portfolio-pub-capture'"
+    },
+    {
+      "time": "2026-11-14T15:16:34.840098+01:00",
+      "frame_bytes": 54,
+      "detail": "MQTT/TCP 192.168.14.1:1883 -> 192.168.14.139:56665; flags=A; data=b''"
+    },
+    {
+      "time": "2026-11-14T15:16:34.841689+01:00",
+      "frame_bytes": 58,
+      "detail": "MQTT/TCP 192.168.14.1:1883 -> 192.168.14.139:56665; flags=PA; data=b' \\x02\\x00\\x00'"
+    },
+    {
+      "time": "2026-11-14T15:16:34.844140+01:00",
+      "frame_bytes": 104,
+      "detail": "MQTT/TCP 192.168.14.139:56665 -> 192.168.14.1:1883; flags=PA; data=b'00\\x00\\x17pod12/portfolio/capturemodule02-capture-151634'"
+    },
+    {
+      "time": "2026-11-14T15:16:34.885970+01:00",
+      "frame_bytes": 54,
+      "detail": "MQTT/TCP 192.168.14.1:1883 -> 192.168.14.139:56665; flags=A; data=b''"
+    },
+    {
+      "time": "2026-11-14T15:16:34.886857+01:00",
+      "frame_bytes": 60,
+      "detail": "MQTT/TCP 192.168.14.139:56662 -> 192.168.14.1:1883; flags=A; data=b''"
+    },
+    {
+      "time": "2026-11-14T15:16:34.887071+01:00",
+      "frame_bytes": 104,
+      "detail": "MQTT/TCP 192.168.14.1:1883 -> 192.168.14.139:56662; flags=PA; data=b'00\\x00\\x17pod12/portfolio/capturemodule02-capture-151634'"
+    },
+    {
+      "time": "2026-11-14T15:16:34.888782+01:00",
+      "frame_bytes": 60,
+      "detail": "MQTT/TCP 192.168.14.139:56665 -> 192.168.14.1:1883; flags=PA; data=b'\\xe0\\x00'"
+    },
+    {
+      "time": "2026-11-14T15:16:34.888984+01:00",
+      "frame_bytes": 54,
+      "detail": "MQTT/TCP 192.168.14.1:1883 -> 192.168.14.139:56665; flags=A; data=b''"
+    },
+    {
+      "time": "2026-11-14T15:16:34.889094+01:00",
+      "frame_bytes": 60,
+      "detail": "MQTT/TCP 192.168.14.139:56665 -> 192.168.14.1:1883; flags=FA; data=b''"
+    },
+    {
+      "time": "2026-11-14T15:16:34.889579+01:00",
+      "frame_bytes": 60,
+      "detail": "MQTT/TCP 192.168.14.139:56662 -> 192.168.14.1:1883; flags=PA; data=b'\\xe0\\x00'"
+    },
+    {
+      "time": "2026-11-14T15:16:34.889815+01:00",
+      "frame_bytes": 60,
+      "detail": "MQTT/TCP 192.168.14.139:56662 -> 192.168.14.1:1883; flags=FA; data=b''"
+    },
+    {
+      "time": "2026-11-14T15:16:34.890011+01:00",
+      "frame_bytes": 54,
+      "detail": "MQTT/TCP 192.168.14.1:1883 -> 192.168.14.139:56665; flags=FA; data=b''"
+    },
+    {
+      "time": "2026-11-14T15:16:34.890540+01:00",
+      "frame_bytes": 60,
+      "detail": "MQTT/TCP 192.168.14.139:56665 -> 192.168.14.1:1883; flags=A; data=b''"
+    },
+    {
+      "time": "2026-11-14T15:16:34.891018+01:00",
+      "frame_bytes": 54,
+      "detail": "MQTT/TCP 192.168.14.1:1883 -> 192.168.14.139:56662; flags=FA; data=b''"
+    },
+    {
+      "time": "2026-11-14T15:16:34.891691+01:00",
+      "frame_bytes": 60,
+      "detail": "MQTT/TCP 192.168.14.139:56662 -> 192.168.14.1:1883; flags=A; data=b''"
+    },
+    {
+      "time": "2026-11-14T15:16:35.182215+01:00",
+      "frame_bytes": 60,
+      "detail": "ARP op=1: 0.0.0.0 (80:3f:5d:fb:9b:4d) -> 192.168.14.139 (00:00:00:00:00:00)"
+    }
+  ]
+}

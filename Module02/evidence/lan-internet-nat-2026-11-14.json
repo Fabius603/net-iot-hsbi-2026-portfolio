@@ -1,0 +1,7 @@
+{
+  "recorded_at": "2026-11-14T15:46:31.618657+01:00",
+  "command": "ping -S 192.168.14.50 -n 2 -w 2000 1.1.1.1",
+  "exit_code": 0,
+  "output": "\r\nPing wird ausgeführt für 1.1.1.1 von 192.168.14.50 mit 32 Bytes Daten:\r\nAntwort von 1.1.1.1: Bytes=32 Zeit=79ms TTL=57\r\nAntwort von 1.1.1.1: Bytes=32 Zeit=27ms TTL=57\r\n\r\nPing-Statistik für 1.1.1.1:\r\n    Pakete: Gesendet = 2, Empfangen = 2, Verloren = 0\r\n    (0% Verlust),\r\nCa. Zeitangaben in Millisek.:\r\n    Minimum = 27ms, Maximum = 79ms, Mittelwert = 53ms\r\n",
+  "conntrack": "ipv4     2 icmp     1 28 src=192.168.14.50 dst=1.1.1.1 type=8 code=0 id=1 packets=2 bytes=120 src=1.1.1.1 dst=192.168.178.83 type=0 code=0 id=1 packets=2 bytes=120 mark=0 zone=0 use=2\n"
+}

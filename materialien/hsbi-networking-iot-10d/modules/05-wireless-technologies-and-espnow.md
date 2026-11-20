@@ -2,7 +2,7 @@
 
 [← Back to Module 4](./04-mqtt-and-integration.md) | [Quick module index](./00-index.md) | [Next: Module 6 →](./06-industrial-protocols-and-bridging.md)
 
-**Course placement:** Day 5 — the wireless challenge. You choose a radio by measurement, then build an ESP-NOW-to-MQTT bridge.
+**Course placement:** Fri 2026-12-04 — the wireless challenge. You choose a radio by measurement, then build an ESP-NOW-to-MQTT bridge.
 
 ## 🎯 Learning Goals
 
@@ -268,7 +268,7 @@ This is a **suggestion, not a checklist** — the learning goals are the contrac
 > [!IMPORTANT]
 > Never commit secrets, credentials, private keys, or personal data. Where you did not work entirely alone, link your pod mates and sources.
 
-## 📚 If you want to go deeper
+## 📚 Resources
 
 - [Espressif ESP-NOW documentation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_now.html) — peers, callbacks, and channel behavior.
 - [IEEE 802.11](https://en.wikipedia.org/wiki/IEEE_802.11) — the standard behind both Wi-Fi and ESP-NOW action frames.

@@ -1,0 +1,19 @@
+{
+  "recorded_at": "2026-11-14T15:30:00.265281+01:00",
+  "publish_packets": [
+    {
+      "source": "192.168.14.139",
+      "destination": "192.168.14.1",
+      "frame_bytes": 104,
+      "topic": "pod12/portfolio/capture",
+      "payload": "module02-capture-151634"
+    },
+    {
+      "source": "192.168.14.1",
+      "destination": "192.168.14.139",
+      "frame_bytes": 104,
+      "topic": "pod12/portfolio/capture",
+      "payload": "module02-capture-151634"
+    }
+  ]
+}

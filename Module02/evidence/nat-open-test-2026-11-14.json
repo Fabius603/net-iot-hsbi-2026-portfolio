@@ -1,0 +1,19 @@
+{
+  "recorded_at": "2026-11-14T15:25:07.398448+01:00",
+  "mqtt": {
+    "subscriber_host": "192.168.178.83",
+    "subscriber_port": 11883,
+    "subscriber_bind": "192.168.178.163",
+    "publisher_host": "192.168.14.1",
+    "topic": "pod12/portfolio/nat",
+    "sent": "module02-nat-152505",
+    "received": [
+      {
+        "topic": "pod12/portfolio/nat",
+        "payload": "module02-nat-152505",
+        "qos": 0
+      }
+    ]
+  },
+  "conntrack": "ipv4     2 tcp      6 119 TIME_WAIT src=192.168.178.163 dst=192.168.178.83 sport=59445 dport=11883 packets=10 bytes=485 src=192.168.14.1 dst=192.168.178.163 sport=1883 dport=59445 packets=8 bytes=437 [ASSURED] mark=0 zone=0 use=2\n"
+}

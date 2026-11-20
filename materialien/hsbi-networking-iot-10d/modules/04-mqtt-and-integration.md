@@ -2,7 +2,7 @@
 
 [← Back to Module 3](./03-overlay-and-mesh-networks.md) | [Quick module index](./00-index.md) | [Next: Module 5 →](./05-wireless-technologies-and-espnow.md)
 
-**Course placement:** Day 4 — the messaging and integration challenge. The studio starts with a pod check-in, then the warehouse.
+**Course placement:** Fri 2026-11-27 — the messaging and integration challenge. The work starts with a pod check-in, then the warehouse.
 
 ## 🎯 Learning Goals
 
@@ -350,7 +350,7 @@ This is a **suggestion, not a checklist** — the learning goals are the contrac
 > [!IMPORTANT]
 > Never commit secrets, credentials, private keys, or broker configuration containing passwords. Where you did not work entirely alone, link your pod mates and sources.
 
-## 📚 If you want to go deeper
+## 📚 Resources
 
 - [MQTT 5.0 specification](https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html) and [mqtt.org](https://mqtt.org/) — the protocol reference.
 - [HiveMQ: MQTT essentials](https://www.hivemq.com/mqtt-essentials/) — the readable guide to topics, QoS, retain, and LWT.

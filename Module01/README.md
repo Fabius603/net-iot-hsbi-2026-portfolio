@@ -87,8 +87,10 @@ dazu nicht ausgewertet.
 
 Mit einem anderen Pod haben wir die Temperaturanzeige und das OTA-Update
 besprochen. Beim Vergleich der Temperaturwerte ging es darum, wie schnell
-die Sensoren reagieren, wenn man sie zwischen die Finger nimmt.
-Konkrete Reaktionszeiten haben wir dabei nicht festgehalten.
+die Sensoren reagieren, wenn man sie zwischen die Finger nimmt. Bei
+unserem Sensor ist das im [Dashboard unter Aufgabe 7](#aufgabe-7--temperaturanzeige-im-dashboard)
+zu sehen: Nach dem Anfassen stieg der Wert in rund einer Minute um etwa
+drei Grad. Die Werte des anderen Pods haben wir nicht festgehalten.
 
 Zum OTA-Update haben wir darüber gesprochen, ob der andere Pod die
 Aktualisierung über WLAN mitbekommen hatte. Dabei ging es auch darum,
@@ -96,31 +98,42 @@ woran man nach dem Update erkennt, ob der Sensor tatsächlich Werte liefert.
 
 ## Aufgabe 3 – Nachrichten in Node-RED
 
-Node-RED verbindet einzelne Verarbeitungsschritte zu einem Flow. Im
-Debug-Bereich konnten wir die Temperaturwerte direkt ablesen, die vom
-Stick ankamen.
+Node-RED verbindet einzelne Verarbeitungsschritte zu einem Flow. Unser
+Stick hatte die Kennung `12`, seine Topics beginnen deshalb mit `sticks/12/`.
 
-Der einfache Einstiegsflow aus dem Aufgabenblatt besteht aus Inject und
-Debug: Inject erzeugt eine Nachricht und Debug zeigt deren Inhalt an.
-Dieser direkte Flow braucht noch keinen MQTT-Broker. Erst MQTT-In- und
-MQTT-Out-Nodes verbinden einen Flow mit dem Broker.
+![Node-RED-Flow mit Debug, Inject-Nodes und LED-Steuerung](pictures/05-flow-uebersicht-2026-11-06.png)
 
-Beim Einstiegsflow aus dem Aufgabenblatt sollte nach Deploy und einem
-Klick auf Inject die Nachricht im Debug-Bereich erscheinen, zum Beispiel
-`Hello IoT!` als `msg.payload`. Wenn nichts ankommt, würde ich zuerst die
-Verbindung zwischen den Nodes und die Debug-Ausgabe prüfen. Die
-[Node-RED-Dokumentation zu Nachrichten](https://nodered.org/docs/user-guide/messages)
-beschreibt, wie sich Payload und Datentyp dort kontrollieren lassen.
+*Unser Flow vom 06.11.2026: oben `sticks/12/#` und der Inject `Hello IoT!`
+an `debug 1`, darunter `on`/`off` an `sticks/12/led/set`, `coffee!` an
+`sticks/12/console` und unten der Taster (`sticks/12/home`) mit LED-Steuerung.*
+
+Der Einstiegsflow aus dem Aufgabenblatt besteht aus Inject und Debug:
+Inject erzeugt eine Nachricht und Debug zeigt deren Inhalt an. Dieser
+direkte Weg braucht noch keinen MQTT-Broker. Erst MQTT-In- und
+MQTT-Out-Nodes verbinden einen Flow mit dem Broker. Bei uns hängt am
+selben `debug 1` zusätzlich das Abonnement `sticks/12/#`. Damit landen
+alle Nachrichten unseres Sticks im Debug-Bereich.
+
+![Debug-Ausgabe mit Temperaturwert 26.375](pictures/02-debug-temperatur-2026-11-06.png)
+
+*Debug-Ausgabe vom 06.11.2026 um 15:37:45: `msg.payload` von
+`sticks/12/temp` mit dem Wert `26.375`.*
 
 ## Aufgabe 4 – Taster, LED und Display
 
-Jonas und ich haben mit dem Taster am M5Stick sowohl die LED geschaltet
-als auch Text auf dem Display ausgegeben.
+Jonas und ich haben mit dem Taster am M5Stick die LED geschaltet. Text auf
+dem Display haben wir aus Node-RED mit dem Inject `coffee!` ausgegeben.
 
-Bei diesem Aufbau verbindet Node-RED die Tastermeldung mit dem passenden
+Beim Taster verbindet Node-RED die Tastermeldung mit dem passenden
 Ausgabebefehl. Die MQTT-Nachrichten laufen über den Broker zurück zum
-Stick. Taster und Ausgabe sitzen zwar auf demselben Gerät, die Verknüpfung
+Stick. Taster und LED sitzen zwar auf demselben Gerät, die Verknüpfung
 erfolgt aber über das Netzwerk und den Flow.
+
+Im Flow oben kommt die Tastermeldung über `sticks/12/home` an. Ein
+`switch` teilt sie auf zwei `change`-Nodes auf, die jeweils `msg.payload`
+setzen und an `sticks/12/led/set` schicken. Die Inject-Nodes `on` und `off`
+schalten die LED direkt. Der Inject `coffee!` schickt seinen Text an
+`sticks/12/console` und damit aufs Display.
 
 ### Stolperstelle: LED-Zustand selbst umschalten
 
@@ -129,6 +142,14 @@ Wir wollten den aktuellen Zustand abfragen und abhängig davon die LED ein-
 oder ausschalten. Diesen Ansatz haben wir nicht zum Laufen bekommen.
 Am Ende haben wir den bereits vorhandenen Baustein verwendet, statt die
 Umschaltung selbst umzusetzen.
+
+![Flow mit gespeichertem LED-Zustand und function-Node](pictures/04-flow-led-zustand-2026-11-06.png)
+
+*Flow zum Selbst-Umschalten: `sticks/12/led/get` schreibt den
+LED-Zustand in `flow.zustand`. Der Taster läuft über `switch` und
+`function 1` zu einem zweiten `switch`, der je nach Zustand eine der beiden
+Payloads an `sticks/12/led/set` sendet. `debug 2` zeigt die Ausgabe der
+Funktion.*
 
 ## Aufgabe 5 – Verbindung zu einem anderen Pod vorbereiten
 
@@ -169,18 +190,35 @@ wird der Sensor mit seinem Anschluss in `setup.cpp` eingetragen.
 ## Aufgabe 7 – Temperaturanzeige im Dashboard
 
 Wir konnten die Temperaturwerte im Debug-Bereich und im Dashboard sehen.
+Im Flow abonniert ein MQTT-In-Node `sticks/12/temp` und gibt jeden Wert
+an zwei Dashboard-Nodes weiter: das Diagramm `chart` und die Anzeige
+`roomtemp`.
+
+![Node-RED-Flow von sticks/12/temp zu chart und roomtemp](pictures/03-flow-dashboard-2026-11-06.png)
+
+![Dashboard mit Anzeige 28.125 und Temperaturverlauf](pictures/01-dashboard-temperatur-2026-11-06.png)
+
+*Dashboard „Gruppe 1“ am 06.11.2026: Die Anzeige `roomtemp` (Skala 15–40)
+steht auf 28,125. Das Diagramm zeigt `sticks/12/temp` von etwa 15:33 bis
+15:44 Uhr.*
+
+Im Verlauf fällt die Temperatur von knapp 30 auf etwa 25,3 und bleibt ab
+etwa 15:41 fast konstant. Kurz nach 15:43 haben wir den Sensor angefasst.
+Die Temperatur steigt daraufhin innerhalb von rund einer Minute steil auf
+etwa 28,1. Der Debug-Wert 26,375 von 15:37:45
+liegt auf derselben Kurve. Die Einheit der Anzeige steht noch auf der
+Voreinstellung `units`, gemeint sind Grad Celsius.
 
 ### Recherche: Anzeigen vergleichen
 
 Für die gemeinsame Anzeige aus dem Aufgabenblatt kann man mit `+/temp`
-die Temperatur-Topics mehrerer Sticks abonnieren. Die genauen Topics
-unseres Aufbaus habe ich nicht notiert.
+die Temperatur-Topics mehrerer Sticks abonnieren. Bei unserer
+Topic-Struktur müsste der Filter `sticks/+/temp` heißen, weil vor `temp`
+zwei Ebenen stehen.
 
 Eine Anzeige sollte mit jeder neuen Nachricht den aktuellen Wert zeigen.
-Ein Diagramm sammelt die Werte als Verlauf. Beim Anfassen eines Sensors,
-der kühler als die Finger ist, wäre ein allmählicher Temperaturanstieg
-zu erwarten. Wie schnell man das sieht, hängt vom Sensor, dem
-Messintervall und der Übertragung ab.
+Ein Diagramm sammelt die Werte als Verlauf. Wie schnell eine Änderung
+sichtbar wird, hängt vom Sensor, dem Messintervall und der Übertragung ab.
 
 Bei `+/temp` müssten die Werte außerdem nach ihrem Herkunfts-Topic getrennt
 zugeordnet werden, damit mehrere Sticks als verschiedene Reihen erscheinen.
@@ -300,11 +338,16 @@ Werte mehr an.
 ## Verfügbare Unterlagen
 
 Die Hardware wurde am Ende eingesammelt. Deshalb konnten wir die offenen
-Versuche nicht zu Hause nachholen. Die Beschreibung beruht auf meinen
-Erinnerungen an die Arbeit mit Jonas. Screenshots und Flow-Dateien habe ich
-aktuell nicht vorliegen. Falls ich noch Aufnahmen finde, ergänze ich sie.
+Versuche nicht zu Hause nachholen. Aus dem Unterricht am 06.11.2026 habe
+ich fünf Screenshots: drei Node-RED-Flows, die Debug-Ausgabe und das
+Dashboard mit dem Temperaturverlauf. Flow-Exporte habe ich nicht. Alles
+andere beruht auf meinen Erinnerungen an die Arbeit mit Jonas.
 
 ## Reflexion
 
 Die Erfahrungen mit der LED-Umschaltung, der Dashboard-Adresse und der
 Zusammenarbeit stehen in [Reflexion 1](../Reflections/ref01.md).
+
+## Hilfsmittel und KI-Nutzung
+
+KI habe ich beim Formulieren der Texte verwendet.

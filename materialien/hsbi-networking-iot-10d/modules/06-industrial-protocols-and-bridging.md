@@ -5,7 +5,7 @@
 > [!NOTE]
 > **Short and dry on purpose.** We do not have an industrial lab. The module is one video, one discussion, one RS-485/Modbus demo if the hardware is there, and an EtherCAT guest slot if we can get one. The rest of the page is a reference map for the handbook, not a lecture. You are not expected to own a factory.
 
-**Course placement:** Day 6 — a short industrial-interoperability briefing: place the protocols, watch and discuss, one RS-485/Modbus demo if the hardware is there, an EtherCAT guest slot, and an optional Python wrapper.
+**Course placement:** Fri 2026-12-11, first slot — a short industrial-interoperability briefing: place the protocols, watch and discuss, one RS-485/Modbus demo if the hardware is there, an EtherCAT guest slot, and an optional Python wrapper. The second slot is the last two school hours of the date and belongs to the [project kickoff](./08-final-project-studio.md); finish the bus map or register notes as homework before it if you need more time.
 
 ## 🎯 Learning Goals
 
@@ -296,7 +296,7 @@ This is a **suggestion, not a checklist** — the learning goals are the contrac
 > [!IMPORTANT]
 > Never commit secrets, credentials, private keys, or plant data. Where you did not work entirely alone, link your pod mates and sources.
 
-## 📚 If you want to go deeper
+## 📚 Resources
 
 - [Modbus Organization](https://modbus.org/) and [Wikipedia: Modbus](https://en.wikipedia.org/wiki/Modbus) — the register model and framing.
 - [OPC Foundation: OPC-UA](https://opcfoundation.org/about/opc-technologies/opc-ua/) — the information model and security.

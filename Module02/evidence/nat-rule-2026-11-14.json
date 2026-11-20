@@ -1,0 +1,8 @@
+{
+  "recorded_at": "2026-11-14T15:24:06.554072+01:00",
+  "outside_client": "192.168.178.163",
+  "wan_address": "192.168.178.83",
+  "before": "blocked: timed out",
+  "rule": "firewall.portfolio_mqtt=redirect\nfirewall.portfolio_mqtt.name='Portfolio MQTT - temporaer'\nfirewall.portfolio_mqtt.src='wan'\nfirewall.portfolio_mqtt.src_ip='192.168.178.163'\nfirewall.portfolio_mqtt.src_dport='11883'\nfirewall.portfolio_mqtt.dest='lan'\nfirewall.portfolio_mqtt.dest_ip='192.168.14.1'\nfirewall.portfolio_mqtt.dest_port='1883'\nfirewall.portfolio_mqtt.proto='tcp'\nfirewall.portfolio_mqtt.family='ipv4'\nfirewall.portfolio_mqtt.target='DNAT'\n",
+  "automatic_cleanup_seconds": 240
+}

@@ -127,3 +127,9 @@ Das Ziel antwortete trotzdem bei Hop 13. Wo genau der Übergang von privaten
 zu öffentlichen IP-Adressen lag, konnte ich dadurch nicht erkennen.
 Meine bisherigen Erfahrungen habe ich auch in der
 [ersten Reflexion](../Reflections/ref01.md) festgehalten.
+
+## Hilfsmittel und KI-Nutzung
+
+Beim Formulieren der Texte habe ich KI-Unterstützung genutzt. Grundlage waren
+meine Videonotizen, Erinnerungen und die Ausgaben aus dem Netzwerk- und MQTT-Test.
+Die Angaben habe ich mit den gespeicherten Ausgaben und Screenshots abgeglichen.

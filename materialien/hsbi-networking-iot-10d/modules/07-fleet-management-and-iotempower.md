@@ -2,7 +2,7 @@
 
 [← Back to Module 6](./06-industrial-protocols-and-bridging.md) | [Quick module index](./00-index.md) | [Next: Module 8 →](./08-final-project-studio.md)
 
-**Course placement:** Day 7 — the fleet studio. A prototype becomes a fleet you can update without a USB cable.
+**Course placement:** Mon 2026-12-14, the 08:30–11:30 P slot — the fleet clinic. A prototype becomes a fleet you can update without a USB cable; the project build follows in the two BS slots.
 
 ## 🎯 Learning Goals
 
@@ -18,7 +18,7 @@ By the end of this module, you can:
 
 ## 🎬 Opening the Challenge
 
-**The day starts with the fleet, not a slide.** Module 6 gave one device a voice; today you make the voice repeatable across a fleet. The opening runs in five quick beats:
+**The day starts with the fleet, not a slide.** Module 6 gave one device a voice; today you make the voice repeatable across a fleet. This date is shared with the project build, so the clinic focuses on the inventory, one declarative node, one OTA deployment, and one recovery. The namespace and canary work moves into the project. The opening runs in five quick beats:
 
 1. **Pre-study check-in.** In your pod, show one artefact from Module 6 — the bus map, the wrapper diagram, or the register-to-topic note — and name one question you still have. Park the questions on the board.
 2. **Confirm the pod and the roles.** Rotate: one drives the node definitions, one drives the deployment terminal, one keeps the fleet inventory and the evidence. Swap after each round.
@@ -382,7 +382,7 @@ This is a **suggestion, not a checklist** — the learning goals are the contrac
 > [!IMPORTANT]
 > Never commit Wi-Fi passwords, broker credentials, private keys, device certificates, or an unredacted `system.conf`. A node definition is safe to publish; the credentials inside the system configuration are not. If you copied a neighbour's node, say so and show how you changed the identity.
 
-## 📚 If you want to go deeper
+## 📚 Resources
 
 - [IoTempower](https://github.com/iotempire/iotempower) — the declarative node model and deployment workflow.
 - [IoTempower quickstart](https://github.com/iotempire/iotempower/blob/master/doc/quickstart.rst) — the shortest path from install to the first node.
