@@ -18,7 +18,9 @@
 
       **Do not fix Module 2 during this run.** Use the observation as the design constraint for
       everything that follows, starting with Module 3 (Nebula). After the run, audit Module 2 and
-      the other modules against it.
+      the other modules against it. **First module written in that tone: Module 4** — see
+      [D26](./00-architecture-decisions.md#d26--tasks-state-the-goal-and-the-question-not-the-keystrokes-the-day-may-be-experimental);
+      it is the template to audit the others against.
 
       **Keep explicit:** safety-critical commands, credential handling, recovery paths, and the
       minimum hardware facts that prevent damage. **Cut or convert:** step-by-step recipes that
@@ -109,25 +111,44 @@
 
 ## Module 4 — before the session
 
-- [ ] **Stand up Chatto for Module 4.** Self-host it on the Optiplex cluster (or the framework host),
-      reachable only through the overlay, and wire the two bridges the module wants to show:
-      Discord ↔ Chatto and Chatto ↔ MQTT. Decide the class login, put the address on the board, and
-      keep it out of the public repository. Observation: Module 4 has no chat surface today, so
-      "MQTT versus a chat protocol" stays abstract.
-- [ ] **Hand out the M5Sticks pre-configured.** Flash IoTempower onto each stick and set its pod's
-      Wi-Fi credentials *before* the session — at the end of Module 4 or the start of Module 5, not
-      during it. Observation: in the first run the flashing and pairing ate the integration time;
-      the sticks are the point of Module 5, not its preamble.
-- [ ] **Make IoTknit run on MicroPython.** It is listed as "planned, not supported" in
-      [D11](./00-architecture-decisions.md#d11), and Module 4 assumes it. Land the port, or ship a
-      working `umqtt.simple` example as the fallback so no pod is blocked.
-- [ ] **Add the MicroPython + MQTT stretcher.** A ◇ task where a student publishes and subscribes
-      MQTT straight from the router in MicroPython — `umqtt.simple` from `micropython-lib`, **not**
-      `paho-mqtt`, which is CPython and stays the laptop client. Placement is still open: end of
-      Module 3 (the router stops being only a broker) or the integration block of Module 4. Module 3
-      currently has no such task.
+- [x] **Deploy Chatto before Friday.** Installed and running on `oldplex01`: `https://10.100.1.1:4000` (TLS is mandatory — the web client needs a secure context for `crypto.randomUUID`), systemd units `chatto` (loopback `4001`) and `chatto-tls` (stunnel on `4000`), firewall `4000/tcp` from the class prefix, owner account `ulno` claimed 2026-11-25. Self-signed certificate, reasoned in [D25](./00-architecture-decisions.md#d25--the-chat-is-served-over-self-signed-tls-inside-the-overlay-a-public-name-is-the-recorded-upgrade-path). Manual: [`chatto-session.md`](./chatto-session.md).
+- [x] **Create the accounts.** `ulno` (owner) plus `pod01`…`pod15` (password `iotempire`) created
+      2026-11-25 through the operator socket. One student on the spot is a single
+      `chatto operator user create --login … --password iotempire` as root on `oldplex01`
+      ([`chatto-session.md`](./chatto-session.md) §4).
+- [x] **Create the rooms.** `announcements` and `general` were seeded; `pod01`…`pod14` and
+      `curiosities` created 2026-11-25 via `operator room create`. `pod15` has an account but no room
+      (14 room names were requested) — add it if the fifteenth pod is real. Then the URL **and** the
+      credentials on the board, plus one sentence about accepting the certificate warning.
+- [ ] **Decide the bridge credentials for Task 4.** One incoming webhook per pod room (create in the
+      UI; not available from the operator CLI) is enough for MQTT → chat; a single `bridge` bot
+      covers the reverse direction. Test one self-registration too, since
+      `[auth] direct_registration = true` and there is no SMTP behind it.
+- [ ] **Take the trusted-certificate route next time.** A public name resolving to `10.100.1.1` plus
+      a Let's Encrypt DNS-01 challenge removes the click-through; the stunnel unit stays, only
+      `cert`/`key`, `webserver.url` and `allowed_origins` change
+      ([D25](./00-architecture-decisions.md#d25--the-chat-is-served-over-self-signed-tls-inside-the-overlay-a-public-name-is-the-recorded-upgrade-path)).
+- [ ] **Decide the M5StickC hand-out.** Flash IoTempower onto each stick and set its pod's Wi-Fi
+      credentials *before* the session — at the end of Module 4 or the start of Module 5, not during
+      it. Module 4 no longer depends on the sticks, because the AC unit is a simulation; the stick
+      is an optional second publisher for the mock-to-real swap, so a pod without one is not
+      blocked.
+- [x] **IoTknit** — retired from every document
+      ([D24](./00-architecture-decisions.md#d24)). No MicroPython port to chase: the laptop runs
+      `paho-mqtt` (pinned `>=2,<3`) and the router runs `umqtt.simple`.
+- [x] **MicroPython + MQTT stretcher** — landed as Module 3's `◇ Task 6 — The router as a node`.
+      Module 4's Task 6 now builds the threshold service on top of it instead of repeating the
+      client.
 
 ## Before the next semester (reset)
+
+- [ ] **Pack the hardware box for the stretcher.** ESP32/M5Stack boards and the sensors students will
+      ask for (temperature, light, distance). Task 5 is optional and on demand — bring a few of each,
+      and keep a note of what went out and came back.
+- [ ] **Watch the timing of the four new tasks.** Module 4 is now HTTP baseline → MQTT deep dive → a
+      little CoAP → bridges (at least three, one reverse). If the day runs short, Task 3 (CoAP) is the
+      one to drop or hand out as homework; the bridges must not be the thing that gets cut. The router
+      MicroPython service from the old module survives only as one possible bridge target.
 
 - [ ] **Rename the closing section in Modules 1 and 2 to `## 📚 Resources`.** Modules 3–9 were
       renamed in WS 2026/27, because the section now also carries comparison material (Tailscale,
@@ -182,7 +203,7 @@
       settled the student-facing naming in
       [ADR D21](../../hsbi-sensors-actuators-10d/instructor-notes/00-architecture-decisions.md#d21):
       every main divider is `Task N — <outcome>` with `Proves:`/`Produces:`, subtasks are short
-      unnumbered moves (max four), every task ends with a standing `★ Log it`, and the module
+      unnumbered moves (max four), every task ends with a standing `Log it`, and the module
       closes with an exchange/evidence task. “Stage”, “Round”, and “Studio” retire as activity
       names. Do not rename by hand mid-run; fold it into the next module revision so students meet
       one vocabulary across the three workbooks.

@@ -1,0 +1,69 @@
+Zeit: 2026-11-20 14:37:39
+== Laptop -> 192.168.14.1
+Ping wird ausgeführt für 192.168.14.1 mit 32 Bytes Daten:
+Antwort von 192.168.14.1: Bytes=32 Zeit=10ms TTL=64
+Antwort von 192.168.14.1: Bytes=32 Zeit=2ms TTL=64
+Antwort von 192.168.14.1: Bytes=32 Zeit=12ms TTL=64
+Antwort von 192.168.14.1: Bytes=32 Zeit=7ms TTL=64
+Antwort von 192.168.14.1: Bytes=32 Zeit=3ms TTL=64
+Antwort von 192.168.14.1: Bytes=32 Zeit=9ms TTL=64
+Antwort von 192.168.14.1: Bytes=32 Zeit=10ms TTL=64
+Antwort von 192.168.14.1: Bytes=32 Zeit=6ms TTL=64
+Antwort von 192.168.14.1: Bytes=32 Zeit=3ms TTL=64
+Antwort von 192.168.14.1: Bytes=32 Zeit=5ms TTL=64
+Ping-Statistik für 192.168.14.1:
+    Pakete: Gesendet = 10, Empfangen = 10, Verloren = 0
+    (0% Verlust),
+Ca. Zeitangaben in Millisek.:
+    Minimum = 2ms, Maximum = 12ms, Mittelwert = 6ms
+== Laptop -> 10.100.0.22
+Ping wird ausgeführt für 10.100.0.22 mit 32 Bytes Daten:
+Antwort von 10.100.0.22: Bytes=32 Zeit=9ms TTL=64
+Antwort von 10.100.0.22: Bytes=32 Zeit=4ms TTL=64
+Antwort von 10.100.0.22: Bytes=32 Zeit=7ms TTL=64
+Antwort von 10.100.0.22: Bytes=32 Zeit=8ms TTL=64
+Antwort von 10.100.0.22: Bytes=32 Zeit=16ms TTL=64
+Antwort von 10.100.0.22: Bytes=32 Zeit=12ms TTL=64
+Antwort von 10.100.0.22: Bytes=32 Zeit=14ms TTL=64
+Antwort von 10.100.0.22: Bytes=32 Zeit=16ms TTL=64
+Antwort von 10.100.0.22: Bytes=32 Zeit=24ms TTL=64
+Antwort von 10.100.0.22: Bytes=32 Zeit=25ms TTL=64
+Ping-Statistik für 10.100.0.22:
+    Pakete: Gesendet = 10, Empfangen = 10, Verloren = 0
+    (0% Verlust),
+Ca. Zeitangaben in Millisek.:
+    Minimum = 4ms, Maximum = 25ms, Mittelwert = 13ms
+== Laptop -> 10.100.1.1
+Ping wird ausgeführt für 10.100.1.1 mit 32 Bytes Daten:
+Antwort von 10.100.1.1: Bytes=32 Zeit=1989ms TTL=63
+Antwort von 10.100.1.1: Bytes=32 Zeit=249ms TTL=63
+Antwort von 10.100.1.1: Bytes=32 Zeit=226ms TTL=63
+Antwort von 10.100.1.1: Bytes=32 Zeit=138ms TTL=63
+Antwort von 10.100.1.1: Bytes=32 Zeit=37ms TTL=63
+Antwort von 10.100.1.1: Bytes=32 Zeit=299ms TTL=63
+Antwort von 10.100.1.1: Bytes=32 Zeit=294ms TTL=63
+Antwort von 10.100.1.1: Bytes=32 Zeit=92ms TTL=63
+Antwort von 10.100.1.1: Bytes=32 Zeit=31ms TTL=63
+Antwort von 10.100.1.1: Bytes=32 Zeit=1116ms TTL=63
+Ping-Statistik für 10.100.1.1:
+    Pakete: Gesendet = 10, Empfangen = 10, Verloren = 0
+    (0% Verlust),
+Ca. Zeitangaben in Millisek.:
+    Minimum = 31ms, Maximum = 1989ms, Mittelwert = 447ms
+== Laptop -> 10.100.1.13
+Ping wird ausgeführt für 10.100.1.13 mit 32 Bytes Daten:
+Antwort von 10.100.1.13: Bytes=32 Zeit=313ms TTL=63
+Antwort von 10.100.1.13: Bytes=32 Zeit=652ms TTL=63
+Antwort von 10.100.1.13: Bytes=32 Zeit=209ms TTL=63
+Antwort von 10.100.1.13: Bytes=32 Zeit=574ms TTL=63
+Antwort von 10.100.1.13: Bytes=32 Zeit=313ms TTL=63
+Antwort von 10.100.1.13: Bytes=32 Zeit=256ms TTL=63
+Antwort von 10.100.1.13: Bytes=32 Zeit=673ms TTL=63
+Antwort von 10.100.1.13: Bytes=32 Zeit=136ms TTL=63
+Antwort von 10.100.1.13: Bytes=32 Zeit=30ms TTL=63
+Antwort von 10.100.1.13: Bytes=32 Zeit=77ms TTL=63
+Ping-Statistik für 10.100.1.13:
+    Pakete: Gesendet = 10, Empfangen = 10, Verloren = 0
+    (0% Verlust),
+Ca. Zeitangaben in Millisek.:
+    Minimum = 30ms, Maximum = 673ms, Mittelwert = 323ms

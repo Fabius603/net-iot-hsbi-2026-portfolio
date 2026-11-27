@@ -1,0 +1,266 @@
+<mxfile host="app.diagrams.net">
+  <!-- ============ Seite 1: Underlay ============ -->
+  <diagram id="underlay" name="1 Underlay">
+    <mxGraphModel dx="1300" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1360" pageHeight="860" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t" value="&lt;b&gt;1 · Underlay – wo verlässt jede Verbindung das Gebäude?&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:12px&quot;&gt;Pod 12 · Campus gemessen am 20.11.2026, Zuhause am 21.11.2026 · rote Punkte = Ausgang ins Internet&lt;/font&gt;" style="text;html=1;fontSize=18;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="20" y="10" width="900" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Pod -->
+        <mxCell id="pod" value="„Museum“ = Pod-Raum (Pod 12)" style="swimlane;html=1;startSize=26;rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="20" y="80" width="300" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="sensor" value="Sensor / Aktor&lt;br&gt;(simuliert)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="pod">
+          <mxGeometry x="20" y="45" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="laptop" value="Laptop&lt;br&gt;192.168.14.29" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="pod">
+          <mxGeometry x="160" y="45" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r12" value="&lt;b&gt;router12&lt;/b&gt; (OpenWrt)&lt;br&gt;LAN 192.168.14.1/26 · WLAN iotempire12&lt;br&gt;Uplink: eduroam-Client&lt;br&gt;10.132.204.197/19" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="pod">
+          <mxGeometry x="20" y="130" width="260" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="podnote" value="Keine öffentliche IP,&lt;br&gt;kein eingehender Port." style="text;html=1;align=center;fontSize=11;fontColor=#b85450;" vertex="1" parent="pod">
+          <mxGeometry x="20" y="250" width="260" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="u1" style="endArrow=none;html=1;" edge="1" parent="1" source="sensor" target="r12"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="u2" style="endArrow=none;html=1;" edge="1" parent="1" source="laptop" target="r12"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Campus -->
+        <mxCell id="campus" value="HSBI-Campusnetz (eduroam)" style="swimlane;html=1;startSize=26;rounded=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="380" y="80" width="250" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="cgw" value="Gateway 10.132.192.1&lt;br&gt;Netz 10.132.192.0/19" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="campus">
+          <mxGeometry x="25" y="60" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cfw" value="Campus-Firewall + NAT&lt;br&gt;nur ausgehend" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;size=0.1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="campus">
+          <mxGeometry x="25" y="190" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ex1" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e51400;strokeColor=none;" vertex="1" parent="campus">
+          <mxGeometry x="215" y="185" width="18" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="c1" style="endArrow=block;html=1;" edge="1" parent="1" source="cgw" target="cfw"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l1" value="WLAN eduroam" style="endArrow=block;html=1;strokeWidth=2;labelBackgroundColor=#ffffff;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="r12" target="cgw"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Internet -->
+        <mxCell id="inet" value="Internet" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="700" y="230" width="240" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="l2" style="endArrow=block;startArrow=block;html=1;strokeWidth=2;exitX=1;exitY=0.5;entryX=0.04;entryY=0.5;" edge="1" parent="1" source="cfw" target="inet"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- VPS -->
+        <mxCell id="vps" value="&lt;b&gt;VPS vps.ulno.net&lt;/b&gt;&lt;br&gt;217.160.138.8 · UDP 4545&lt;br&gt;öffentliche IP (Lighthouse)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="70" width="300" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="l4" style="endArrow=block;startArrow=block;html=1;strokeWidth=2;edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=0.1;entryX=0;entryY=0.5;" edge="1" parent="1" source="inet" target="vps"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Zuhause (gemessen) -->
+        <mxCell id="home" value="Zuhause (gemessen am 21.11.2026)" style="swimlane;html=1;startSize=26;rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="180" width="300" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="hr" value="router12 als WLAN-Client (homewwan)&lt;br&gt;192.168.178.83/24 · Gateway .178.1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="home">
+          <mxGeometry x="20" y="40" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="fb" value="FRITZ!Box 7590 → Provider (NAT)&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;oldplex04 direkt · oldplex01 über Relay&lt;/font&gt;" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;size=0.08;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="home">
+          <mxGeometry x="20" y="130" width="260" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ex3" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e51400;strokeColor=none;" vertex="1" parent="home">
+          <mxGeometry x="8" y="125" width="18" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="h1" style="endArrow=block;html=1;" edge="1" parent="1" source="hr" target="fb"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l5" style="endArrow=block;startArrow=block;html=1;strokeWidth=2;edgeStyle=orthogonalEdgeStyle;exitX=0.96;exitY=0.4;entryX=0;entryY=0.5;" edge="1" parent="1" source="inet" target="fb"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Mobil (Beispiel) -->
+        <mxCell id="mob" value="Mobil, z. B. Hotspot (Beispiel, nicht gemessen)" style="swimlane;html=1;startSize=26;rounded=1;fillColor=#fff5e6;strokeColor=#d79b00;fontStyle=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="430" width="300" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="ml" value="Laptop mit eigenem Zertifikat&lt;br&gt;(Aufgabe 3, optional)" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;" vertex="1" parent="mob">
+          <mxGeometry x="20" y="40" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cg" value="Mobilfunk-CGNAT&lt;br&gt;keine eigene öffentliche IP" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;size=0.08;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;" vertex="1" parent="mob">
+          <mxGeometry x="20" y="130" width="260" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ex4" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e51400;strokeColor=none;" vertex="1" parent="mob">
+          <mxGeometry x="8" y="125" width="18" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" style="endArrow=block;html=1;dashed=1;" edge="1" parent="1" source="ml" target="cg"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l6" style="endArrow=block;startArrow=block;html=1;strokeWidth=2;dashed=1;edgeStyle=orthogonalEdgeStyle;exitX=0.85;exitY=0.85;entryX=0;entryY=0.5;" edge="1" parent="1" source="inet" target="cg"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Cluster -->
+        <mxCell id="cluster" value="Klassen-Cluster (Optiplex)" style="swimlane;html=1;startSize=26;rounded=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="560" y="470" width="260" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="opnat" value="NAT → öffentlich&lt;br&gt;212.201.138.168 (UDP 59190)" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;size=0.08;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="cluster">
+          <mxGeometry x="20" y="40" width="220" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="ex2" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e51400;strokeColor=none;" vertex="1" parent="cluster">
+          <mxGeometry x="10" y="33" width="18" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="op4" value="&lt;b&gt;ulno-oldplex04&lt;/b&gt; (Node-RED)&lt;br&gt;lokal 192.168.50.4 · 10.88.0.1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="cluster">
+          <mxGeometry x="20" y="125" width="220" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" style="endArrow=block;html=1;" edge="1" parent="1" source="op4" target="opnat"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l3" style="endArrow=block;startArrow=block;html=1;strokeWidth=2;exitX=0.28;exitY=0.92;entryX=0.85;entryY=0;" edge="1" parent="1" source="inet" target="opnat"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Hinweise -->
+        <mxCell id="note1" value="&lt;b&gt;Ergebnis:&lt;/b&gt; Nur der VPS hat eine öffentlich erreichbare Adresse. Pod, Cluster, Zuhause und Mobil liegen hinter NAT bzw. Firewall und können nur &lt;i&gt;nach außen&lt;/i&gt; Verbindungen aufbauen. Deshalb melden sich alle Nebula-Knoten von innen beim Lighthouse – niemand muss einen Port öffnen." style="shape=note;whiteSpace=wrap;html=1;size=14;fillColor=#f5f5f5;strokeColor=#999999;align=left;spacingLeft=8;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="20" y="700" width="900" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1" value="&lt;b&gt;Legende&lt;/b&gt;&lt;br&gt;● rot = Verbindung verlässt hier das Gebäude&lt;br&gt;Sechseck = NAT / Firewall&lt;br&gt;gestrichelt = Beispiel, nicht gemessen" style="text;html=1;align=left;verticalAlign=top;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="960" y="700" width="360" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- ============ Seite 2: Overlay ============ -->
+  <diagram id="overlay" name="2 Overlay">
+    <mxGraphModel dx="1300" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t" value="&lt;b&gt;2 · Overlay – Nebula-Netz 10.100.0.0/16&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:12px&quot;&gt;Virtuelle Adressen aus den Zertifikaten. Grün = Tunnel, rot = was NICHT über das Lighthouse läuft.&lt;/font&gt;" style="text;html=1;fontSize=18;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="20" y="10" width="900" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="lh" value="&lt;b&gt;Lighthouse&lt;/b&gt; 10.100.0.1&lt;br&gt;vps.ulno.net:4545&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;Adressbuch: „wo ist Peer X gerade?“&lt;br&gt;+ Relay, wenn Punching scheitert&lt;br&gt;+ DNS für *.ulno.mesh&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="540" y="80" width="260" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r12" value="&lt;b&gt;router12&lt;/b&gt;&lt;br&gt;10.100.0.22 (nebula1)&lt;br&gt;Gruppe hsbi-netiot12&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;dahinter Pod-LAN 192.168.14.0/26&lt;br&gt;(Masquerading)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="60" y="330" width="230" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="pods" value="weitere Pod-Router&lt;br&gt;10.100.0.x" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="500" width="230" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="adm" value="10.100.2.0/24&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;darf laut Router-Firewall SSH + ICMP&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="600" width="230" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cl" value="Service-Hosts 10.100.1.0/24 (Cluster)" style="swimlane;html=1;startSize=26;rounded=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="280" width="300" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="o1" value="ulno-oldplex01 · 10.100.1.1" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="cl"><mxGeometry x="20" y="40" width="260" height="35" as="geometry" /></mxCell>
+        <mxCell id="o2" value="ulno-oldplex02 · 10.100.1.11" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="cl"><mxGeometry x="20" y="85" width="260" height="35" as="geometry" /></mxCell>
+        <mxCell id="o3" value="ulno-oldplex03 · 10.100.1.12" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="cl"><mxGeometry x="20" y="130" width="260" height="35" as="geometry" /></mxCell>
+        <mxCell id="o4" value="&lt;b&gt;ulno-oldplex04 · 10.100.1.13&lt;/b&gt;&lt;br&gt;unser Node-RED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;strokeWidth=2;" vertex="1" parent="cl"><mxGeometry x="20" y="175" width="260" height="50" as="geometry" /></mxCell>
+        <mxCell id="o5" value="ulno-oldplex05 · 10.100.1.14" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="cl"><mxGeometry x="20" y="235" width="260" height="35" as="geometry" /></mxCell>
+
+        <!-- Lighthouse-Abfragen -->
+        <mxCell id="q1" value="meldet sich an,&lt;br&gt;fragt nach Peers" style="endArrow=block;startArrow=block;html=1;dashed=1;strokeColor=#d6b656;labelBackgroundColor=#ffffff;fontSize=11;" edge="1" parent="1" source="r12" target="lh"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="q2" value="meldet sich an" style="endArrow=block;startArrow=block;html=1;dashed=1;strokeColor=#d6b656;labelBackgroundColor=#ffffff;fontSize=11;exitX=0.5;exitY=0;" edge="1" parent="1" source="cl" target="lh"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="q3" style="endArrow=block;startArrow=block;html=1;dashed=1;strokeColor=#d6b656;" edge="1" parent="1" source="pods" target="lh"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Tunnel -->
+        <mxCell id="tun" value="&lt;b&gt;Tunnel router12 ↔ oldplex04&lt;/b&gt;&lt;br&gt;direkt nach Hole Punching&lt;br&gt;(Gegenstelle 212.201.138.168:59190)" style="endArrow=block;startArrow=block;html=1;strokeWidth=5;strokeColor=#2d7600;labelBackgroundColor=#ffffff;fontSize=12;" edge="1" parent="1" source="r12" target="o4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="rel" value="anfangs über Relay 10.100.0.1&lt;br&gt;(Log: „Send handshake via relay“)" style="endArrow=none;html=1;dashed=1;strokeWidth=2;strokeColor=#d79b00;labelBackgroundColor=#ffffff;fontSize=11;edgeStyle=orthogonalEdgeStyle;curved=1;" edge="1" parent="1" source="r12" target="lh">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="175" y="145" /></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="notlh" value="&lt;b&gt;Nicht auf dem Lighthouse:&lt;/b&gt;&lt;br&gt;• MQTT-Daten router12 ↔ Node-RED (nach dem Punchen direkt)&lt;br&gt;• die Node-RED-Weboberfläche&lt;br&gt;• Verkehr im Pod-LAN (Sensor → Broker)&lt;br&gt;• CA und privater Schlüssel – signiert wird beim Instructor&lt;br&gt;• Firewall-Entscheidungen – die trifft jeder Knoten selbst" style="shape=note;whiteSpace=wrap;html=1;size=14;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;fontSize=12;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="380" y="560" width="520" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="peer" value="&lt;b&gt;Rollen&lt;/b&gt;&lt;br&gt;Knoten/Peer: hat Zertifikat + Schlüssel, eigene 10.100-Adresse&lt;br&gt;Lighthouse: kennt die aktuellen Underlay-Adressen der Peers&lt;br&gt;Zertifikat: Name, Adresse, Gruppen – signiert von der Klassen-CA&lt;br&gt;Ping- und Durchsatzmessungen: siehe Aufgabe 5" style="text;html=1;align=left;verticalAlign=top;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="380" y="720" width="560" height="90" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- ============ Seite 3: Gesamtbild mit Schichten ============ -->
+  <diagram id="layers" name="3 Gesamtbild + Schichten">
+    <mxGraphModel dx="1300" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t" value="&lt;b&gt;3 · Gesamtbild – MQTT von Pod 12 zu Node-RED und welche Schichten beteiligt sind&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:12px&quot;&gt;Der Tunnel beginnt und endet auf Schicht 3: Nebula verpackt ganze IP-Pakete in UDP.&lt;/font&gt;" style="text;html=1;fontSize=18;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="20" y="10" width="1100" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Geräte oben -->
+        <mxCell id="s" value="Sensor / Aktor (simuliert)&lt;br&gt;192.168.14.x" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="20" y="90" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="r" value="&lt;b&gt;router12&lt;/b&gt;&lt;br&gt;Broker :1883 · nebula1 10.100.0.22" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="260" y="90" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cfw" value="Campus-NAT&lt;br&gt;eduroam" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;size=0.1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="600" y="90" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="inet" value="Internet" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="770" y="80" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="onat" value="Cluster-NAT&lt;br&gt;212.201.138.168" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;size=0.1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="950" y="90" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="n" value="&lt;b&gt;ulno-oldplex04&lt;/b&gt;&lt;br&gt;nebula 10.100.1.13 · Node-RED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1170" y="90" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="lh" value="Lighthouse 10.100.0.1&lt;br&gt;nur Vermittlung / Relay" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="760" y="190" width="160" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" value="MQTT" style="endArrow=block;startArrow=block;html=1;strokeWidth=2;strokeColor=#1f5fa6;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="s" target="r"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a2" style="endArrow=none;html=1;strokeWidth=2;" edge="1" parent="1" source="r" target="cfw"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a3" style="endArrow=none;html=1;strokeWidth=2;" edge="1" parent="1" source="cfw" target="inet"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a4" style="endArrow=none;html=1;strokeWidth=2;" edge="1" parent="1" source="inet" target="onat"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a5" style="endArrow=none;html=1;strokeWidth=2;" edge="1" parent="1" source="onat" target="n"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a6" style="endArrow=none;html=1;dashed=1;strokeColor=#d6b656;" edge="1" parent="1" source="inet" target="lh"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Tunnelband -->
+        <mxCell id="tband" value="&lt;b&gt;Nebula-Tunnel&lt;/b&gt; (verschlüsselt) – innen: 10.100.0.22 ↔ 10.100.1.13" style="shape=flexArrow;endArrow=classic;startArrow=classic;html=1;fillColor=#d5e8d4;strokeColor=#2d7600;width=26;endSize=8;startSize=8;fontStyle=0;labelBackgroundColor=none;" edge="1" parent="1">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="460" y="290" as="sourcePoint" />
+            <mxPoint x="1250" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tstart" value="Tunnel beginnt&lt;br&gt;(nebula1, Schicht 3)" style="text;html=1;align=center;fontSize=12;fontStyle=1;fontColor=#2d7600;" vertex="1" parent="1">
+          <mxGeometry x="330" y="270" width="130" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="tend" value="Tunnel endet&lt;br&gt;(nebula, Schicht 3)" style="text;html=1;align=center;fontSize=12;fontStyle=1;fontColor=#2d7600;" vertex="1" parent="1">
+          <mxGeometry x="1255" y="270" width="130" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Stack Pod-LAN -->
+        <mxCell id="hdr1" value="&lt;b&gt;Pod-LAN&lt;/b&gt;&lt;br&gt;Sensor → Broker" style="text;html=1;align=center;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="20" y="330" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="p7" value="L7 · MQTT pod12/…" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1"><mxGeometry x="20" y="380" width="200" height="34" as="geometry" /></mxCell>
+        <mxCell id="p4" value="L4 · TCP → 1883" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1"><mxGeometry x="20" y="414" width="200" height="34" as="geometry" /></mxCell>
+        <mxCell id="p3" value="L3 · IP 192.168.14.x → .1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1"><mxGeometry x="20" y="448" width="200" height="34" as="geometry" /></mxCell>
+        <mxCell id="p2" value="L2 · WLAN iotempire12" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1"><mxGeometry x="20" y="482" width="200" height="34" as="geometry" /></mxCell>
+        <mxCell id="p1" value="L1 · Funk 2,4 GHz" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1"><mxGeometry x="20" y="516" width="200" height="34" as="geometry" /></mxCell>
+
+        <!-- Stack im Tunnel -->
+        <mxCell id="hdr2" value="&lt;b&gt;Zwischen router12 und oldplex04&lt;/b&gt; – ein Paket von außen nach innen gelesen" style="text;html=1;align=center;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="560" y="330" width="520" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="i7" value="L7 · MQTT PUBLISH (Payload, Topic)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1"><mxGeometry x="620" y="380" width="400" height="34" as="geometry" /></mxCell>
+        <mxCell id="i4" value="L4 · TCP Node-RED → 10.100.0.22:1883" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1"><mxGeometry x="620" y="414" width="400" height="34" as="geometry" /></mxCell>
+        <mxCell id="i3" value="L3 · &lt;b&gt;inneres IP&lt;/b&gt; 10.100.1.13 ↔ 10.100.0.22 (Overlay)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1"><mxGeometry x="620" y="448" width="400" height="34" as="geometry" /></mxCell>
+        <mxCell id="neb" value="Nebula-Header + Verschlüsselung (Zertifikate prüfen, Gruppen-Firewall)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2d7600;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="620" y="482" width="400" height="34" as="geometry" /></mxCell>
+        <mxCell id="o4l" value="L4 · äußeres UDP (Router: zufälliger Port ↔ 59190)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1"><mxGeometry x="620" y="516" width="400" height="34" as="geometry" /></mxCell>
+        <mxCell id="o3l" value="L3 · &lt;b&gt;äußeres IP&lt;/b&gt; 10.132.204.197 → (NAT) → 212.201.138.168" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1"><mxGeometry x="620" y="550" width="400" height="34" as="geometry" /></mxCell>
+        <mxCell id="o2l" value="L2 · WLAN eduroam / Ethernet je Teilstrecke" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1"><mxGeometry x="620" y="584" width="400" height="34" as="geometry" /></mxCell>
+        <mxCell id="o1l" value="L1 · Funk / Kabel / Glasfaser" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1"><mxGeometry x="620" y="618" width="400" height="34" as="geometry" /></mxCell>
+        <mxCell id="brace1" value="Overlay: sieht nur&lt;br&gt;Absender und Ziel&lt;br&gt;im Mesh" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;fontSize=11;" vertex="1" parent="1"><mxGeometry x="1030" y="380" width="20" height="102" as="geometry" /></mxCell>
+        <mxCell id="brace2" value="Underlay: Internet,&lt;br&gt;NAT und Firewalls&lt;br&gt;sehen nur UDP" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;fontSize=11;" vertex="1" parent="1"><mxGeometry x="1030" y="516" width="20" height="136" as="geometry" /></mxCell>
+
+        <!-- Laptop-Weg -->
+        <mxCell id="hdr3" value="&lt;b&gt;Laptop → Node-RED-Seite&lt;/b&gt;" style="text;html=1;align=center;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="260" y="330" width="260" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lw" value="L7 HTTP :1808x vom Laptop 192.168.14.29&lt;br&gt;↓&lt;br&gt;router12: Forward lan → nebula&lt;br&gt;+ Masquerading auf 10.100.0.22&lt;br&gt;↓&lt;br&gt;gleicher Tunnel wie MQTT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;dashed=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="260" y="380" width="260" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg" value="&lt;b&gt;Lesehilfe für Außenstehende&lt;/b&gt;&lt;br&gt;Blau = Pod-LAN · Lila = Daten im Overlay · Grün = Nebula · Grau = normales Internet (Underlay)&lt;br&gt;Die Firewalls unterwegs sehen nur verschlüsselte UDP-Pakete zwischen zwei öffentlichen Adressen. Erst auf dem Router bzw. dem Service-Host wird ausgepackt.&lt;br&gt;Das Lighthouse hilft beim Finden; die Nutzdaten laufen nach dem Hole Punching direkt." style="shape=note;whiteSpace=wrap;html=1;size=14;fillColor=#f5f5f5;strokeColor=#999999;align=left;spacingLeft=8;fontSize=12;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="20" y="700" width="1060" height="90" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

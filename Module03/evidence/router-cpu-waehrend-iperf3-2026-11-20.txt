@@ -1,0 +1,17 @@
+system type		: MediaTek MT7628AN ver:1 eco:2
+cpu model		: MIPS 24KEc V5.5
+BogoMIPS		: 385.84
+nebula1          UNKNOWN        10.100.0.22/16 
+
+Mem: 93012K used, 29944K free, 1920K shrd, 2096K buff, 50832K cached
+CPU:  36% usr  36% sys   0% nic  27% idle   0% io   0% irq   0% sirq
+Load average: 1.01 0.47 0.29 4/72 11048
+  PID  PPID USER     STAT   VSZ %VSZ %CPU COMMAND
+10075  1557 root     S     577m 480%  57% /usr/sbin/nebula -config /etc/nebula/config.yml
+ 1492     1 root     S     8740   7%   8% /usr/sbin/hostapd -s -g /var/run/hostapd/global
+11047 11045 root     R     1436   1%   8% top -bn1
+ 1493     1 root     S     9764   8%   0% /usr/sbin/wpa_supplicant -n -s -g /var/run/wpa_supplicant/global
+ 1557     1 root     S     2972   2%   0% /sbin/netifd
+ 1031     1 root     S     2368   2%   0% /sbin/rpcd -s /var/run/ubus/ubus.sock -t 30
+  972     1 logd     S     2072   2%   0% /sbin/logd -S 128
+    1     0 root     S     1816   1%   0% /sbin/procd

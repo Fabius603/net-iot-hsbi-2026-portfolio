@@ -1,0 +1,15 @@
+2026-11-20 14:38:20
+== Router -> 10.100.1.1
+10 packets transmitted, 10 packets received, 0% packet loss
+round-trip min/avg/max = 5.808/153.353/532.811 ms
+== Router -> 10.100.1.13
+10 packets transmitted, 10 packets received, 0% packet loss
+round-trip min/avg/max = 7.130/90.932/268.556 ms
+== Router -> 10.100.0.1
+10 packets transmitted, 10 packets received, 0% packet loss
+round-trip min/avg/max = 18.208/183.267/685.821 ms
+== Handshakes 10.100.1.1
+msg="Send handshake via relay" localIndex=893044575 relay=10.100.0.1 remoteIndex=0 vpnAddrs="[10.100.1.1]"
+msg="Attempt to relay through hosts" localIndex=893044575 relays="[10.100.0.1]" remoteIndex=0 vpnAddrs="[10.100.1.1]"
+msg="Send handshake via relay" localIndex=893044575 relay=10.100.0.1 remoteIndex=0 vpnAddrs="[10.100.1.1]"
+msg="Handshake message received" certName=ulno-oldplex01.hsbi01.ulno.mesh certVersion=2 durationNs=1937330532 fingerprint=79872994305ea2391633822a694a292390d19085bf19f5ea824af79c551330ae from="212.201.138.168:52402" handshake="map[stage:2 style:ix_psk0]" initi

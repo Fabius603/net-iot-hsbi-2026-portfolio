@@ -1,0 +1,161 @@
+##### Uplink: iperf3 -c 10.100.1.1 -t 10
+Connecting to host 10.100.1.1, port 5201
+[  5] local 192.168.14.29 port 55267 connected to 10.100.1.1 port 5201
+[ ID] Interval           Transfer     Bitrate
+[  5]   0.00-1.01   sec   384 KBytes  3.12 Mbits/sec                  
+[  5]   1.01-2.01   sec   256 KBytes  2.08 Mbits/sec                  
+[  5]   2.01-3.00   sec   384 KBytes  3.18 Mbits/sec                  
+[  5]   3.00-4.01   sec   128 KBytes  1.04 Mbits/sec                  
+[  5]   4.01-5.01   sec   384 KBytes  3.13 Mbits/sec                  
+[  5]   5.01-6.01   sec   384 KBytes  3.16 Mbits/sec                  
+[  5]   6.01-7.01   sec   384 KBytes  3.14 Mbits/sec                  
+[  5]   7.01-8.01   sec   384 KBytes  3.15 Mbits/sec                  
+[  5]   8.01-9.00   sec   256 KBytes  2.11 Mbits/sec                  
+[  5]   9.00-10.00  sec   256 KBytes  2.10 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate
+[  5]   0.00-10.00  sec  3.12 MBytes  2.62 Mbits/sec                  sender
+[  5]   0.00-10.61  sec  3.12 MBytes  2.47 Mbits/sec                  receiver
+
+iperf Done.
+
+##### Downlink: iperf3 -c 10.100.1.1 -t 10 -R
+Connecting to host 10.100.1.1, port 5201
+Reverse mode, remote host 10.100.1.1 is sending
+[  5] local 192.168.14.29 port 58438 connected to 10.100.1.1 port 5201
+[ ID] Interval           Transfer     Bitrate
+[  5]   0.00-1.00   sec   256 KBytes  2.09 Mbits/sec                  
+[  5]   1.00-2.00   sec   256 KBytes  2.10 Mbits/sec                  
+[  5]   2.00-3.01   sec   384 KBytes  3.10 Mbits/sec                  
+[  5]   3.01-4.01   sec   256 KBytes  2.10 Mbits/sec                  
+[  5]   4.01-5.01   sec   256 KBytes  2.10 Mbits/sec                  
+[  5]   5.01-6.01   sec   256 KBytes  2.09 Mbits/sec                  
+[  5]   6.01-7.01   sec  0.00 Bytes  0.00 bits/sec                  
+[  5]   7.01-8.00   sec   128 KBytes  1.05 Mbits/sec                  
+[  5]   8.00-9.01   sec   128 KBytes  1.04 Mbits/sec                  
+[  5]   9.01-10.01  sec  0.00 Bytes  0.00 bits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate         Retr
+[  5]   0.00-10.04  sec  2.62 MBytes  2.19 Mbits/sec    7            sender
+[  5]   0.00-10.01  sec  1.88 MBytes  1.57 Mbits/sec                  receiver
+
+iperf Done.
+
+##### Parallel: iperf3 -c 10.100.1.1 -t 10 -P 4
+Connecting to host 10.100.1.1, port 5201
+[  5] local 192.168.14.29 port 58448 connected to 10.100.1.1 port 5201
+[  7] local 192.168.14.29 port 58449 connected to 10.100.1.1 port 5201
+[  9] local 192.168.14.29 port 58450 connected to 10.100.1.1 port 5201
+[ 11] local 192.168.14.29 port 58451 connected to 10.100.1.1 port 5201
+[ ID] Interval           Transfer     Bitrate
+[  5]   0.00-1.01   sec   256 KBytes  2.07 Mbits/sec                  
+[  7]   0.00-1.01   sec   256 KBytes  2.07 Mbits/sec                  
+[  9]   0.00-1.01   sec   256 KBytes  2.07 Mbits/sec                  
+[ 11]   0.00-1.01   sec   256 KBytes  2.07 Mbits/sec                  
+[SUM]   0.00-1.01   sec  1.00 MBytes  8.27 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[  5]   1.01-2.01   sec   128 KBytes  1.05 Mbits/sec                  
+[  7]   1.01-2.01   sec   128 KBytes  1.05 Mbits/sec                  
+[  9]   1.01-2.01   sec   128 KBytes  1.05 Mbits/sec                  
+[ 11]   1.01-2.01   sec  0.00 Bytes  0.00 bits/sec                  
+[SUM]   1.01-2.01   sec   384 KBytes  3.16 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[  5]   2.01-3.01   sec  0.00 Bytes  0.00 bits/sec                  
+[  7]   2.01-3.01   sec   384 KBytes  3.16 Mbits/sec                  
+[  9]   2.01-3.01   sec  0.00 Bytes  0.00 bits/sec                  
+[ 11]   2.01-3.01   sec   128 KBytes  1.05 Mbits/sec                  
+[SUM]   2.01-3.01   sec   512 KBytes  4.22 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[  5]   3.01-4.01   sec  0.00 Bytes  0.00 bits/sec                  
+[  7]   3.01-4.01   sec  0.00 Bytes  0.00 bits/sec                  
+[  9]   3.01-4.01   sec   384 KBytes  3.13 Mbits/sec                  
+[ 11]   3.01-4.01   sec  0.00 Bytes  0.00 bits/sec                  
+[SUM]   3.01-4.01   sec   384 KBytes  3.13 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[  5]   4.01-5.01   sec   128 KBytes  1.05 Mbits/sec                  
+[  7]   4.01-5.01   sec   128 KBytes  1.05 Mbits/sec                  
+[  9]   4.01-5.01   sec  0.00 Bytes  0.00 bits/sec                  
+[ 11]   4.01-5.01   sec   384 KBytes  3.15 Mbits/sec                  
+[SUM]   4.01-5.01   sec   640 KBytes  5.25 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[  5]   5.01-6.01   sec  0.00 Bytes  0.00 bits/sec                  
+[  7]   5.01-6.01   sec  0.00 Bytes  0.00 bits/sec                  
+[  9]   5.01-6.01   sec  0.00 Bytes  0.00 bits/sec                  
+[ 11]   5.01-6.01   sec  0.00 Bytes  0.00 bits/sec                  
+[SUM]   5.01-6.01   sec  0.00 Bytes  0.00 bits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[  5]   6.01-7.01   sec  0.00 Bytes  0.00 bits/sec                  
+[  7]   6.01-7.01   sec  0.00 Bytes  0.00 bits/sec                  
+[  9]   6.01-7.01   sec  0.00 Bytes  0.00 bits/sec                  
+[ 11]   6.01-7.01   sec  0.00 Bytes  0.00 bits/sec                  
+[SUM]   6.01-7.01   sec  0.00 Bytes  0.00 bits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[  5]   7.01-8.00   sec  0.00 Bytes  0.00 bits/sec                  
+[  7]   7.01-8.00   sec  0.00 Bytes  0.00 bits/sec                  
+[  9]   7.01-8.00   sec  0.00 Bytes  0.00 bits/sec                  
+[ 11]   7.01-8.00   sec  0.00 Bytes  0.00 bits/sec                  
+[SUM]   7.01-8.00   sec  0.00 Bytes  0.00 bits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[  5]   8.00-9.00   sec  0.00 Bytes  0.00 bits/sec                  
+[  7]   8.00-9.00   sec  0.00 Bytes  0.00 bits/sec                  
+[  9]   8.00-9.00   sec  0.00 Bytes  0.00 bits/sec                  
+[ 11]   8.00-9.00   sec  0.00 Bytes  0.00 bits/sec                  
+[SUM]   8.00-9.00   sec  0.00 Bytes  0.00 bits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[  5]   9.00-10.00  sec  0.00 Bytes  0.00 bits/sec                  
+[  7]   9.00-10.00  sec   640 KBytes  5.24 Mbits/sec                  
+[  9]   9.00-10.00  sec  0.00 Bytes  0.00 bits/sec                  
+[ 11]   9.00-10.00  sec  0.00 Bytes  0.00 bits/sec                  
+[SUM]   9.00-10.00  sec   640 KBytes  5.24 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate
+[  5]   0.00-10.00  sec   512 KBytes   419 Kbits/sec                  sender
+[  5]   0.00-10.50  sec   256 KBytes   200 Kbits/sec                  receiver
+[  7]   0.00-10.00  sec  1.50 MBytes  1.26 Mbits/sec                  sender
+[  7]   0.00-10.50  sec   768 KBytes   599 Kbits/sec                  receiver
+[  9]   0.00-10.00  sec   768 KBytes   629 Kbits/sec                  sender
+[  9]   0.00-10.50  sec   256 KBytes   200 Kbits/sec                  receiver
+[ 11]   0.00-10.00  sec   768 KBytes   629 Kbits/sec                  sender
+[ 11]   0.00-10.50  sec   256 KBytes   200 Kbits/sec                  receiver
+[SUM]   0.00-10.00  sec  3.50 MBytes  2.94 Mbits/sec                  sender
+[SUM]   0.00-10.50  sec  1.50 MBytes  1.20 Mbits/sec                  receiver
+
+iperf Done.
+
+##### LAN-Basis: iperf3 -s -1 auf dem Router, iperf3 -c 192.168.14.1 -t 10
+Connecting to host 192.168.14.1, port 5201
+[  5] local 192.168.14.29 port 58489 connected to 192.168.14.1 port 5201
+[ ID] Interval           Transfer     Bitrate
+[  5]   0.00-1.01   sec  8.00 MBytes  66.7 Mbits/sec                  
+[  5]   1.01-2.01   sec  7.25 MBytes  60.6 Mbits/sec                  
+[  5]   2.01-3.01   sec  7.00 MBytes  58.7 Mbits/sec                  
+[  5]   3.01-4.01   sec  6.12 MBytes  51.3 Mbits/sec                  
+[  5]   4.01-5.01   sec  7.12 MBytes  59.7 Mbits/sec                  
+[  5]   5.01-6.01   sec  7.38 MBytes  62.1 Mbits/sec                  
+[  5]   6.01-7.01   sec  7.75 MBytes  65.0 Mbits/sec                  
+[  5]   7.01-8.00   sec  7.00 MBytes  59.0 Mbits/sec                  
+[  5]   8.00-9.01   sec  7.75 MBytes  64.3 Mbits/sec                  
+[  5]   9.01-10.01  sec  7.75 MBytes  65.1 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate
+[  5]   0.00-10.01  sec  73.1 MBytes  61.3 Mbits/sec                  sender
+[  5]   0.00-10.10  sec  72.9 MBytes  60.5 Mbits/sec                  receiver
+
+iperf Done.
+
+##### Kontrolllauf 5 s mit CPU-Abfrage: iperf3 -c 10.100.1.1 -t 5
+Connecting to host 10.100.1.1, port 5201
+[  5] local 192.168.14.29 port 58520 connected to 10.100.1.1 port 5201
+[ ID] Interval           Transfer     Bitrate
+[  5]   0.00-1.00   sec   384 KBytes  3.14 Mbits/sec                  
+[  5]   1.00-2.01   sec   256 KBytes  2.08 Mbits/sec                  
+[  5]   2.01-3.00   sec   256 KBytes  2.11 Mbits/sec                  
+[  5]   3.00-4.01   sec   256 KBytes  2.08 Mbits/sec                  
+[  5]   4.01-5.01   sec   256 KBytes  2.10 Mbits/sec                  
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate
+[  5]   0.00-5.01   sec  1.38 MBytes  2.30 Mbits/sec                  sender
+[  5]   0.00-5.92   sec  1.25 MBytes  1.77 Mbits/sec                  receiver
+
+iperf Done.
+

@@ -79,7 +79,7 @@ Set your identity once: `git config --global user.name "Your Name"` and `git con
 <a id="python-environment-with-uv-optional"></a>
 ## 🐍 Python environment with `uv`
 
-The integration labs use Python (`paho-mqtt`, IoTknit, optional `pymodbus` / `asyncua`). Use a pinned `uv` environment instead of bare `pip install`:
+The integration labs use Python (`paho-mqtt`, optional `pymodbus` / `asyncua`). Use a pinned `uv` environment instead of bare `pip install`:
 
 ```sh
 # install uv once (macOS/Linux)
@@ -90,7 +90,8 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 uv python install 3.14
 uv python pin 3.14
 uv init --name networking-portfolio   # skip if pyproject.toml exists
-uv add paho-mqtt pymodbus asyncua     # add only what you use
+uv add "paho-mqtt>=2,<3"            # pin major 2: the callback API changed in 2.0
+uv add pymodbus asyncua               # only for Module 6 / the project
 uv sync                               # rebuild from uv.lock after a fresh clone
 uv run python iot_bridge.py
 ```
@@ -291,20 +292,30 @@ reboot
 <a id="nebula-bundles--the-class-ca"></a>
 ### 📌 Nebula bundles & the class CA
 
-A **bundle** is the deployment unit: certificate, private key, `ca.crt`, `config.yml.template`, `install.sh`, `install.ps1`, `README.txt`. The installers are self-contained — a client does **not** need nebula-manager. Treat every archive and every `.key` as a credential.
+A **bundle** is the deployment unit: certificate, private key, `ca.crt`, `config.yml`, `install.sh`, `install.ps1`, `README.txt`. The installers are self-contained — a client does **not** need nebula-manager. Treat every archive and every `.key` as a credential.
 
 ```bash
 # client, Linux/macOS: unpack and install (needs the nebula package)
 unzip <name>-nebula-bundle.zip -d nb && sudo bash nb/install.sh
 sudo bash nb/install.sh --certs-only     # after a re-sign: refresh cert/key, keep config
 
-# client, Windows (elevated PowerShell, nebula.exe already installed)
+# client, Windows (elevated PowerShell — see the binary note below)
 powershell -ExecutionPolicy Bypass -File .\install.ps1
 powershell -ExecutionPolicy Bypass -File .\install.ps1 -CertsOnly
 
 # inspect what a certificate actually says
 nebula-cert print -path /etc/nebula/<name>.crt
 ```
+
+**Windows: where `nebula.exe` comes from.** There is no winget or Chocolatey package. Download `nebula-windows-amd64.zip` from the [Nebula releases](https://github.com/slackhq/nebula/releases) — it contains `nebula.exe` and `nebula-cert.exe` — and put `nebula.exe` on `PATH` or in `C:\Program Files\Nebula\`; the bundle's `install.ps1` searches exactly those two places. It installs into `C:\ProgramData\nebula`, rewrites the `/etc/nebula` paths in `config.yml` to that directory, runs `nebula -test`, and registers the service. Manual equivalent, if you want to see each step:
+
+```powershell
+nebula.exe -test -config C:\ProgramData\nebula\config.yml
+nebula.exe -service install -config C:\ProgramData\nebula\config.yml
+nebula.exe -service start
+```
+
+`-config` must be an **absolute** path, and so must every path inside `config.yml` — the Linux bundle copied unchanged will not work, which is exactly what `install.ps1` is for.
 
 On **OpenWrt** the installer does not apply (no systemd): `mkdir -p /etc/nebula` first (no package creates it), copy `<name>.crt`, `<name>.key`, `ca.crt` and `config.yml` into it, `chmod 600` the key, and run the static binary — the full recipe is in [Module 3](./03-overlay-and-mesh-networks.md).
 
@@ -345,6 +356,33 @@ The CA **key** never leaves the instructor's machine; only `ca.crt` and the sign
 | Pod LAN → Node-RED | allow each per-pod group only on its assigned port on the service host |
 | Admin → network | allow the admin group for administration; no pod rules |
 | Node-RED MQTT | subscribe `pod<NN>/#`; publish `pod<NN>/<device>/set` |
+
+<a id="protocol-port-table"></a>
+### 📌 Protocol and port table
+
+The full list, including the legacy protocols the module handbook names. The lab uses only the first block; the rest is there so the layer and the security posture have a home.
+
+| Protocol | Port / transport | OSI | Security / note |
+|---|---|---|---|
+| DNS | 53 UDP/TCP | 7 | plaintext; DoT/DoH encrypt it |
+| DHCP | 67/68 UDP | 7 | plaintext, LAN only |
+| NTP | 123 UDP | 7 | plaintext; NTS exists |
+| HTTP | 80 TCP | 7 | plaintext |
+| HTTPS | 443 TCP | 7 | TLS |
+| SSH | 22 TCP | 7 (5/6 via encryption) | encrypted; also your tunnel tool (Module 2) |
+| Telnet | 23 TCP | 7 | plaintext — do not use |
+| MQTT | 1883 TCP / 8883 TLS | 7 | TLS optional; **the class broker is 1883 without TLS** |
+| CoAP | 5683 UDP / 5684 DTLS | 7 | DTLS/OSCORE |
+| Modbus TCP | 502 TCP | 7 | no security |
+| OPC-UA | 4840 TCP | 7 | security built in |
+| SMTP | 25/587 TCP | 7 | STARTTLS/TLS; legacy mail |
+| POP3 | 110 TCP | 7 | STARTTLS/TLS; legacy mail |
+| FTP | 20/21 TCP | 7 | plaintext; SFTP/FTPS are the alternatives |
+| SNMP | 161/162 UDP | 7 | v3 adds security |
+| TFTP | 69 UDP | 7 | no security; trivial file transfer |
+| Chatto (class chat) | 4000 TCP | 7 | application protocol over HTTP; reachable only through the overlay |
+
+Every one of these is a TCP/IP **Application**-layer protocol; the transport column shows what it sits on. "Application layer" says nothing about whether it is encrypted.
 
 <a id="mqtt-command-cheat-sheet"></a>
 ### 📌 MQTT Command Cheat Sheet
@@ -405,7 +443,7 @@ The CA **key** never leaves the instructor's machine; only `ca.crt` and the sign
 - **Retained MQTT messages:** a “live” test may show an old retained value. Clear retained state or publish a fresh value before you draw conclusions.
 - **Throughput/latency measurements:** note the payload size, protocol, channel, and load. A single ping is not a benchmark; use `iperf3` and repeat.
 - **Clock skew:** timestamps from different devices disagree. Compare durations, not absolute times, unless the clocks are synced.
-- **Node-RED is not on the router.** Module 1 uses the `classroom-nodered.sh` fleet on the class host; from Module 3 the default is one Node-RED container per pod on the Optiplex cluster, with a laptop fallback. The router runs Mosquitto and, optionally, small MicroPython services. A MicroPython IoTknit port is planned, not yet supported. Access is restricted by the Nebula firewall to the service host and ports, not by broad subnets.
+- **Node-RED is not on the router.** Module 1 uses the `classroom-nodered.sh` fleet on the class host; from Module 3 the default is one Node-RED container per pod on the Optiplex cluster, with a laptop fallback. The router runs Mosquitto and, optionally, small MicroPython services (`umqtt.simple`). Access is restricted by the Nebula firewall to the service host and ports, not by broad subnets. Chatto runs the same way on `oldplex01:4000`; setup is in [`chatto-session.md`](../instructor-notes/chatto-session.md).
 
 <a id="troubleshooting-quick-drops"></a>
 ## 🧰 Troubleshooting Quick Drops

@@ -1,0 +1,52 @@
+Remote proof von zu Hause, 21.11.2026
+Router-Uplink: Heim-WLAN (homewwan) statt eduroam. Laptop per WLAN iotempire12 im Pod-LAN.
+Hinweis: Der Laptop hing zusätzlich per Ethernet an der FRITZ!Box (Standardroute dort).
+Die Laptop-Tests verwenden deshalb die WLAN-Adresse 192.168.14.29 als Absender (ping -S, curl --interface),
+damit die Pakete über router12 ins Mesh gehen.
+
+===== Router (ssh openwrt), 2026-11-21 14:38:18
+# Uplink (Standardroute)
+default via 192.168.178.1 dev phy1-sta1 proto static src 192.168.178.83
+nebula1          UNKNOWN        10.100.0.22/16
+phy1-sta1        UP             192.168.178.83/24
+# Router: ping Lighthouse, Messhost, Node-RED-Host (je 5 Pakete)
+-- vps.ulno.mesh
+PING vps.ulno.mesh (10.100.0.1): 56 data bytes
+round-trip min/avg/max = 32.389/103.375/283.855 ms
+-- 10.100.1.1
+PING 10.100.1.1 (10.100.1.1): 56 data bytes
+round-trip min/avg/max = 408.354/2338.823/4296.323 ms
+-- ulno-oldplex04.hsbi01.ulno.mesh
+PING ulno-oldplex04.hsbi01.ulno.mesh (10.100.1.13): 56 data bytes
+round-trip min/avg/max = 31.357/32.680/35.037 ms
+# Tunnel-Log (logread, gekürzt; Fingerprints entfernt)
+msg="Handshake message received" certName=ulno-oldplex04.hsbi01.ulno.mesh from="212.201.138.168:59190" handshake="map[stage:1 style:ix_psk0]"
+msg="Handshake message received" certName=vps.ulno.mesh from="217.160.138.8:4545" handshake="map[stage:2 style:ix_psk0]"
+msg="Send handshake via relay" relay=10.100.0.1 vpnAddrs="[10.100.1.1]"
+msg="Handshake message received" certName=ulno-oldplex01.hsbi01.ulno.mesh from="217.160.138.8:4545 (relayed)" handshake="map[stage:2 style:ix_psk0]"
+
+===== Laptop 192.168.14.29 (WLAN iotempire12), 2026-11-21 14:40:28
+-- ulno-oldplex04.hsbi01.ulno.mesh -> 10.100.1.13 (DNS über Router 192.168.14.1)
+ping -n 5 -S 192.168.14.29 10.100.1.13
+Zeitüberschreitung der Anforderung.
+Zeitüberschreitung der Anforderung.
+Antwort von 10.100.1.13: Bytes=32 Zeit=36ms TTL=63
+Antwort von 10.100.1.13: Bytes=32 Zeit=64ms TTL=63
+Antwort von 10.100.1.13: Bytes=32 Zeit=67ms TTL=63
+    (40% Verlust),
+    Minimum = 36ms, Maximum = 67ms, Mittelwert = 55ms
+-- ulno-oldplex02.hsbi01.ulno.mesh -> 10.100.1.11 (DNS über Router 192.168.14.1)
+ping -n 5 -S 192.168.14.29 10.100.1.11
+Zeitüberschreitung der Anforderung.
+Antwort von 10.100.1.11: Bytes=32 Zeit=3051ms TTL=63
+Antwort von 10.100.1.11: Bytes=32 Zeit=30ms TTL=63
+Antwort von 10.100.1.11: Bytes=32 Zeit=295ms TTL=63
+Antwort von 10.100.1.11: Bytes=32 Zeit=696ms TTL=63
+    (20% Verlust),
+    Minimum = 30ms, Maximum = 3051ms, Mittelwert = 1018ms
+-- Node-RED: curl --interface 192.168.14.29 http://10.100.1.13:18083/ (Host: ulno-oldplex04.hsbi01.ulno.mesh:18083)
+HTTP 200, 0.284951 s
+
+===== Laptop ohne Absenderbindung (Standardroute über FRITZ!Box), 2026-11-21 14:38:46
+ping ulno-oldplex04 / ulno-oldplex02: keine Antwort
+HTTP GET http://ulno-oldplex04.hsbi01.ulno.mesh:18083/: Zeitlimit überschritten

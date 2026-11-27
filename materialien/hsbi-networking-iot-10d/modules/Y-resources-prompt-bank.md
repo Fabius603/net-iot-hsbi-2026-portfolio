@@ -4,7 +4,7 @@
 
 [← Back to Module Index](./00-index.md) | [Back to Resources Bank](./Z-resources-bank.md)
 
-## 🧠 LLM verification drills (use in every module)
+## LLM verification drills (use in every module)
 
 AI is a **drafting tool**, not an oracle. For each module, pick at least one prompt, run it, and record it under `## Study log` in that module's README: the prompt, a 2–3 line summary, **how you verified it**, and where the model was wrong.
 
@@ -59,7 +59,7 @@ Use these to end a pod-study block with **agreed learning** and one shared artef
 1. Technical: *LWT Detection:* What happens at the TCP socket and broker level when an M5Stack node is unplugged? How long did it take for the broker to publish the Last Will message?
 2. Technical: *QoS Trade-offs:* Compare QoS 0, 1, and 2 in terms of packet exchange overhead, latency, and duplicate message risk. When is QoS 0 acceptable, and when is QoS 1 essential?
 3. Hybrid: *Mocking vs. Reality:* Compare your mock Python publisher with the real M5Stack node. Did Node-RED or your downstream subscriber need any code changes to handle the swap?
-4. Process: *Integration Architecture:* When do you choose Node-RED for visual orchestration vs. writing a custom Python service (`paho-mqtt` / IoTknit)?
+4. Process: *Integration Architecture:* When do you choose Node-RED for visual orchestration vs. writing a custom Python service (`paho-mqtt`)?
 
 ## 📌 Module 5 – Wireless Technologies & ESP-NOW Micro-Networking
 *Focus: Radio spectrum, 2.4 GHz vs Sub-GHz, connectionless action frames, gateway bridging.*

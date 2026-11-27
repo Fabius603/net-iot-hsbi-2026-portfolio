@@ -1,0 +1,87 @@
+<mxfile host="Electron">
+  <diagram id="pod12-pfad" name="Pfad Pod 12">
+    <mxGraphModel dx="1201" dy="828" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1240" pageHeight="640" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;fontSize=18;align=left;verticalAlign=middle;" value="&lt;b&gt;Pod 12 – Weg einer Nachricht über das Nebula-Overlay&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="700" x="20" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="lan" parent="1" style="swimlane;html=1;startSize=26;rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" value="Pod-LAN 192.168.14.0/26" vertex="1">
+          <mxGeometry height="420" width="220" x="20" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="sensor" parent="lan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" value="Sensor&lt;br&gt;(im Test nicht aufgebaut)" vertex="1">
+          <mxGeometry height="70" width="160" x="30" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aktor" parent="lan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" value="Aktor&lt;br&gt;(nicht aufgebaut: Router&lt;br&gt;hat keine steuerbare LED)" vertex="1">
+          <mxGeometry height="90" width="160" x="30" y="165" as="geometry" />
+        </mxCell>
+        <mxCell id="laptop" parent="lan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" value="Laptop (Browser)" vertex="1">
+          <mxGeometry height="50" width="160" x="30" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="router" parent="1" style="swimlane;html=1;startSize=26;rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" value="router12 · OpenWrt" vertex="1">
+          <mxGeometry height="420" width="280" x="320" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="broker" parent="router" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" value="Pod-Broker&lt;br&gt;Mosquitto :1883" vertex="1">
+          <mxGeometry height="60" width="200" x="40" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nebula1" parent="router" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" value="nebula1&lt;br&gt;10.100.0.22" vertex="1">
+          <mxGeometry height="50" width="200" x="40" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="regel2" parent="router" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;size=0.1;fillColor=#f8cecc;strokeColor=#b85450;" value="&lt;b&gt;Regel 2&lt;/b&gt;&lt;br&gt;Zone nebula (Gerät nebula1)&lt;br&gt;Forward lan → nebula&lt;br&gt;+ Masquerading" vertex="1">
+          <mxGeometry height="90" width="220" x="30" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="overlay" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Nebula-Overlay&lt;br&gt;10.100.0.0/16&lt;br&gt;(Tunnel)" vertex="1">
+          <mxGeometry height="110" width="180" x="660" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="host" parent="1" style="swimlane;html=1;startSize=26;rounded=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;" value="ulno-oldplex04 · 10.100.1.13" vertex="1">
+          <mxGeometry height="420" width="300" x="900" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="nodered" parent="host" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;" value="Node-RED&lt;br&gt;mqtt in: pod12/#&lt;br&gt;mqtt out: pod12/iotempire12/set" vertex="1">
+          <mxGeometry height="70" width="220" x="40" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="regel1" parent="host" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;size=0.1;fillColor=#f8cecc;strokeColor=#b85450;" value="&lt;b&gt;Regel 1&lt;/b&gt;&lt;br&gt;Nebula-Gruppenregel&lt;br&gt;Gruppe hsbi-netiot12 erlaubt" vertex="1">
+          <mxGeometry height="80" width="220" x="40" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="sensor" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#1f5fa6;labelBackgroundColor=#ffffff;" target="broker" value="① publish pod12/…">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="broker" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#1f5fa6;labelBackgroundColor=#ffffff;" target="nebula1" value="② an Abonnent&lt;br&gt;Node-RED">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="nebula1" style="endArrow=block;startArrow=block;html=1;strokeWidth=2;strokeColor=#1f5fa6;" target="overlay" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="overlay" style="endArrow=block;startArrow=block;html=1;strokeWidth=2;strokeColor=#1f5fa6;" target="regel1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="regel1" style="endArrow=block;startArrow=block;html=1;strokeWidth=2;strokeColor=#1f5fa6;" target="nodered" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="nodered" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#1f5fa6;dashed=0;edgeStyle=orthogonalEdgeStyle;labelBackgroundColor=#ffffff;exitX=0.5;exitY=0;entryX=0.5;entryY=0;" target="broker" value="③ publish pod12/iotempire12/set&lt;br&gt;(zurück über das Overlay)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1050" y="60" />
+              <mxPoint x="460" y="60" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="broker" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#1f5fa6;labelBackgroundColor=#ffffff;exitX=0;exitY=0.75;" target="aktor" value="④ an Aktor">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="laptop" style="endArrow=block;html=1;dashed=1;strokeColor=#666666;labelBackgroundColor=#ffffff;" target="regel2" value="Browser :1808x">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="regel2" style="endArrow=block;html=1;dashed=1;strokeColor=#666666;" target="nebula1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="note" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=14;fillColor=#f5f5f5;strokeColor=#999999;align=left;spacingLeft=8;fontSize=11;" value="Router-Nebula-Firewall: eingehend TCP 1883 aus 10.100.1.0/24 erlaubt – ohne diese Freigabe käme Node-RED nicht an den Broker.&lt;br&gt;Masquerading: Der Laptop erscheint im Mesh als 10.100.0.22." vertex="1">
+          <mxGeometry height="60" width="620" x="320" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" parent="1" style="text;html=1;align=left;verticalAlign=top;fontSize=11;" value="&lt;b&gt;Legende&lt;/b&gt;&lt;br&gt;blau: MQTT-Nachrichtenweg ①–④&lt;br&gt;grau gestrichelt: Laptop → Node-RED-Oberfläche&lt;br&gt;rot: die zwei Regeln" vertex="1">
+          <mxGeometry height="70" width="280" x="20" y="515" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

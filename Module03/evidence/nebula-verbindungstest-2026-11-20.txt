@@ -1,0 +1,27 @@
+2026-11-20 14:47:01
+# ip -brief addr show nebula1
+nebula1          UNKNOWN        10.100.0.22/16 
+# ping -c 3 vps.ulno.mesh (auf dem Router)
+PING vps.ulno.mesh (10.100.0.1): 56 data bytes
+round-trip min/avg/max = 18.563/123.550/268.620 ms
+# Firewall-Zone nebula (uci)
+firewall.@zone[3]=zone
+firewall.@zone[3].name='nebula'
+firewall.@zone[3].input='ACCEPT'
+firewall.@zone[3].output='ACCEPT'
+firewall.@zone[3].forward='REJECT'
+firewall.@zone[3].masq='1'
+firewall.@zone[3].device='nebula1'
+firewall.@forwarding[3]=forwarding
+firewall.@forwarding[3].src='lan'
+firewall.@forwarding[3].dest='nebula'
+# DNS-Weiterleitung und Rebind-Ausnahme (dnsmasq)
+/ulno.mesh/10.100.0.1   (weitere, nicht kursbezogene Einträge entfernt)
+ulno.mesh   (weitere, nicht kursbezogene Einträge entfernt)
+# Laptop (192.168.14.29): Test-Connection ulno-oldplex02.hsbi01.ulno.mesh -Count 3
+Address                         IPV4Address ResponseTime
+-------                         ----------- ------------
+ulno-oldplex02.hsbi01.ulno.mesh 10.100.1.11           72
+ulno-oldplex02.hsbi01.ulno.mesh 10.100.1.11          225
+ulno-oldplex02.hsbi01.ulno.mesh 10.100.1.11         1140
+# Laptop: HTTP GET http://ulno-oldplex04.hsbi01.ulno.mesh:18083/ -> 200
