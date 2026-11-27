@@ -25,6 +25,10 @@ optional depth; know the shape of the problem.)*
 [Latenz und Durchsatz](#task-5),
 [Zugriff aus dem Heimnetz](#remote-proof-von-zu-hause).
 
+Beim Test von zu Hause blieb die Overlay-Adresse des Routers nach dem Wechsel von
+eduroam ins Heim-WLAN gleich. Über diese Verbindung konnte ich Node-RED erreichen,
+ohne am Heimrouter einen Port zu öffnen.
+
 <a id="lg2"></a>
 ### LG2 – Nebula
 
@@ -33,6 +37,10 @@ certificate, the key, and the config each do.
 
 **Nachweise:** [Router ins Overlay bringen und Bundle erklären](#task-1).
 
+Beim Einrichten von `nebula1` habe ich nachvollzogen, dass die CA das
+Router-Zertifikat signiert und der passende private Schlüssel auf dem Router
+geschützt liegen muss.
+
 <a id="lg3"></a>
 ### LG3 – Architektur
 
@@ -40,6 +48,10 @@ Draw a network architecture involving an overlay network and explain the network
 and the roles in the mesh (nodes, certificate, peer, lighthouse).
 
 **Nachweise:** [Netze zeichnen und Schichten benennen](#task-4).
+
+Beim Zeichnen der beiden Netzebenen habe ich die öffentlichen Adressen von den
+Overlay-Adressen getrennt. Das Router-Log zeigte mir, wann Pakete über das Relay
+liefen und wann sich die Peers direkt erreichten.
 
 <a id="lg4"></a>
 ### LG4 – MQTT
@@ -50,8 +62,9 @@ on the Optiplex cluster through the overlay, and move one MQTT message each way.
 **Nachweise:** [MQTT-Rundlauf im Node-RED-Debug](#task-2),
 [Node-RED aus dem Heimnetz erreichen](#remote-proof-von-zu-hause).
 
-Der MQTT-Rundlauf ist in Node-RED sichtbar. Ein separater Empfangsclient ist im
-Versuch nicht dokumentiert.
+Im Node-RED-Debug habe ich am zurückgekommenen `on` den Rundlauf über den Broker
+auf unserem Router nachvollzogen. Der Empfang in einem separaten MQTT-Client
+bleibt offen.
 
 ## Overlay-Plan
 

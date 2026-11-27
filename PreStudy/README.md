@@ -20,6 +20,9 @@ Eine IoT-Anwendung mit Nutzenden und beteiligten Geräten beschreiben.
 
 **Nachweise:** [Raumklima-Anzeige](#task-1).
 
+Beim Entwurf der Raumklima-Anzeige habe ich festgelegt, wer die Werte nutzt und
+welchen Weg sie vom Sensor über den Broker bis zum Display nehmen.
+
 <a id="lg2"></a>
 ### LG2 – Adressierung
 
@@ -29,6 +32,9 @@ am Laptop ermitteln.
 **Nachweise:** [IP-Adresse und Subnetzmaske](#task-2),
 [Netzwerkversuch am Laptop](network-discovery.md).
 
+An der IP-Adresse meines Laptops und der `/28`-Maske habe ich nachvollzogen, wie
+sich Netz, nutzbare Adressen und Standardgateway einordnen lassen.
+
 <a id="lg3"></a>
 ### LG3 – Schichten
 
@@ -36,6 +42,10 @@ OSI und TCP/IP vergleichen und den Paketweg mit einer Traceroute untersuchen.
 
 **Nachweise:** [OSI und TCP/IP](#task-3),
 [Traceroute im Netzwerkversuch](network-discovery.md).
+
+Im Beispiel mit 8 Byte Messdaten habe ich nachgerechnet, dass allein IPv4 und TCP
+40 Byte Header hinzufügen. Der Aufwand entsteht durch die Protokolle und ihre
+Header.
 
 <a id="lg4"></a>
 ### LG4 – MQTT
@@ -46,6 +56,10 @@ empfangen.
 **Nachweise:** [Zehn Sensoren und drei Displays](#task-4),
 [MQTT-Nachricht senden und empfangen](mqtt.md).
 
+Im Test kam meine eigene Nachricht über den Broker zurück. Am Display-Beispiel
+habe ich daraus abgeleitet, warum ein neuer Empfänger dieselben Topics abonnieren
+kann, ohne dass ich die Sensorprogramme ändern muss.
+
 <a id="lg5"></a>
 ### LG5 – Netzgrenzen
 
@@ -53,6 +67,9 @@ Erklären, was den Zugriff auf Geräte in einem anderen Heimnetz begrenzt und wa
 ein Overlay daran ändert.
 
 **Nachweise:** [Zugriff auf ein fremdes Heimnetz](#task-5).
+
+Am Beispiel zweier Heimnetze habe ich erklärt, warum eine private IP-Adresse von
+außen meist unerreichbar ist und wie Overlay-Adressen den Zugriff ermöglichen.
 
 ## Notizen zu den Videos
 

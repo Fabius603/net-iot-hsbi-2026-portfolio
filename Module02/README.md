@@ -27,6 +27,10 @@ Configure IPv4 addressing, CIDR subnetting, default gateways, and routing tables
 [Subnetz und DHCP-Reservierung](#task-6),
 [Heimnetz](#task-8).
 
+Beim Wechsel auf `/26` habe ich berechnet, welche Adressen im Pod-LAN liegen. So
+konnte ich erklären, warum `.50` im Subnetz liegt, aber außerhalb des dynamischen
+DHCP-Pools.
+
 <a id="lg2"></a>
 ### LG2 – Netzdienste
 
@@ -36,6 +40,10 @@ NAT.
 **Nachweise:** [ARP, DHCP, DNS und MQTT](#task-5),
 [DHCP-Reservierung](#task-6),
 [Portweiterleitung und NAT](#task-7).
+
+Im Paketmitschnitt konnte ich die vier DHCP-Nachrichten derselben Anfrage
+zuordnen. Der NAT-Test zeigte mir anhand der Verbindungstabelle, wie der WAN-Port
+`11883` auf den Broker-Port `1883` weitergeleitet wurde.
 
 <a id="lg3"></a>
 ### LG3 – OpenWrt
@@ -52,6 +60,10 @@ LuCI web interface — from factory firmware to a working pod LAN with a WAN upl
 [Router im Heimnetz](#task-8),
 [OpenWrt und Hersteller-Firmware](#task-9).
 
+Beim Einrichten von Extroot habe ich in LuCI geprüft, dass der USB-Speicher als
+`/overlay` eingebunden war. Daran konnte ich nachvollziehen, welche Aufgabe er bei
+knappem internem Flash übernimmt.
+
 <a id="lg4"></a>
 ### LG4 – Paketmitschnitt
 
@@ -60,6 +72,9 @@ with Wireshark, `tshark`, or as text — without needing a second network adapte
 
 **Nachweise:** [LAN-Mitschnitt](#task-5),
 [NAT-Mitschnitt](#task-7).
+
+Beim Auswerten des `tcpdump`-Mitschnitts habe ich die ARP-Anfrage nach der
+Gateway-MAC von der DNS-Anfrage zur Namensauflösung unterschieden.
 
 ## Netzwerkplan
 

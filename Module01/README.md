@@ -28,6 +28,10 @@ already know, what you expect, and who your pod is.
 [Grundlagen im Pod](#task-1),
 [Austausch mit einem anderen Pod](#task-2).
 
+Beim Einstieg habe ich den MQTT-Versuch aus der Pre-Study mit unserem Aufbau
+verglichen. Mit Jonas kam ein eigener Sensor dazu, und mit einem anderen Pod
+habe ich verglichen, wie dessen Temperaturanzeige aufs Anfassen reagiert.
+
 <a id="lg2"></a>
 ### LG2 – MQTT
 
@@ -38,6 +42,10 @@ IoT system maintainable.
 **Nachweise:** [Grundlagen im Pod](#task-1),
 [Nachrichten in Node-RED](#task-3),
 [Taster, LED und Display](#task-4).
+
+Im Node-RED-Flow habe ich am Filter `sticks/12/#` nachvollzogen, warum ein
+Abonnement mehrere Topics desselben Sticks empfängt und der Sender die Empfänger
+nicht kennen muss.
 
 <a id="lg3"></a>
 ### LG3 – Node-RED
@@ -51,7 +59,9 @@ wildcard aggregation.
 [Verbindung zu einem anderen Pod (vorbereitet)](#task-5),
 [Temperaturanzeige im Dashboard](#task-7).
 
-Die Wildcard-Aggregation und die Verbindung zum anderen Pod wurden recherchiert.
+Am Taster-Flow habe ich verstanden, wie aus einer eingehenden MQTT-Nachricht ein
+Schaltbefehl für die LED wird. Die Wildcard-Aggregation und die Verbindung zum
+anderen Pod habe ich anhand des geplanten Ablaufs erklärt.
 
 <a id="lg4"></a>
 ### LG4 – OTA
@@ -61,6 +71,10 @@ declarative OTA loop (one line in `setup.cpp` → a fleet-wide deployment) and w
 it changes for a real fleet.
 
 **Nachweise:** [Temperatursensor und OTA-Update](#task-6).
+
+An den Messwerten in Node-RED habe ich gesehen, dass der in `setup.cpp`
+eingetragene Sensor nach dem Update über WLAN Daten lieferte. Wie der Rollout an
+eine ganze Geräteflotte funktioniert, bleibt im Bericht offen.
 
 <a id="lg5"></a>
 ### LG5 – Schichten
@@ -73,7 +87,8 @@ assumption.
 **Nachweise:** [Grundlagen im Pod](#task-1),
 [Header und Nutzdaten (Rechenbeispiel)](#task-8).
 
-Der Overhead wurde anhand eines theoretischen Beispiels berechnet.
+Im theoretischen Rechenbeispiel habe ich Header und Nutzdaten getrennt. So konnte
+ich erklären, warum kleine Sensornachrichten relativ viel Overhead haben.
 
 <a id="lg6"></a>
 ### LG6 – Systementwurf
@@ -84,7 +99,9 @@ link in it.
 
 **Nachweise:** [Systemaufbau und Entwurf einer Systemgeschichte](#task-10).
 
-Die Systemgeschichte liegt als schriftlicher Entwurf vor.
+Beim Entwurf der Raumklima-Anzeige habe ich den Weg vom Sensor bis zur Anzeige
+gezeichnet und den Broker als Schwachstelle erkannt. Die Systemgeschichte liegt
+als schriftlicher Entwurf vor.
 
 ## Einstieg aus der Pre-Study
 
