@@ -25,7 +25,7 @@ die Aufteilung einzelner Aufgaben steht im jeweiligen Modul.
 | [Modul 1](Module01/README.md) | MQTT und Node-RED, Taster/LED, Temperatursensor und Dashboard |
 | [Modul 2](Module02/README.md) | OpenWrt, Extroot, Paketmitschnitte, Subnetze und Portweiterleitung |
 | [Modul 3](Module03/README.md) | Nebula-Overlay auf dem Router, MQTT zu Node-RED, Netzpläne und Messungen |
-| [Reflexion 1](Reflections/ref01.md) | Erfahrungen aus Pre-Study und den Modulen 1–3 |
+| [Reflexionen](Reflections/README.md) | Persönliche Reflexionen zur Pre-Study und zu den Modulen 1–3 |
 
 Weitere Module ergänze ich nach der Bearbeitung mit den zugehörigen Ergebnissen.
 Die Aufgaben und Anforderungen stehen im

@@ -1,11 +1,9 @@
-Here are all the reflections — one per teaching block or session, as your syllabus specifies.
-Make sure you plan some time on the day of the session
-to remember interesting points of the session.
+# Reflexionen
 
-They will be named `ref01.md` to `refNN.md`.
+Jedes bearbeitete Modul hat eine eigene Reflexion nach der [Vorlage](TEMPLATE.md).
+Die Dateinummer entspricht der Modulnummer. Die Pre-Study steht als Modul 0 in `ref00.md`.
 
-Use the [reflection template](TEMPLATE.md): copy it to a new `refNN.md`
-and answer the prompts there. The template includes the **AI-verification** question.
-
-`ref01.md` spells the prompts out as a worked example; the other reflection files
-can simply link back to the template and contain your answers.
+- [Pre-Study](ref00.md) – erste Netzwerktests und MQTT
+- [Modul 1](ref01.md) – MQTT, Node-RED und Temperaturanzeige
+- [Modul 2](ref02.md) – OpenWrt, DHCP und NAT
+- [Modul 3](ref03.md) – Nebula und MQTT über das Overlay

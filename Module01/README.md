@@ -13,7 +13,82 @@ Die offenen praktischen Teile haben im Unterricht nicht mehr geklappt.
 Danach haben wir dazu nur noch recherchiert. Diese Abschnitte sind als
 Recherche gekennzeichnet und beschreiben, wie der Aufbau funktionieren sollte.
 
+## Lernziele
+
+Aus dem [Kursblatt](../materialien/hsbi-networking-iot-10d/modules/01-foundations-and-masterclass.md#-learning-goals).
+
+<a id="lg1"></a>
+### LG1 – Kurs
+
+Explain how this class works — learning goals as the contract, negotiable tasks,
+evidence in a portfolio — and start your own portfolio with a note on what you
+already know, what you expect, and who your pod is.
+
+**Nachweise:** [Einstieg aus der Pre-Study](#einstieg-aus-der-pre-study),
+[Grundlagen im Pod](#task-1),
+[Austausch mit einem anderen Pod](#task-2).
+
+<a id="lg2"></a>
+### LG2 – MQTT
+
+Explain publish/subscribe with an MQTT broker: the star topology, hierarchical
+topics, wildcards, and why decoupling producers from consumers is what makes an
+IoT system maintainable.
+
+**Nachweise:** [Grundlagen im Pod](#task-1),
+[Nachrichten in Node-RED](#task-3),
+[Taster, LED und Display](#task-4).
+
+<a id="lg3"></a>
+### LG3 – Node-RED
+
+Build Node-RED flows that subscribe and publish, turn a physical button into a
+remote actuator action, and render live telemetry as a gauge, a chart, and a
+wildcard aggregation.
+
+**Nachweise:** [Nachrichten in Node-RED](#task-3),
+[Taster, LED und Display](#task-4),
+[Verbindung zu einem anderen Pod (vorbereitet)](#task-5),
+[Temperaturanzeige im Dashboard](#task-7).
+
+Die Wildcard-Aggregation und die Verbindung zum anderen Pod wurden recherchiert.
+
+<a id="lg4"></a>
+### LG4 – OTA
+
+Wire a digital 1-wire sensor, read its value over MQTT, and explain the
+declarative OTA loop (one line in `setup.cpp` → a fleet-wide deployment) and what
+it changes for a real fleet.
+
+**Nachweise:** [Temperatursensor und OTA-Update](#task-6).
+
+<a id="lg5"></a>
+### LG5 – Schichten
+
+Critically analyze the ISO/OSI 7-layer model against real TCP/IP in IoT systems
+(referencing RFC 3439 and RFC 1958), and quantify header overhead from a capture
+taken at the edge — the router, an ESP32 tap, or a provided dump — stating every
+assumption.
+
+**Nachweise:** [Grundlagen im Pod](#task-1),
+[Header und Nutzdaten (Rechenbeispiel)](#task-8).
+
+Der Overhead wurde anhand eines theoretischen Beispiels berechnet.
+
+<a id="lg6"></a>
+### LG6 – Systementwurf
+
+Craft a system story that is concrete enough to pitch, spanning the computing
+continuum with named stakeholders, devices, and interfaces — and name the weakest
+link in it.
+
+**Nachweise:** [Systemaufbau und Entwurf einer Systemgeschichte](#task-10).
+
+Die Systemgeschichte liegt als schriftlicher Entwurf vor.
+
 ## Einstieg aus der Pre-Study
+
+**Lernziele:** [LG1](#lg1)
 
 Beim [ersten MQTT-Test](../PreStudy/mqtt.md) habe ich meine eigene Nachricht
 über einen öffentlichen Broker zurückbekommen. Sender und Empfänger konnten
@@ -22,7 +97,10 @@ hinzu: Messwerte und Schaltbefehle liefen zwischen Stick und Node-RED.
 
 ## Study log
 
+<a id="task-1"></a>
 ### Aufgabe 1 – Grundlagen im Pod
+
+**Lernziele:** [LG1](#lg1), [LG2](#lg2), [LG5](#lg5)
 
 #### Warm-up
 
@@ -83,7 +161,10 @@ dazu nicht ausgewertet.
   Die Paketkennung gibt es bei QoS 1 und 2. Topic und Header werden
   zusätzlich zum eigentlichen Messwert übertragen.
 
+<a id="task-2"></a>
 ### Aufgabe 2 – Austausch mit einem anderen Pod
+
+**Lernziele:** [LG1](#lg1)
 
 Mit einem anderen Pod haben wir die Temperaturanzeige und das OTA-Update
 besprochen. Beim Vergleich der Temperaturwerte ging es darum, wie schnell
@@ -96,7 +177,10 @@ Zum OTA-Update haben wir darüber gesprochen, ob der andere Pod die
 Aktualisierung über WLAN mitbekommen hatte. Dabei ging es auch darum,
 woran man nach dem Update erkennt, ob der Sensor tatsächlich Werte liefert.
 
+<a id="task-3"></a>
 ## Aufgabe 3 – Nachrichten in Node-RED
+
+**Lernziele:** [LG2](#lg2), [LG3](#lg3)
 
 Node-RED verbindet einzelne Verarbeitungsschritte zu einem Flow. Unser
 Stick hatte die Kennung `12`, seine Topics beginnen deshalb mit `sticks/12/`.
@@ -119,7 +203,10 @@ alle Nachrichten unseres Sticks im Debug-Bereich.
 *Debug-Ausgabe vom 06.11.2026 um 15:37:45: `msg.payload` von
 `sticks/12/temp` mit dem Wert `26.375`.*
 
+<a id="task-4"></a>
 ## Aufgabe 4 – Taster, LED und Display
+
+**Lernziele:** [LG2](#lg2), [LG3](#lg3)
 
 Jonas und ich haben mit dem Taster am M5Stick die LED geschaltet. Text auf
 dem Display haben wir aus Node-RED mit dem Inject `coffee!` ausgegeben.
@@ -151,7 +238,10 @@ LED-Zustand in `flow.zustand`. Der Taster läuft über `switch` und
 Payloads an `sticks/12/led/set` sendet. `debug 2` zeigt die Ausgabe der
 Funktion.*
 
+<a id="task-5"></a>
 ## Aufgabe 5 – Verbindung zu einem anderen Pod vorbereiten
+
+**Lernziele:** [LG3](#lg3)
 
 Den Flow hatten wir vorbereitet. Zum Schalten der LED eines anderen Pods
 sind wir im Unterricht aber nicht mehr gekommen.
@@ -178,7 +268,10 @@ Fällt der zentrale Broker aus, bricht die Vermittlung für alle beteiligten
 Sticks weg. Ein gestoppter Node-RED-Flow würde dagegen mindestens die
 Weitergabe an der jeweiligen Stelle unterbrechen.
 
+<a id="task-6"></a>
 ## Aufgabe 6 – Temperatursensor und OTA-Update
+
+**Lernziele:** [LG4](#lg4)
 
 Den Temperatursensor haben Jonas und ich selbst an den M5Stick angeschlossen.
 Die Firmware für den Sensor hat unser Professor über WLAN aktualisiert.
@@ -187,7 +280,10 @@ Dieses OTA-Update musste also nicht per USB aufgespielt werden.
 Danach haben wir die Temperaturwerte in Node-RED gesehen. In IoTempower
 wird der Sensor mit seinem Anschluss in `setup.cpp` eingetragen.
 
+<a id="task-7"></a>
 ## Aufgabe 7 – Temperaturanzeige im Dashboard
+
+**Lernziele:** [LG3](#lg3)
 
 Wir konnten die Temperaturwerte im Debug-Bereich und im Dashboard sehen.
 Im Flow abonniert ein MQTT-In-Node `sticks/12/temp` und gibt jeden Wert
@@ -238,7 +334,10 @@ Webadresse einschließlich des Ports und gegebenenfalls des Dashboard-Pfads.
 Die richtige Adresse haben wir nach Absprache mit unserem Professor
 verwendet. Danach konnten wir die Temperaturwerte im Dashboard sehen.
 
+<a id="task-8"></a>
 ## Aufgabe 8 – Header und Nutzdaten
+
+**Lernziele:** [LG5](#lg5)
 
 Die Paketauswertung haben wir im Unterricht nicht mehr geschafft.
 Wir haben danach recherchiert, wie sich Header und Nutzdaten aufteilen.
@@ -287,6 +386,7 @@ Ruhestrom pro Messintervall. Aus `Kapazität in mAh / mittlerer Strom in mA`
 ergäbe sich eine ideale Laufzeit in Stunden. Für unseren Aufbau fehlen
 mir dafür die Stromwerte und die genauen Zeiten.
 
+<a id="task-9"></a>
 ## Aufgabe 9 – Optionale Vertiefung
 
 Für einen weiteren Versuch wäre interessant, die Verbindung zu unterbrechen
@@ -295,7 +395,10 @@ anzeigt. Ein Zeitstempel oder eine Kennzeichnung veralteter Werte könnte
 verhindern, dass die letzte Anzeige für eine aktuelle Messung gehalten wird.
 Diesen Ausfalltest haben wir nur als mögliche Erweiterung betrachtet.
 
+<a id="task-10"></a>
 ## Aufgabe 10 – Systemaufbau
+
+**Lernziele:** [LG6](#lg6)
 
 Einen abschließenden Pitch haben wir nicht gehalten. Die folgende eigene
 Skizze fasst den grundsätzlichen Weg der Temperaturwerte zur Anzeige zusammen:
@@ -324,17 +427,6 @@ lokale Anzeige nicht unterbrechen, solange die lokalen Komponenten laufen.
 Die Schwachstelle wäre der Broker: Wenn er ausfällt, kommen keine neuen
 Werte mehr an.
 
-## Bezug zu den Lernzielen
-
-| Lernziel | Bezug in meinen Notizen |
-| --- | --- |
-| LG1 – Kurs und Pod | Zusammenarbeit mit Jonas und Einstieg aus der Pre-Study |
-| LG2 – Publish/Subscribe | Study log zu Broker, Topics und Wildcards; Taster- und LED-Versuch |
-| LG3 – Node-RED | Taster, LED, Display und Temperaturanzeige; Pod-Verbindung vorbereitet, erwartetes Verhalten recherchiert |
-| LG4 – Sensor und OTA | Sensor selbst angeschlossen, Firmware-Update durch den Professor |
-| LG5 – Schichten und Overhead | Recherche mit ausdrücklich theoretischem Rechenbeispiel; keine Paketauswertung |
-| LG6 – Systemgeschichte | Systemskizze und schriftlicher Entwurf; kein Pitch gehalten |
-
 ## Verfügbare Unterlagen
 
 Die Hardware wurde am Ende eingesammelt. Deshalb konnten wir die offenen
@@ -346,7 +438,7 @@ andere beruht auf meinen Erinnerungen an die Arbeit mit Jonas.
 ## Reflexion
 
 Die Erfahrungen mit der LED-Umschaltung, der Dashboard-Adresse und der
-Zusammenarbeit stehen in [Reflexion 1](../Reflections/ref01.md).
+Zusammenarbeit stehen in der [Reflexion zu Modul 1](../Reflections/ref01.md).
 
 ## Hilfsmittel und KI-Nutzung
 

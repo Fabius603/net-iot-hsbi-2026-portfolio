@@ -9,6 +9,51 @@ Die praktischen Versuche stehen auf zwei eigenen Seiten:
 - [Netzwerk am Laptop untersuchen](network-discovery.md)
 - [MQTT-Nachricht senden und empfangen](mqtt.md)
 
+## Lernziele
+
+Aus den [Leitfragen und Übungen der Pre-Study](../materialien/hsbi-networking-iot-10d/pre-study.md#2-required-preparation-watch--explore) abgeleitet.
+
+<a id="lg1"></a>
+### LG1 – Anwendung
+
+Eine IoT-Anwendung mit Nutzenden und beteiligten Geräten beschreiben.
+
+**Nachweise:** [Raumklima-Anzeige](#task-1).
+
+<a id="lg2"></a>
+### LG2 – Adressierung
+
+IP-Adresse und Subnetzmaske erklären sowie IP-Adresse, Subnetz und Standardgateway
+am Laptop ermitteln.
+
+**Nachweise:** [IP-Adresse und Subnetzmaske](#task-2),
+[Netzwerkversuch am Laptop](network-discovery.md).
+
+<a id="lg3"></a>
+### LG3 – Schichten
+
+OSI und TCP/IP vergleichen und den Paketweg mit einer Traceroute untersuchen.
+
+**Nachweise:** [OSI und TCP/IP](#task-3),
+[Traceroute im Netzwerkversuch](network-discovery.md).
+
+<a id="lg4"></a>
+### LG4 – MQTT
+
+Den Einsatz eines MQTT-Brokers begründen und eine Nachricht veröffentlichen und
+empfangen.
+
+**Nachweise:** [Zehn Sensoren und drei Displays](#task-4),
+[MQTT-Nachricht senden und empfangen](mqtt.md).
+
+<a id="lg5"></a>
+### LG5 – Netzgrenzen
+
+Erklären, was den Zugriff auf Geräte in einem anderen Heimnetz begrenzt und was
+ein Overlay daran ändert.
+
+**Nachweise:** [Zugriff auf ein fremdes Heimnetz](#task-5).
+
 ## Notizen zu den Videos
 
 Ich habe „Teaching the IoTempower Way“ und die Lektionen 1a, 1b und 2a
@@ -34,7 +79,10 @@ liegt. Für entfernte Ziele nutzte er bei meinem Versuch das Standardgateway.
 In meinem Versuch war das `172.20.10.1`; darüber lief auch die Verbindung
 zu `1.1.1.1`.
 
+<a id="task-1"></a>
 ## 1. Idee für ein IoT-Projekt
+
+**Lernziele:** [LG1](#lg1)
 
 Eine mögliche Idee ist eine Raumklima-Anzeige für einen Lernraum.
 Studierende könnten damit Messwerte an verschiedenen Stellen im Raum vergleichen.
@@ -48,7 +96,10 @@ Eine LED könnte zusätzlich auf einen überschrittenen Grenzwert hinweisen.
 Jeder Knoten bekäme eigene Topics für Messwerte und Status. Die Anzeige
 sollte auch ohne Internet funktionieren. Bisher ist das nur eine Projektidee.
 
+<a id="task-2"></a>
 ## 2. IP-Adresse und Subnetzmaske
+
+**Lernziele:** [LG2](#lg2)
 
 Eine IP-Adresse gehört zu einer Netzwerkschnittstelle. Die Subnetzmaske legt
 fest, welcher Teil der Adresse das Netz bezeichnet. Damit kann der Rechner
@@ -65,7 +116,10 @@ verwenden. Sonst kann es passieren, dass über ARP unterschiedliche
 MAC-Adressen zur gleichen IP bekannt werden und Pakete beim falschen Gerät
 ankommen. In getrennten privaten Netzen kann dieselbe IP mehrfach vorkommen.
 
+<a id="task-3"></a>
 ## 3. OSI und TCP/IP
+
+**Lernziele:** [LG3](#lg3)
 
 OSI teilt die Kommunikation in sieben Schichten auf. Bei TCP/IP sind es vier:
 Netzzugang, Internet, Transport und Anwendung. OSI hilft mir, die Aufgaben der
@@ -84,7 +138,10 @@ Ein Overlay verpackt Pakete außerdem noch einmal für den Weg durch ein
 anderes Netz. Die Schichten lassen sich deshalb in der Praxis nicht immer
 so sauber trennen wie im Modell.
 
+<a id="task-4"></a>
 ## 4. Zehn Sensoren und drei Displays
+
+**Lernziele:** [LG4](#lg4)
 
 Wenn jeder der zehn Sensoren direkt an jedes der drei Displays sendet,
 entstehen bis zu 30 einzelne Beziehungen. Ein Sensor muss dann wissen,
@@ -100,7 +157,10 @@ Dafür hängt das System vom Broker ab. Fällt er aus, verteilt er auch keine
 Nachrichten mehr. Bei der Raumklima-Idee würde ich ihn deshalb lokal betreiben,
 damit die Anzeige zumindest unabhängig von der Internetverbindung bleibt.
 
+<a id="task-5"></a>
 ## 5. Ein Gerät im Heimnetz eines Kommilitonen anpingen
+
+**Lernziele:** [LG5](#lg5)
 
 Mit seiner privaten IPv4-Adresse kann ich das normalerweise nicht direkt.
 Eine Adresse wie `192.168.1.20` kann in vielen Heimnetzen vorkommen und wird
@@ -125,8 +185,7 @@ Dafür reichte ein Client, der auf dasselbe Topic sendet und es abonniert.
 Bei der Traceroute waren viele Zwischenstationen nur als `* * *` zu sehen.
 Das Ziel antwortete trotzdem bei Hop 13. Wo genau der Übergang von privaten
 zu öffentlichen IP-Adressen lag, konnte ich dadurch nicht erkennen.
-Meine bisherigen Erfahrungen habe ich auch in der
-[ersten Reflexion](../Reflections/ref01.md) festgehalten.
+Meine Erfahrungen stehen in der [Reflexion zur Pre-Study](../Reflections/ref00.md).
 
 ## Hilfsmittel und KI-Nutzung
 

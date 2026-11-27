@@ -10,6 +10,49 @@ Node-RED auf dem Klassen-Cluster und zurück geschickt, das Netz gezeichnet
 und die Verbindung gemessen. Die optionalen Aufgaben 3 (eigenes Zertifikat
 für den Laptop) und 6 (MicroPython auf dem Router) haben wir nicht bearbeitet.
 
+## Lernziele
+
+Aus dem [Kursblatt](../materialien/hsbi-networking-iot-10d/modules/03-overlay-and-mesh-networks.md#-learning-goals).
+
+<a id="lg1"></a>
+### LG1 – Overlay
+
+Explain what an overlay network is and when it beats a port forward: changing WAN
+addresses, campus firewalls, CGNAT/DS-Lite, hole punching. *(The NAT variants are
+optional depth; know the shape of the problem.)*
+
+**Nachweise:** [Underlay, Overlay und Erklärung für Mara](#task-4),
+[Latenz und Durchsatz](#task-5),
+[Zugriff aus dem Heimnetz](#remote-proof-von-zu-hause).
+
+<a id="lg2"></a>
+### LG2 – Nebula
+
+Deploy a Nebula node from a bundle on the router, and explain what the CA, the
+certificate, the key, and the config each do.
+
+**Nachweise:** [Router ins Overlay bringen und Bundle erklären](#task-1).
+
+<a id="lg3"></a>
+### LG3 – Architektur
+
+Draw a network architecture involving an overlay network and explain the network
+and the roles in the mesh (nodes, certificate, peer, lighthouse).
+
+**Nachweise:** [Netze zeichnen und Schichten benennen](#task-4).
+
+<a id="lg4"></a>
+### LG4 – MQTT
+
+Make the router the pod's gateway into the overlay, reach your Node-RED instance
+on the Optiplex cluster through the overlay, and move one MQTT message each way.
+
+**Nachweise:** [MQTT-Rundlauf im Node-RED-Debug](#task-2),
+[Node-RED aus dem Heimnetz erreichen](#remote-proof-von-zu-hause).
+
+Der MQTT-Rundlauf ist in Node-RED sichtbar. Ein separater Empfangsclient ist im
+Versuch nicht dokumentiert.
+
 ## Overlay-Plan
 
 | Rolle | Name | Overlay-Adresse | Underlay |
@@ -23,7 +66,10 @@ für den Laptop) und 6 (MicroPython auf dem Router) haben wir nicht bearbeitet.
 Node-RED erreichen wir unter `http://ulno-oldplex04.hsbi01.ulno.mesh:18083`.
 Die Zeichnungen dazu stehen unter [Aufgabe 4](#aufgabe-4--netze-zeichnen-und-schichten-benennen).
 
+<a id="task-1"></a>
 ## Aufgabe 1 – Router ins Overlay bringen
+
+**Lernziele:** [LG2](#lg2)
 
 ### Bundle
 
@@ -132,7 +178,10 @@ privaten `10.x`-Antworten verwerfen.
 
 Die Ausgaben stehen im [Verbindungstest](evidence/nebula-verbindungstest-2026-11-20.txt).
 
+<a id="task-2"></a>
 ## Aufgabe 2 – Node-RED erreichen und eine Nachricht bewegen
+
+**Lernziele:** [LG4](#lg4)
 
 ### Stolperstelle: Node-RED-Adresse
 
@@ -201,6 +250,8 @@ Die Quelldatei ist [pfad-mqtt-overlay.drawio](diagrams/pfad-mqtt-overlay.drawio)
 
 ## Remote proof von zu Hause
 
+**Lernziele:** [LG1](#lg1), [LG4](#lg4)
+
 Am 21.11.2026 lief der Router zu Hause. Statt eduroam nutzt er dort das
 Heim-WLAN als Uplink (`homewwan`, `192.168.178.83`, Gateway FRITZ!Box).
 An der Konfiguration von Nebula haben wir nichts geändert. `nebula1` hatte
@@ -235,7 +286,10 @@ Mesh, und alles war erreichbar.
 
 Die Ausgaben stehen im [Remote-Protokoll](evidence/remote-proof-zuhause-2026-11-21.txt).
 
+<a id="task-4"></a>
 ## Aufgabe 4 – Netze zeichnen und Schichten benennen
+
+**Lernziele:** [LG1](#lg1), [LG3](#lg3)
 
 Alle drei Bilder stammen aus einer draw.io-Datei:
 [netzplan-underlay-overlay.drawio](diagrams/netzplan-underlay-overlay.drawio).
@@ -315,7 +369,10 @@ einen selbst betriebenen. Der Kurs nutzt eine eigene CA, weil dafür kein
 Fremdanbieter und kein Benutzerkonto nötig ist und man sieht, wer welches
 Zertifikat bekommt und welche Gruppe welche Regel öffnet.
 
+<a id="task-5"></a>
 ## Aufgabe 5 – Messen
+
+**Lernziele:** [LG1](#lg1)
 
 Gemessen haben wir am 20.11.2026 zwischen 14:37 und 14:45. Der Laptop war
 per WLAN im Pod-LAN, der Router per eduroam am Campus. Jeder iperf3-Lauf
@@ -423,19 +480,9 @@ geprüft haben:**
 | Was machen Zertifikat, Schlüssel, CA und Config im Bundle? | Mit `config.yml` und den Dateien in `/etc/nebula/` abgeglichen, siehe Bundle-Tabelle in Aufgabe 1 |
 | Node-RED kann abonnieren, aber nicht veröffentlichen: Welche Schichten prüft man in welcher Reihenfolge? | Bei uns ging beides. Die Prüfreihenfolge haben wir trotzdem nachvollzogen: Ping über das Overlay (Schicht 3), die Nebula-Freigabe für TCP `1883` aus `10.100.1.0/24` (Schicht 4), `netstat -ltn` mit Mosquitto auf `0.0.0.0:1883` und dann Topic und Payload in Node-RED (Schicht 7). |
 
-## Bezug zu den Lernzielen
-
-| Lernziel | Ergebnisse |
-| --- | --- |
-| LG1 – Overlay statt Portweiterleitung | Underlay-Bild, Antwort an Mara, Messung LAN gegen Overlay, Remote proof von zu Hause |
-| LG2 – Nebula aus einem Bundle | Bundle-Tabelle, Installation, Dateien, Interface, Firewall und DNS |
-| LG3 – Architektur und Rollen | Overlay-Bild, Gesamtbild mit Schichten, drei Sätze zu Overlay und Lighthouse |
-| LG4 – Router als Gateway, MQTT über das Overlay | Node-RED-Flow mit Debug-Ausgabe, Pfadskizze mit den zwei Regeln |
-
 ## Reflexion
 
-Meine Erfahrungen aus diesem Modul stehen in
-[Reflexion 1](../Reflections/ref01.md).
+Meine Erfahrungen stehen in der [Reflexion zu Modul 3](../Reflections/ref03.md).
 
 ## Hilfsmittel und KI-Nutzung
 

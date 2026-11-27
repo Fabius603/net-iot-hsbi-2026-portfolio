@@ -1,113 +1,58 @@
-# Reflexion 1 – Netzwerkgrundlagen, MQTT, OpenWrt und Overlay
+# Reflexion 1 – MQTT, Node-RED und Temperaturanzeige
 
-**14.11.2026, ergänzt am 20.11.2026 · Erfahrungen aus Pre-Study und den Modulen 1–3**
+## Take-away
 
-## Was ich mitnehme
+**What do you want to remember? What would be your advice to your past self?**
 
-Mir ist der Unterschied zwischen Switch und Router klarer geworden.
-Ein Switch arbeitet im lokalen Netz mit MAC-Adressen. Ein Router verbindet
-IP-Netze und entscheidet, wohin ein Paket als Nächstes geht.
+Ich würde beim nächsten Flow zuerst prüfen, ob Topic und Nachrichteninhalt im
+Debug-Fenster ankommen. Danach kann ich gezielt nachsehen, ob das Dashboard den
+Wert übernimmt.
 
-Ich verstehe auch besser, warum mein Laptop Pakete an das Standardgateway
-schickt. `1.1.1.1` lag außerhalb meines Subnetzes, also ging die Verbindung
-über die Standardroute.
+## What was good?
 
-In Modul 2 konnten wir die Vergabe einer Adresse direkt im Mitschnitt
-verfolgen: Discover, Offer, Request und ACK gehörten zur selben
-DHCP-Anfrage. Bei der Reservierung blieb der Laptop ein DHCP-Client,
-bekam aber nach der Umstellung immer die vorgesehene Adresse `.50`.
+**Which measurement, circuit, or explanation worked well — and why?**
 
-In Modul 3 habe ich verstanden, warum ein Overlay ohne Portweiterleitung
-auskommt: Jeder Knoten baut die Verbindung von innen nach außen auf, und
-das Lighthouse vermittelt nur. Im Router-Log konnte ich sehen, wie der
-Tunnel zuerst über das Relay lief und dann direkt zum Cluster wechselte.
+Jonas und ich haben den Temperatursensor angeschlossen. Nach dem Firmware-Update
+haben wir die Werte im Debug-Fenster und im Dashboard gesehen. Auch die LED und
+die Textausgabe auf dem Display ließen sich ansteuern.
 
-## Was gut funktioniert hat
+## What was difficult?
 
-Beim MQTT-Test kam meine eigene Nachricht im abonnierten Topic wieder an.
-Ich brauchte dafür kein zweites Gerät. Im IoTempower-Video fand ich die
-Idee interessant, mehrere Sensorwerte an einem Ort zu sammeln. Dazu passt
-die Idee einer Raumklima-Anzeige aus der Pre-Study.
+**Where did you struggle? What was the root cause?**
 
-In Modul 1 haben Jonas und ich den Temperatursensor selbst angeschlossen.
-Die Firmware hat unser Professor über WLAN aktualisiert. Danach haben wir
-die Werte im Debug-Bereich und im Dashboard gesehen. Auch die LED und die
-Textausgabe auf dem Display haben wir angesteuert.
+Wir wollten den LED-Zustand zuerst selbst abfragen und umschalten. Das hat nicht
+geklappt. Mit dem fertigen Baustein konnten wir weitermachen. Für das Dashboard
+hatten wir zuerst die falsche Adresse genommen, vermutlich die des Brokers.
 
-Der Router funktionierte zu Hause mit einem anderen Uplink weiter.
-Nach der Verkleinerung auf `/26` waren Broker und Router noch unter
-derselben Adresse erreichbar. Beim Portweiterleitungstest kam die
-Testnachricht über die WAN-Seite an; nach dem Entfernen der Regel war
-eine neue Verbindung wieder blockiert.
+## Exploration and show stoppers
 
-In Modul 3 kam unsere MQTT-Nachricht aus Node-RED über das Overlay zum
-Broker auf unserem Router und wieder zurück in die Debug-Ausgabe.
+**Was there any good or fun “struggling” or exploration? Anything where you should reach out to peers or instructors?**
 
-## Was schwierig war
+Wir hatten einen Flow für die LED eines anderen Pods vorbereitet. Nach dem
+Einsammeln der Hardware konnten wir ihn nicht mehr ausprobieren. Den
+Header-Overhead habe ich an einem theoretischen Beispiel berechnet. Die
+Systemgeschichte blieb ein schriftlicher Entwurf.
 
-Bei der Traceroute stand an vielen Stellen nur `* * *`. Ich konnte deshalb
-nicht erkennen, wo der Übergang von privaten zu öffentlichen Adressen lag.
-Das Ziel war trotzdem erreichbar und antwortete bei Hop 13.
+## Interaction with peers and instructors
 
-Bei der LED wollten wir die Umschaltung erst selbst schreiben. Wir haben
-versucht, den Zustand abzufragen und davon abhängig neu zu schalten.
-Das hat nicht geklappt. Am Ende haben wir den fertigen Baustein verwendet.
+**Who did you work with, what did you learn from them, and what did you give back?**
 
-Für das Dashboard hatten wir zuerst die falsche IP-Adresse genommen.
-Ich glaube, es war die des Brokers. Nach Absprache mit dem Professor
-hatten wir die richtige Adresse und konnten die Temperaturwerte sehen.
+Ich habe mit Jonas gearbeitet. Mit einem anderen Pod haben wir verglichen, wie die
+Temperatursensoren auf Anfassen reagieren, und über das OTA-Update gesprochen.
 
-In Modul 2 haben wir nach dem Flashen zunächst die Versionsnummer nicht
-gefunden. Nach Absprache mit dem Professor konnten wir weitermachen.
-Die Anzeige unter „Status → Overview“ zeigt den Firmwarestand direkt an.
+## How did you verify AI suggestions?
 
-In Modul 3 hat `apk update` erst nicht funktioniert, weil ich nur
-`pk update` kopiert hatte. Das Nebula-Interface hatten wir zuerst
-`nebula12` genannt und dann vorsichtshalber in `nebula1` umbenannt. Erst
-später habe ich gesehen, dass der Name zu `tun.dev` im Bundle passen muss.
-Die Node-RED-Adresse haben wir wegen Zahlendrehern erst nach mehreren
-Versuchen erreicht. Eine LED konnten wir nicht schalten, weil der Router
-keine steuerbare LED hat. Wir haben deshalb nur die Debug-Ausgabe genutzt.
+**What did you ask an AI, and how did you check the answer against a datasheet, a measurement, a packet capture, or a live test? Where was it wrong?**
 
-## Abgleich mit den Versuchen
+KI half beim Formulieren. Für Aussagen zum Temperatur-Flow hatte ich die
+[Debug-Ausgabe](../Module01/pictures/02-debug-temperatur-2026-11-06.png) und das
+[Dashboard](../Module01/pictures/01-dashboard-temperatur-2026-11-06.png) als
+Belege. Für den vorbereiteten Flow zwischen den Pods und die Overhead-Rechnung gab
+es keinen praktischen Gegencheck.
 
-In den gespeicherten Netzwerkauszügen stehen IP-Adresse, Subnetz und
-Standardroute. Die Traceroute zeigt die Antwort des Ziels bei Hop 13.
-Auf dem MQTT-Screenshot stehen die empfangene Nachricht und die
-QoS-Einstellungen. Damit lassen sich diese Erklärungen überprüfen.
+## Help and extra work
 
-Die übrigen Versuche aus Modul 1 haben im Unterricht nicht mehr geklappt. Danach
-wurde die Hardware eingesammelt, und wir haben zu den offenen Teilen nur
-noch recherchiert. Den Flow für die LED eines anderen Pods hatten wir
-vorbereitet, aber nicht ausprobiert. Beim Header-Overhead haben wir mit
-einem Beispiel gerechnet und keinen Mitschnitt ausgewertet. Die
-Systemgeschichte steht als schriftlicher Entwurf im Bericht. Einen Pitch
-haben wir nicht gehalten.
+**Who helped you, and was it valuable? Who did you help? Did you present, implement, make a PR, or fix something crucial for the class?**
 
-Für Modul 2 liegen jetzt eigene Paketmitschnitte und gespeicherte
-Testergebnisse vor. DHCP, ARP, DNS und MQTT lassen sich damit an den
-übertragenen Paketen prüfen. Beim NAT-Test zeigt die Verbindungstabelle
-die ursprüngliche WAN-Adresse mit Port `11883` und die Antwort des Brokers
-von Port `1883`. Die reine Anzeige einer Firewallregel hätte dafür nicht
-gereicht. Der Vorher-/Nachher-Test zeigt außerdem, dass nur die zeitweise
-Freigabe den Zugriff ermöglicht hat.
-
-In Modul 3 haben Claude-Erklärungen und eigene Vermutungen nicht gereicht.
-Ob der Tunnel direkt oder über das Relay läuft, zeigt erst das Router-Log
-mit „Host roamed to new udp ip/port“. Dass der Durchsatz über das Overlay
-so niedrig ist, haben wir mit iperf3 gemessen: rund 60 Mbit/s im LAN und
-2,5 Mbit/s über das Overlay. In einem Kontrolllauf lag Nebula bei 57 % CPU
-auf dem Router. Das stützt die Erklärung, dass der kleine Router-Prozessor
-mitbremst, beweist sie aber nicht allein, weil auch die WLAN-Strecken
-stark schwankten.
-
-## Zusammenarbeit
-
-Die Pre-Study habe ich allein bearbeitet. Ab Modul 1 arbeite ich mit Jonas
-zusammen. Mit einem anderen Pod haben wir verglichen, wie die Temperatursensoren
-auf das Anfassen reagieren, und über das OTA-Update gesprochen. Der Professor
-hat uns bei der Dashboard-Adresse weitergeholfen.
-
-Die ersten vier Aufgaben aus Modul 2 haben wir in der Vorlesung gemacht,
-die Aufgaben 5–9 zu Hause. Modul 3 haben wir am 20.11.2026 gemeinsam
-bearbeitet.
+Der Professor hat die Firmware über WLAN aktualisiert und uns die richtige
+Dashboard-Adresse gegeben. Danach konnten wir den Temperaturverlauf sehen.

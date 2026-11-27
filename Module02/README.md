@@ -14,6 +14,53 @@ Routerstand. Die Mitschnitte und Tests zu Hause stammen vom 14.11.2026.
 In den Auswertungsbildern sind gespeicherte Messergebnisse als Tabelle
 aufbereitet; die zugehörigen Rohdaten sind jeweils verlinkt.
 
+## Lernziele
+
+Aus dem [Kursblatt](../materialien/hsbi-networking-iot-10d/modules/02-local-networking-and-gateways.md#-learning-goals).
+
+<a id="lg1"></a>
+### LG1 – Adressierung
+
+Configure IPv4 addressing, CIDR subnetting, default gateways, and routing tables.
+
+**Nachweise:** [Uplink und Routing](#task-3),
+[Subnetz und DHCP-Reservierung](#task-6),
+[Heimnetz](#task-8).
+
+<a id="lg2"></a>
+### LG2 – Netzdienste
+
+Inspect and diagnose the core IP plumbing services: ARP, DHCP (DORA), DNS, and
+NAT.
+
+**Nachweise:** [ARP, DHCP, DNS und MQTT](#task-5),
+[DHCP-Reservierung](#task-6),
+[Portweiterleitung und NAT](#task-7).
+
+<a id="lg3"></a>
+### LG3 – OpenWrt
+
+Flash, configure, administer, and secure an OpenWrt edge router via SSH and the
+LuCI web interface — from factory firmware to a working pod LAN with a WAN uplink
+(eduroam, phone tether, or the class Wi-Fi).
+
+**Nachweise:** [OpenWrt flashen](#task-1),
+[Extroot](#task-2),
+[Uplink und Routing](#task-3),
+[Pod-LAN und MQTT-Broker](#task-4),
+[Portweiterleitung und Firewall](#task-7),
+[Router im Heimnetz](#task-8),
+[OpenWrt und Hersteller-Firmware](#task-9).
+
+<a id="lg4"></a>
+### LG4 – Paketmitschnitt
+
+Capture traffic at the choke point with `tcpdump` on the router, and read the dump
+with Wireshark, `tshark`, or as text — without needing a second network adapter.
+
+**Nachweise:** [LAN-Mitschnitt](#task-5),
+[NAT-Mitschnitt](#task-7).
+
 ## Netzwerkplan
 
 Unser Router trennt das Pod-LAN vom vorgeschalteten Netz. Der Laptop war
@@ -55,7 +102,10 @@ Die Befehlsausgaben stehen im
 [Ausgangsprotokoll](evidence/router-baseline-2026-11-14.json)
 und im [Abschlusstest](evidence/home-handoff-2026-11-14.json).
 
+<a id="task-1"></a>
 ## Aufgabe 1 – OpenWrt flashen
+
+**Lernziele:** [LG3](#lg3)
 
 Wir haben den Router in der Vorlesung mit OpenWrt eingerichtet.
 Für den TR1200 v1 beschreibt die Gerätedokumentation zwei Schritte:
@@ -87,7 +137,10 @@ zeigt der Router dort OpenWrt 25.12.6 an.
 
 ![LuCI-Systemübersicht mit Cudy-Modell und OpenWrt-Version](pictures/01-openwrt-version-2026-11-14.jpg)
 
+<a id="task-2"></a>
 ## Aufgabe 2 – Speicher mit Extroot erweitern
+
+**Lernziele:** [LG3](#lg3)
 
 Der interne Flash ist mit 16 MiB knapp. Mit Extroot liegt der beschreibbare
 Overlay-Speicher auf dem USB-Stick, während das Grundsystem im internen
@@ -100,7 +153,10 @@ externe Overlay-Stand mit den dort installierten Paketen und Einstellungen.
 
 ![Mount Points mit USB-Partition auf /overlay](pictures/02-extroot-mounts-2026-11-14.jpg)
 
+<a id="task-3"></a>
 ## Aufgabe 3 – Uplink und Routing
+
+**Lernziele:** [LG1](#lg1), [LG3](#lg3)
 
 Auf dem Router war eduroam als 5-GHz-Client konfiguriert. Zu Hause war dieses
 Netz nicht erreichbar. Wir haben deshalb für das Heim-WLAN die zusätzliche
@@ -119,7 +175,10 @@ default via 192.168.178.1 dev phy1-sta1 src 192.168.178.83
 
 ![LuCI-Routingtabelle mit Heim-Uplink und getrenntem Pod-LAN](pictures/03-routing-heim-uplink-2026-11-14.jpg)
 
+<a id="task-4"></a>
 ## Aufgabe 4 – Pod-LAN und MQTT-Broker
+
+**Lernziele:** [LG3](#lg3)
 
 Das Pod-LAN war zunächst als `192.168.14.0/24` eingerichtet.
 `dnsmasq` vergab die Adressen per DHCP; der ursprüngliche Pool startete
@@ -150,7 +209,10 @@ Der Broker erlaubt im Labortest anonyme Verbindungen ohne TLS.
 Das ist keine Einstellung für einen öffentlich erreichbaren Broker.
 Das [MQTT-Testprotokoll](evidence/mqtt-lan-2026-11-14.json) hält den Empfang fest.
 
+<a id="task-5"></a>
 ## Aufgabe 5 – ARP, DHCP, DNS und MQTT mitschneiden
+
+**Lernziele:** [LG2](#lg2), [LG4](#lg4)
 
 Für den Mitschnitt haben wir `tcpdump` installiert. OpenWrt 25.12 verwendet
 dafür `apk`. Aufgenommen wurde auf der LAN-Bridge `br-lan`:
@@ -188,7 +250,10 @@ enthält 47 Frames aus unserem Versuch. Die
 Unbeteiligte Netzwerkadapter und fremde DNS-Abfragen sind nicht Teil der
 veröffentlichten Auszüge.
 
+<a id="task-6"></a>
 ## Aufgabe 6 – Subnetz verkleinern und einen Client reservieren
+
+**Lernziele:** [LG1](#lg1), [LG2](#lg2)
 
 Wir haben zuerst die möglichen Netze berechnet. Die Zahl der Adressen ergibt
 sich aus den Hostbits; Netz- und Broadcast-Adresse fallen als Geräteadressen weg.
@@ -230,7 +295,10 @@ Der Laptop fragt weiter beim DHCP-Server an und erhält dort dieselbe Adresse.
 Das [Vorher-/Nachher-Protokoll](evidence/subnet-reservation-2026-11-14.json)
 enthält die Router- und Clientwerte.
 
+<a id="task-7"></a>
 ## Aufgabe 7 – Portweiterleitung und NAT
+
+**Lernziele:** [LG2](#lg2), [LG3](#lg3), [LG4](#lg4)
 
 Als Außennetz haben wir zu Hause das Heim-WLAN statt des Kurs-WLANs
 verwendet. Mein Laptop blieb per Ethernet im Pod-LAN; seine WLAN-Schnittstelle
@@ -285,7 +353,10 @@ Antwortweg dagegen die Zieladresse `192.168.178.83`. Das
 [Ping- und NAT-Protokoll](evidence/lan-internet-nat-2026-11-14.json)
 zeigt damit auch die Übersetzung einer ausgehenden LAN-Verbindung.
 
+<a id="task-8"></a>
 ## Aufgabe 8 – Router zu Hause weiterverwenden
+
+**Lernziele:** [LG1](#lg1), [LG3](#lg3)
 
 Der neue Uplink läuft auf 5 GHz über das Heim-WLAN. Die zusätzliche
 Schnittstelle heißt `homewwan`; eduroam musste dafür nicht gelöscht werden.
@@ -309,7 +380,10 @@ Router und USB-Stick bleiben für die weitere Arbeit zusammen.
 WLAN-Zugangsdaten sind nicht Bestandteil dieser Dokumentation.
 Bei einer Übergabe müssen persönliche Zugangsdaten vorher entfernt werden.
 
+<a id="task-9"></a>
 ## Aufgabe 9 – Warum OpenWrt?
+
+**Lernziele:** [LG3](#lg3)
 
 OpenWrt entstand 2004 aus den veröffentlichten GPL-Quellen für den
 Linksys WRT54G. Der LEDE-Fork von 2016 wurde 2018 wieder mit OpenWrt
@@ -371,19 +445,9 @@ zuordnen kann. Die übrigen Begriffe bleiben als Überblick für die nächsten M
 | Sitzung / Darstellung / Anwendung | Sitzungsaufbau, Datenformat und Anwendungsprotokoll | MQTT-Verbindung und Testnachricht | ✓ | MQTT-Test und PUBLISH-Pakete |
 | Spanning Tree Protocol | Vermeidet Schleifen in gebrückten Layer-2-Netzen | Spätere Netzaufbauten | | Nicht untersucht |
 
-## Bezug zu den Lernzielen
-
-| Lernziel | Ergebnisse |
-| --- | --- |
-| LG1 – Adressierung und Routing | Netzwerkplan, Heim-Uplink, /26-Berechnung und feste DHCP-Zuordnung |
-| LG2 – ARP, DHCP, DNS und NAT | Protokollmitschnitt, MQTT-Empfang und kontrollierter Weiterleitungstest |
-| LG3 – OpenWrt verwalten | Firmwarestand, LuCI/SSH, Extroot, Uplink, Broker und Konfiguration |
-| LG4 – Paketmitschnitt | Aufnahme auf br-lan und any, gefilterter LAN-Mitschnitt und Paketzuordnung |
-
 ## Reflexion
 
-Meine Erfahrungen aus diesem Modul stehen zusammen mit den Grundlagen
-in [Reflexion 1](../Reflections/ref01.md).
+Meine Erfahrungen stehen in der [Reflexion zu Modul 2](../Reflections/ref02.md).
 
 ## Hilfsmittel und KI-Nutzung
 
