@@ -76,11 +76,12 @@ with Wireshark, `tshark`, or as text — without needing a second network adapte
 Beim Auswerten des `tcpdump`-Mitschnitts habe ich die ARP-Anfrage nach der
 Gateway-MAC von der DNS-Anfrage zur Namensauflösung unterschieden.
 
-## Netzwerkplan
+## Network plan
 
-Unser Router trennt das Pod-LAN vom vorgeschalteten Netz. Der Laptop war
-für den Weiterleitungstest über zwei Schnittstellen verbunden: per Ethernet
-im Pod-LAN und per WLAN im Heimnetz.
+Unser Pod 12 nutzt das WLAN `iotempire12` auf Kanal 1 im 2,4-GHz-Band.
+Der Router trennt das Pod-LAN vom vorgeschalteten Netz. Beim
+Weiterleitungstest hing der Laptop per Ethernet im Pod-LAN und per WLAN
+im Heimnetz.
 
 ```mermaid
 flowchart LR
@@ -95,178 +96,8 @@ Vor Aufgabe 6 hatte das LAN die Maske `/24` und mein Laptop die Adresse
 `192.168.14.139`. Danach war das LAN auf `/26` begrenzt und der Laptop
 per DHCP auf `.50` reserviert. Die Router- und Brokeradresse blieb gleich.
 
-## Routerstand nach Abschluss der neun Übungen
-
-| Einstellung | Geprüfter Stand |
-| --- | --- |
-| Modell | Cudy TR1200 v1 |
-| OpenWrt | 25.12.6, Revision `r33311-981c978eff` |
-| Kernel | 6.12.112 |
-| LAN | `192.168.14.1/26` auf `br-lan` |
-| Pod-WLAN | `iotempire12`, 2,4 GHz, Kanal 1, WPA2/WPA3 |
-| Heim-Uplink | `homewwan` auf `phy1-sta1`, `192.168.178.83/24` |
-| Vorgeschaltetes Gateway | `192.168.178.1` |
-| Extroot | `/dev/sda1`, ext4, als `/overlay` eingebunden, rund 7,2 GiB |
-| Verwaltung | LuCI auf Port 80, SSH auf Port 22 mit vorhandenem Schlüssel |
-| MQTT | Mosquitto läuft auf TCP-Port 1883 |
-| DHCP-Pool nach Aufgabe 6 | `.10` bis `.49` |
-| Reservierter Laptop | `192.168.14.50`, MAC `80:3f:5d:fb:9b:4d` |
-| Portweiterleitung nach dem Test | Entfernt; neue Verbindungen zu Port 11883 blockiert |
-
-Die Befehlsausgaben stehen im
-[Ausgangsprotokoll](evidence/router-baseline-2026-11-14.json)
-und im [Abschlusstest](evidence/home-handoff-2026-11-14.json).
-
-<a id="task-1"></a>
-## Aufgabe 1 – OpenWrt flashen
-
-**Lernziele:** [LG3](#lg3)
-
-Wir haben den Router in der Vorlesung mit OpenWrt eingerichtet.
-Für den TR1200 v1 beschreibt die Gerätedokumentation zwei Schritte:
-zuerst das von Cudy akzeptierte Übergangsimage und danach ein passendes
-OpenWrt-Sysupgrade-Image. Über Ethernet bleibt der Zugriff auch dann
-möglich, wenn sich die WLAN-Einstellungen beim Flashen ändern.
-
-Auf dem Laptop liegen `openwrt-tr1200-transition-firmware.bin` und
-`openwrt-25.12.6-cudy_tr1200-v1-squashfs-sysupgrade-custom.bin`.
-Die SHA-256 der vorhandenen Dateien wurde am 14.11.2026 nachträglich
-bestimmt. Für das Custom-Sysupgrade-Image lautet sie:
-
-```text
-210ae96f049fd63094afff331ee3a6a32910e0bbb39a8e3523c53beecc102bdd
-```
-
-Das ist der Hash unserer vorhandenen Datei, kein Abgleich mit einem
-unveränderten Standardimage. Beide Dateihashes stehen im
-[Prüfsummenprotokoll](evidence/firmware-files-sha256-2026-11-14.json).
-Für die Dokumentation wurde der Router nicht erneut geflasht.
-
-### Stolperstelle: Versionsnummer nicht gefunden
-
-Nach dem Flashen haben wir die Versionsnummer zunächst nicht gefunden und
-konnten deshalb nicht sicher weiterarbeiten. Erst nach Absprache mit
-unserem Professor konnten wir weitermachen. In LuCI steht die Version
-unter **Status → Overview → Firmware Version**. Bei der jetzigen Prüfung
-zeigt der Router dort OpenWrt 25.12.6 an.
-
-![LuCI-Systemübersicht mit Cudy-Modell und OpenWrt-Version](pictures/01-openwrt-version-2026-11-14.jpg)
-
-<a id="task-2"></a>
-## Aufgabe 2 – Speicher mit Extroot erweitern
-
-**Lernziele:** [LG3](#lg3)
-
-Der interne Flash ist mit 16 MiB knapp. Mit Extroot liegt der beschreibbare
-Overlay-Speicher auf dem USB-Stick, während das Grundsystem im internen
-Flash bleibt. Unter **System → Mount Points** ist `/dev/sda1` als
-`/overlay` eingebunden. `df -h /overlay` zeigt rund 7,2 GiB statt der wenigen
-MiB des internen beschreibbaren Speichers.
-
-Der Stick muss deshalb beim Start am Router bleiben. Ohne ihn fehlt der
-externe Overlay-Stand mit den dort installierten Paketen und Einstellungen.
-
-![Mount Points mit USB-Partition auf /overlay](pictures/02-extroot-mounts-2026-11-14.jpg)
-
-<a id="task-3"></a>
-## Aufgabe 3 – Uplink und Routing
-
-**Lernziele:** [LG1](#lg1), [LG3](#lg3)
-
-Auf dem Router war eduroam als 5-GHz-Client konfiguriert. Zu Hause war dieses
-Netz nicht erreichbar. Wir haben deshalb für das Heim-WLAN die zusätzliche
-Schnittstelle `homewwan` eingerichtet. Die eduroam-Konfiguration blieb
-vorhanden. Das WLAN-Kennwort wurde direkt in LuCI eingegeben.
-
-Der Router bekam im Heimnetz per DHCP `192.168.178.83/24`. Die Standardroute
-führt über `192.168.178.1`; `ip route get 1.1.1.1` wählt dafür `phy1-sta1`.
-Ein Ziel im Pod-LAN bleibt dagegen auf `br-lan`.
-
-```text
-default via 192.168.178.1 dev phy1-sta1 src 192.168.178.83
-192.168.14.0/26 dev br-lan src 192.168.14.1
-192.168.178.0/24 dev phy1-sta1 src 192.168.178.83
-```
-
-![LuCI-Routingtabelle mit Heim-Uplink und getrenntem Pod-LAN](pictures/03-routing-heim-uplink-2026-11-14.jpg)
-
-<a id="task-4"></a>
-## Aufgabe 4 – Pod-LAN und MQTT-Broker
-
-**Lernziele:** [LG3](#lg3)
-
-Das Pod-LAN war zunächst als `192.168.14.0/24` eingerichtet.
-`dnsmasq` vergab die Adressen per DHCP; der ursprüngliche Pool startete
-bei `.100` und umfasste 150 Adressen, also `.100–.249`. Mein Laptop bekam
-zunächst `.139` und verwendete `192.168.14.1` als Gateway und DNS-Server.
-
-In der Firewall ist die Weiterleitung von LAN nach WAN erlaubt.
-Die WAN-Zone verwendet Masquerading; neue eingehende Verbindungen werden
-standardmäßig nicht einfach zu den LAN-Diensten durchgelassen.
-
-Mosquitto läuft auf `192.168.14.1:1883` und ist für den Autostart aktiviert.
-Für den jetzigen Test haben wir zwei getrennte MQTT-Clients auf meinem
-Laptop verwendet: einen Publisher und einen Subscriber. Es waren zwei
-Client-Verbindungen, kein Test mit zwei verschiedenen Laptops.
-
-| Test | Ergebnis |
-| --- | --- |
-| Topic | `pod12/portfolio/lan` |
-| Gesendete Nachricht | `module02-lan-151609` |
-| Empfangene Nachricht | `module02-lan-151609` |
-| QoS / Retain | 0 / aus |
-
-![Mosquitto als aktivierter Autostartdienst in LuCI](pictures/04-broker-autostart-2026-11-14.jpg)
-
-![Gespeicherte Ergebnisse des MQTT-Tests mit zwei Clients](pictures/04-mqtt-test-2026-11-14.jpg)
-
-Der Broker erlaubt im Labortest anonyme Verbindungen ohne TLS.
-Das ist keine Einstellung für einen öffentlich erreichbaren Broker.
-Das [MQTT-Testprotokoll](evidence/mqtt-lan-2026-11-14.json) hält den Empfang fest.
-
-<a id="task-5"></a>
-## Aufgabe 5 – ARP, DHCP, DNS und MQTT mitschneiden
-
-**Lernziele:** [LG2](#lg2), [LG4](#lg4)
-
-Für den Mitschnitt haben wir `tcpdump` installiert. OpenWrt 25.12 verwendet
-dafür `apk`. Aufgenommen wurde auf der LAN-Bridge `br-lan`:
-
-```sh
-apk update
-apk add tcpdump
-tcpdump -U -i br-lan -s 0 -w /tmp/portfolio-lan.pcap \
-  'arp or udp port 67 or udp port 68 or udp port 53 or tcp port 1883'
-```
-
-Während der Aufnahme haben wir die LAN-DHCP-Adresse freigegeben und neu
-angefordert, `openwrt.org` über den Router aufgelöst und eine MQTT-Nachricht
-veröffentlicht. Der Mitschnitt entstand noch vor der Verkleinerung des
-Subnetzes, deshalb taucht hier die Laptop-Adresse `.139/24` auf.
-
-| Protokoll | Beobachtung | Was sich daraus ablesen lässt |
-| --- | --- | --- |
-| DHCP | Discover, Offer, Request und ACK mit Transaktionskennung `0x202f3825` | Der Router bietet `.139` an und bestätigt `/24` und Gateway `.1` |
-| ARP | Anfrage nach `192.168.14.1`, Antwort mit `d4:0d:ab:52:c1:a0` | Der Laptop erfährt die MAC-Adresse seines Gateways |
-| DNS | Anfrage für `openwrt.org` und passende Antwort | Die Namensauflösung über den Router funktioniert |
-| MQTT | PUBLISH an den Broker und Weitergabe an den Subscriber | Die Testnachricht wird tatsächlich übertragen |
-
-Im DHCP-Discover sendet der Client von UDP-Port 68 an Port 67.
-Die Antwort kommt von Port 67 an 68. Offer und ACK enthielten die Maske
-`255.255.255.0` und das Gateway `192.168.14.1`.
-Die MQTT-PUBLISH-Nachrichten trugen das Topic `pod12/portfolio/capture`
-und die Nachricht `module02-capture-151634`.
-
-![Auswertung des echten LAN-Mitschnitts mit DHCP, ARP, DNS und MQTT](pictures/05-protokolle-auswertung-2026-11-14.jpg)
-
-Der [gefilterte Paketmitschnitt](evidence/lan-protocols-2026-11-14.pcap)
-enthält 47 Frames aus unserem Versuch. Die
-[Textauswertung](evidence/lan-protocols-2026-11-14.json) ordnet die Pakete zu.
-Unbeteiligte Netzwerkadapter und fremde DNS-Abfragen sind nicht Teil der
-veröffentlichten Auszüge.
-
 <a id="task-6"></a>
-## Aufgabe 6 – Subnetz verkleinern und einen Client reservieren
+### Aufgabe 6 – Subnetz verkleinern und einen Client reservieren
 
 **Lernziele:** [LG1](#lg1), [LG2](#lg2)
 
@@ -310,8 +141,259 @@ Der Laptop fragt weiter beim DHCP-Server an und erhält dort dieselbe Adresse.
 Das [Vorher-/Nachher-Protokoll](evidence/subnet-reservation-2026-11-14.json)
 enthält die Router- und Clientwerte.
 
+## Router baseline
+
+| Einstellung | Geprüfter Stand |
+| --- | --- |
+| Modell | Cudy TR1200 v1 |
+| OpenWrt | 25.12.6, Revision `r33311-981c978eff` |
+| Kernel | 6.12.112 |
+| LAN | `192.168.14.1/26` auf `br-lan` |
+| Pod-WLAN | `iotempire12`, 2,4 GHz, Kanal 1, WPA2/WPA3 |
+| Heim-Uplink | `homewwan` auf `phy1-sta1`, `192.168.178.83/24` |
+| Vorgeschaltetes Gateway | `192.168.178.1` |
+| Extroot | `/dev/sda1`, ext4, als `/overlay` eingebunden, rund 7,2 GiB |
+| Verwaltung | LuCI auf Port 80, SSH auf Port 22 mit vorhandenem Schlüssel |
+| MQTT | Mosquitto läuft auf TCP-Port 1883 |
+| DHCP-Pool nach Aufgabe 6 | `.10` bis `.49` |
+| Reservierter Laptop | `192.168.14.50`, MAC `80:3f:5d:fb:9b:4d` |
+| Portweiterleitung nach dem Test | Entfernt; neue Verbindungen zu Port 11883 blockiert |
+
+Die Befehlsausgaben stehen im
+[Ausgangsprotokoll](evidence/router-baseline-2026-11-14.json)
+und im [Abschlusstest](evidence/home-handoff-2026-11-14.json).
+
+<a id="task-1"></a>
+### Aufgabe 1 – OpenWrt flashen
+
+**Lernziele:** [LG3](#lg3)
+
+Wir haben den Router in der Vorlesung mit OpenWrt eingerichtet.
+Für den TR1200 v1 beschreibt die Gerätedokumentation zwei Schritte:
+zuerst das von Cudy akzeptierte Übergangsimage und danach ein passendes
+OpenWrt-Sysupgrade-Image. Über Ethernet bleibt der Zugriff auch dann
+möglich, wenn sich die WLAN-Einstellungen beim Flashen ändern.
+
+Auf dem Laptop liegen `openwrt-tr1200-transition-firmware.bin` und
+`openwrt-25.12.6-cudy_tr1200-v1-squashfs-sysupgrade-custom.bin`.
+Die SHA-256 der vorhandenen Dateien wurde am 14.11.2026 nachträglich
+bestimmt. Für das Custom-Sysupgrade-Image lautet sie:
+
+```text
+210ae96f049fd63094afff331ee3a6a32910e0bbb39a8e3523c53beecc102bdd
+```
+
+Das ist der Hash unserer vorhandenen Datei, kein Abgleich mit einem
+unveränderten Standardimage. Beide Dateihashes stehen im
+[Prüfsummenprotokoll](evidence/firmware-files-sha256-2026-11-14.json).
+Für die Dokumentation wurde der Router nicht erneut geflasht.
+
+#### Stolperstelle: Versionsnummer nicht gefunden
+
+Nach dem Flashen haben wir die Versionsnummer zunächst nicht gefunden und
+konnten deshalb nicht sicher weiterarbeiten. Erst nach Absprache mit
+unserem Professor konnten wir weitermachen. In LuCI steht die Version
+unter **Status → Overview → Firmware Version**. Bei der jetzigen Prüfung
+zeigt der Router dort OpenWrt 25.12.6 an.
+
+![LuCI-Systemübersicht mit Cudy-Modell und OpenWrt-Version](pictures/01-openwrt-version-2026-11-14.jpg)
+
+<a id="task-2"></a>
+### Aufgabe 2 – Speicher mit Extroot erweitern
+
+**Lernziele:** [LG3](#lg3)
+
+Der interne Flash ist mit 16 MiB knapp. Mit Extroot liegt der beschreibbare
+Overlay-Speicher auf dem USB-Stick, während das Grundsystem im internen
+Flash bleibt. Unter **System → Mount Points** ist `/dev/sda1` als
+`/overlay` eingebunden. `df -h /overlay` zeigt rund 7,2 GiB statt der wenigen
+MiB des internen beschreibbaren Speichers.
+
+Der Stick muss deshalb beim Start am Router bleiben. Ohne ihn fehlt der
+externe Overlay-Stand mit den dort installierten Paketen und Einstellungen.
+
+![Mount Points mit USB-Partition auf /overlay](pictures/02-extroot-mounts-2026-11-14.jpg)
+
+<a id="task-3"></a>
+### Aufgabe 3 – Uplink und Routing
+
+**Lernziele:** [LG1](#lg1), [LG3](#lg3)
+
+Auf dem Router war eduroam als 5-GHz-Client konfiguriert. Zu Hause war dieses
+Netz nicht erreichbar. Wir haben deshalb für das Heim-WLAN die zusätzliche
+Schnittstelle `homewwan` eingerichtet. Die eduroam-Konfiguration blieb
+vorhanden. Das WLAN-Kennwort wurde direkt in LuCI eingegeben.
+
+Der Router bekam im Heimnetz per DHCP `192.168.178.83/24`. Die Standardroute
+führt über `192.168.178.1`; `ip route get 1.1.1.1` wählt dafür `phy1-sta1`.
+Ein Ziel im Pod-LAN bleibt dagegen auf `br-lan`.
+
+```text
+default via 192.168.178.1 dev phy1-sta1 src 192.168.178.83
+192.168.14.0/26 dev br-lan src 192.168.14.1
+192.168.178.0/24 dev phy1-sta1 src 192.168.178.83
+```
+
+![LuCI-Routingtabelle mit Heim-Uplink und getrenntem Pod-LAN](pictures/03-routing-heim-uplink-2026-11-14.jpg)
+
+<a id="task-4"></a>
+### Aufgabe 4 – Pod-LAN und MQTT-Broker
+
+**Lernziele:** [LG3](#lg3)
+
+Das Pod-LAN war zunächst als `192.168.14.0/24` eingerichtet.
+`dnsmasq` vergab die Adressen per DHCP; der ursprüngliche Pool startete
+bei `.100` und umfasste 150 Adressen, also `.100–.249`. Mein Laptop bekam
+zunächst `.139` und verwendete `192.168.14.1` als Gateway und DNS-Server.
+
+In der Firewall ist die Weiterleitung von LAN nach WAN erlaubt.
+Die WAN-Zone verwendet Masquerading; neue eingehende Verbindungen werden
+standardmäßig nicht einfach zu den LAN-Diensten durchgelassen.
+
+Mosquitto läuft auf `192.168.14.1:1883` und ist für den Autostart aktiviert.
+Für den jetzigen Test haben wir zwei getrennte MQTT-Clients auf meinem
+Laptop verwendet: einen Publisher und einen Subscriber. Es waren zwei
+Client-Verbindungen, kein Test mit zwei verschiedenen Laptops.
+
+| Test | Ergebnis |
+| --- | --- |
+| Topic | `pod12/portfolio/lan` |
+| Gesendete Nachricht | `module02-lan-151609` |
+| Empfangene Nachricht | `module02-lan-151609` |
+| QoS / Retain | 0 / aus |
+
+![Mosquitto als aktivierter Autostartdienst in LuCI](pictures/04-broker-autostart-2026-11-14.jpg)
+
+![Gespeicherte Ergebnisse des MQTT-Tests mit zwei Clients](pictures/04-mqtt-test-2026-11-14.jpg)
+
+Der Broker erlaubt im Labortest anonyme Verbindungen ohne TLS.
+Das ist keine Einstellung für einen öffentlich erreichbaren Broker.
+Das [MQTT-Testprotokoll](evidence/mqtt-lan-2026-11-14.json) hält den Empfang fest.
+
+## Study log
+
+- **Routerzustand prüfen.** Bei der Einrichtung haben wir die OpenWrt-Version
+  in LuCI geprüft und am Mountpoint `/overlay` erkannt, dass Extroot eingebunden
+  war. [Einrichtung](#task-2)
+- **DHCP-Reservierung verstehen.** Nach der Umstellung auf `/26` hat der Laptop
+  weiter DHCP benutzt und die reservierte Adresse `.50` erhalten. Sie lag im
+  Subnetz und außerhalb des dynamischen Pools. [Subnetz und DHCP](#task-6)
+- **Firewallregel überprüfen.** Erst der Vorher-/Nachher-Test und die
+  Verbindungstabelle zeigten, dass die Nachricht mit aktiver Freigabe über
+  Port `11883` beim Broker ankam. Nach dem Entfernen der Regel war eine
+  neue Verbindung wieder blockiert. [NAT-Test](#task-7)
+
+<a id="task-9"></a>
+### Aufgabe 9 – Warum OpenWrt?
+
+**Lernziele:** [LG3](#lg3)
+
+OpenWrt entstand 2004 aus den veröffentlichten GPL-Quellen für den
+Linksys WRT54G. Der LEDE-Fork von 2016 wurde 2018 wieder mit OpenWrt
+zusammengeführt. Die [Projektgeschichte](https://openwrt.org/about/history)
+zeigt den Weg von der Herstellerbasis zur eigenen Routerdistribution.
+
+Unser Beispiel ist der Cudy TR1200 v1. Die
+[Geräteseite](https://openwrt.org/toh/cudy/tr1200#oem_easy_installation)
+beschreibt das signierte Übergangsimage und den anschließenden
+Sysupgrade-Schritt. Sie nennt Unterstützung ab 23.05.4; auf unserem
+Router läuft 25.12.6. Als konkrete Einschränkung nennt die Seite fehlende
+DFS-Unterstützung des 5-GHz-Chips. Modell und Hardwareversion müssen
+deshalb zur jeweiligen Anleitung passen.
+
+![Geräteseite mit Installationsweg und Versionshinweis](pictures/09-openwrt-cudy-installation-2026-11-14.jpg)
+
+Für unseren Laborrouter ist OpenWrt sinnvoll, weil wir Pakete nachinstallieren,
+mit UCI konfigurieren und per `tcpdump` nachvollziehen können, was im Netz
+passiert. Bei einem Router für den täglichen Betrieb würde ich vorher
+Geräteunterstützung, Wiederherstellung und Wartungsaufwand prüfen.
+Die zusätzliche Kontrolle bedeutet auch, Updates und Fehlersuche selbst
+zu übernehmen, statt sich auf den Herstellersupport zu verlassen.
+
+Extroot, zusätzliche Pakete und die geskripteten DHCP- und Firewallregeln
+wären in einer geschlossenen Herstelleroberfläche deutlich schwerer
+umzusetzen. Herstellerfunktionen sind dafür oft bereits aufeinander
+abgestimmt und leichter einzurichten. Eine FRITZ!Box mit FRITZ!OS ist
+außerdem nicht einfach OpenWrt; ein unterstützter OpenWrt-Port wäre ein
+anderes Betriebssystem auf dem Gerät.
+
+## Discussion log
+
+Nach dem Flashen haben wir mit dem Professor geklärt, wie wir den
+Firmwarestand feststellen und weiterarbeiten können. Mit einem anderen Pod
+haben wir in diesem Modul keine Ergebnisse besprochen.
+
+## Vocabulary tracker
+
+Ein Haken steht für einen Begriff, den ich hier am Aufbau oder im Mitschnitt
+zuordnen kann. Die übrigen Begriffe bleiben als Überblick für die nächsten Module.
+
+| Begriff | Bedeutung | Wo er vorkommt | ✓ | Beleg |
+| --- | --- | --- | --- | --- |
+| Übertragungsmedien | Kupferkabel, Glasfaser oder Funk | Ethernet zum Router, WLAN-Uplink | ✓ | [Netzwerkplan](#network-plan) und [Uplink](#task-3) |
+| Leitungscodes / Modulation | Bits als Signale, etwa Manchester oder OFDM | Funkaufgaben in Modul 5 | | Nicht untersucht |
+| Seriell / parallel | Bits nacheinander oder über mehrere Leitungen gleichzeitig | UART/RS-485 in Modul 6 | | Nicht untersucht |
+| Synchron / asynchron | Gemeinsamer Takt oder eigene Zeichensynchronisation | UART und Funkprotokolle | | Nicht untersucht |
+| Simplex / Halbduplex / Vollduplex | Eine Richtung, wechselnde Richtung oder beide gleichzeitig | Ethernet und WLAN | | Duplexverhalten nicht gemessen |
+| Topologie | Bus, Stern, Ring oder Mesh | Router und MQTT-Broker als zentrale Knoten | ✓ | [Netzwerkplan](#network-plan) und [MQTT-Test](#task-4) |
+| MAC-Adressen / ARP | Layer-2-Adresse und Zuordnung von IP zu MAC | Anfrage nach der Gateway-MAC | ✓ | [LAN-Mitschnitt](#task-5) |
+| Kollisions- / Broadcast-Domäne | Bereich möglicher Kollisionen beziehungsweise erreichter Broadcasts | LAN-Bridge und Routergrenze | | Broadcast gesehen, Kollisionen nicht untersucht |
+| Fehlererkennung | Erkennung beschädigter Daten, etwa CRC/FCS | Ethernet und spätere Feldbusse | | Keine Fehleranalyse durchgeführt |
+| CSMA/CD / CSMA/CA | Kollisionserkennung beziehungsweise Kollisionsvermeidung | Ethernet-Grundlagen und WLAN | | Nicht untersucht |
+| Routing / Standardgateway | Auswahl des nächsten Wegs anhand der Routingtabelle | Standardroute über den Heimrouter | ✓ | [Routingtabelle](#task-3) |
+| Klassen / CIDR | Historische Adressklassen gegenüber Präfixlängen | /24, /26 und /28 | ✓ | [Subnetztabelle und Clientpräfix](#task-6) |
+| Broadcast / Fragmentierung | Zustellung an alle im Netz beziehungsweise Aufteilung von Paketen | DHCP-Discover als Broadcast | | Broadcast belegt, keine Fragmentierung untersucht |
+| TCP / UDP und Flusskontrolle | Bytestrom gegenüber Datagrammen; Begrenzung des Datenflusses | MQTT über TCP, DNS und DHCP über UDP | | Protokolle gesehen, Flusskontrolle nicht ausgewertet |
+| Sitzung / Darstellung / Anwendung | Sitzungsaufbau, Datenformat und Anwendungsprotokoll | MQTT-Verbindung und Testnachricht | ✓ | [MQTT-Test](#task-4) und [PUBLISH-Pakete](#task-5) |
+| Spanning Tree Protocol | Vermeidet Schleifen in gebrückten Layer-2-Netzen | Spätere Netzaufbauten | | Nicht untersucht |
+
+## Captures
+
+<a id="task-5"></a>
+### Aufgabe 5 – ARP, DHCP, DNS und MQTT mitschneiden
+
+**Lernziele:** [LG2](#lg2), [LG4](#lg4)
+
+Für den Mitschnitt haben wir `tcpdump` installiert. OpenWrt 25.12 verwendet
+dafür `apk`. Aufgenommen wurde auf der LAN-Bridge `br-lan`:
+
+```sh
+apk update
+apk add tcpdump
+tcpdump -U -i br-lan -s 0 -w /tmp/portfolio-lan.pcap \
+  'arp or udp port 67 or udp port 68 or udp port 53 or tcp port 1883'
+```
+
+Während der Aufnahme haben wir die LAN-DHCP-Adresse freigegeben und neu
+angefordert, `openwrt.org` über den Router aufgelöst und eine MQTT-Nachricht
+veröffentlicht. Der Mitschnitt entstand noch vor der Verkleinerung des
+Subnetzes, deshalb taucht hier die Laptop-Adresse `.139/24` auf.
+
+| Protokoll | Beobachtung | Was sich daraus ablesen lässt |
+| --- | --- | --- |
+| DHCP | Discover, Offer, Request und ACK mit Transaktionskennung `0x202f3825` | Der Router bietet `.139` an und bestätigt `/24` und Gateway `.1` |
+| ARP | Anfrage nach `192.168.14.1`, Antwort mit `d4:0d:ab:52:c1:a0` | Der Laptop erfährt die MAC-Adresse seines Gateways |
+| DNS | Anfrage für `openwrt.org` und passende Antwort | Die Namensauflösung über den Router funktioniert |
+| MQTT | PUBLISH an den Broker und Weitergabe an den Subscriber | Die Testnachricht wird tatsächlich übertragen |
+
+Im DHCP-Discover sendet der Client von UDP-Port 68 an Port 67.
+Die Antwort kommt von Port 67 an 68. Offer und ACK enthielten die Maske
+`255.255.255.0` und das Gateway `192.168.14.1`.
+Die MQTT-PUBLISH-Nachrichten trugen das Topic `pod12/portfolio/capture`
+und die Nachricht `module02-capture-151634`.
+
+![Auswertung des echten LAN-Mitschnitts mit DHCP, ARP, DNS und MQTT](pictures/05-protokolle-auswertung-2026-11-14.jpg)
+
+Der [gefilterte Paketmitschnitt](evidence/lan-protocols-2026-11-14.pcap)
+enthält 47 Frames aus unserem Versuch. Die
+[Textauswertung](evidence/lan-protocols-2026-11-14.json) ordnet die Pakete zu.
+Unbeteiligte Netzwerkadapter und fremde DNS-Abfragen sind nicht Teil der
+veröffentlichten Auszüge.
+
+## NAT and port forwarding
+
 <a id="task-7"></a>
-## Aufgabe 7 – Portweiterleitung und NAT
+### Aufgabe 7 – Portweiterleitung und NAT
 
 **Lernziele:** [LG2](#lg2), [LG3](#lg3), [LG4](#lg4)
 
@@ -368,8 +450,10 @@ Antwortweg dagegen die Zieladresse `192.168.178.83`. Das
 [Ping- und NAT-Protokoll](evidence/lan-internet-nat-2026-11-14.json)
 zeigt damit auch die Übersetzung einer ausgehenden LAN-Verbindung.
 
+## Take it home
+
 <a id="task-8"></a>
-## Aufgabe 8 – Router zu Hause weiterverwenden
+### Aufgabe 8 – Router zu Hause weiterverwenden
 
 **Lernziele:** [LG1](#lg1), [LG3](#lg3)
 
@@ -394,71 +478,6 @@ Extroot war weiterhin eingebunden und die Routeruhr zeigte das aktuelle Datum.
 Router und USB-Stick bleiben für die weitere Arbeit zusammen.
 WLAN-Zugangsdaten sind nicht Bestandteil dieser Dokumentation.
 Bei einer Übergabe müssen persönliche Zugangsdaten vorher entfernt werden.
-
-<a id="task-9"></a>
-## Aufgabe 9 – Warum OpenWrt?
-
-**Lernziele:** [LG3](#lg3)
-
-OpenWrt entstand 2004 aus den veröffentlichten GPL-Quellen für den
-Linksys WRT54G. Der LEDE-Fork von 2016 wurde 2018 wieder mit OpenWrt
-zusammengeführt. Die [Projektgeschichte](https://openwrt.org/about/history)
-zeigt den Weg von der Herstellerbasis zur eigenen Routerdistribution.
-
-Unser Beispiel ist der Cudy TR1200 v1. Die
-[Geräteseite](https://openwrt.org/toh/cudy/tr1200#oem_easy_installation)
-beschreibt das signierte Übergangsimage und den anschließenden
-Sysupgrade-Schritt. Sie nennt Unterstützung ab 23.05.4; auf unserem
-Router läuft 25.12.6. Als konkrete Einschränkung nennt die Seite fehlende
-DFS-Unterstützung des 5-GHz-Chips. Modell und Hardwareversion müssen
-deshalb zur jeweiligen Anleitung passen.
-
-![Geräteseite mit Installationsweg und Versionshinweis](pictures/09-openwrt-cudy-installation-2026-11-14.jpg)
-
-Für unseren Laborrouter ist OpenWrt sinnvoll, weil wir Pakete nachinstallieren,
-mit UCI konfigurieren und per `tcpdump` nachvollziehen können, was im Netz
-passiert. Bei einem Router für den täglichen Betrieb würde ich vorher
-Geräteunterstützung, Wiederherstellung und Wartungsaufwand prüfen.
-Die zusätzliche Kontrolle bedeutet auch, Updates und Fehlersuche selbst
-zu übernehmen, statt sich auf den Herstellersupport zu verlassen.
-
-Extroot, zusätzliche Pakete und die geskripteten DHCP- und Firewallregeln
-wären in einer geschlossenen Herstelleroberfläche deutlich schwerer
-umzusetzen. Herstellerfunktionen sind dafür oft bereits aufeinander
-abgestimmt und leichter einzurichten. Eine FRITZ!Box mit FRITZ!OS ist
-außerdem nicht einfach OpenWrt; ein unterstützter OpenWrt-Port wäre ein
-anderes Betriebssystem auf dem Gerät.
-
-## Gesprächsnotizen
-
-Nach dem Flashen haben wir mit dem Professor geklärt, wie wir den
-Firmwarestand feststellen und weiterarbeiten können. Die übrigen Aufgaben
-haben Jonas und ich gemeinsam in der Vorlesung beziehungsweise zu Hause
-bearbeitet. Weitere Gespräche mit anderen Pods sind hier nicht festgehalten.
-
-## Begriffe aus dem Modul
-
-Ein Haken steht für einen Begriff, den ich hier am Aufbau oder im Mitschnitt
-zuordnen kann. Die übrigen Begriffe bleiben als Überblick für die nächsten Module.
-
-| Begriff | Bedeutung | Wo er vorkommt | ✓ | Beleg |
-| --- | --- | --- | --- | --- |
-| Übertragungsmedien | Kupferkabel, Glasfaser oder Funk | Ethernet zum Router, WLAN-Uplink | ✓ | Netzwerkplan und Uplink |
-| Leitungscodes / Modulation | Bits als Signale, etwa Manchester oder OFDM | Funkaufgaben in Modul 5 | | Nicht untersucht |
-| Seriell / parallel | Bits nacheinander oder über mehrere Leitungen gleichzeitig | UART/RS-485 in Modul 6 | | Nicht untersucht |
-| Synchron / asynchron | Gemeinsamer Takt oder eigene Zeichensynchronisation | UART und Funkprotokolle | | Nicht untersucht |
-| Simplex / Halbduplex / Vollduplex | Eine Richtung, wechselnde Richtung oder beide gleichzeitig | Ethernet und WLAN | | Duplexverhalten nicht gemessen |
-| Topologie | Bus, Stern, Ring oder Mesh | Router und MQTT-Broker als zentrale Knoten | ✓ | Netzwerkplan und MQTT-Test |
-| MAC-Adressen / ARP | Layer-2-Adresse und Zuordnung von IP zu MAC | Anfrage nach der Gateway-MAC | ✓ | LAN-Mitschnitt |
-| Kollisions- / Broadcast-Domäne | Bereich möglicher Kollisionen beziehungsweise erreichter Broadcasts | LAN-Bridge und Routergrenze | | Broadcast gesehen, Kollisionen nicht untersucht |
-| Fehlererkennung | Erkennung beschädigter Daten, etwa CRC/FCS | Ethernet und spätere Feldbusse | | Keine Fehleranalyse durchgeführt |
-| CSMA/CD / CSMA/CA | Kollisionserkennung beziehungsweise Kollisionsvermeidung | Ethernet-Grundlagen und WLAN | | Nicht untersucht |
-| Routing / Standardgateway | Auswahl des nächsten Wegs anhand der Routingtabelle | Standardroute über den Heimrouter | ✓ | Routingtabelle |
-| Klassen / CIDR | Historische Adressklassen gegenüber Präfixlängen | /24, /26 und /28 | ✓ | Subnetztabelle und Clientpräfix |
-| Broadcast / Fragmentierung | Zustellung an alle im Netz beziehungsweise Aufteilung von Paketen | DHCP-Discover als Broadcast | | Broadcast belegt, keine Fragmentierung untersucht |
-| TCP / UDP und Flusskontrolle | Bytestrom gegenüber Datagrammen; Begrenzung des Datenflusses | MQTT über TCP, DNS und DHCP über UDP | | Protokolle gesehen, Flusskontrolle nicht ausgewertet |
-| Sitzung / Darstellung / Anwendung | Sitzungsaufbau, Datenformat und Anwendungsprotokoll | MQTT-Verbindung und Testnachricht | ✓ | MQTT-Test und PUBLISH-Pakete |
-| Spanning Tree Protocol | Vermeidet Schleifen in gebrückten Layer-2-Netzen | Spätere Netzaufbauten | | Nicht untersucht |
 
 ## Reflexion
 

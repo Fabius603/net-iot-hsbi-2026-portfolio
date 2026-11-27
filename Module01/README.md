@@ -2,11 +2,8 @@
 
 **06.11.2026 · Notizen ergänzt am 14.11.2026**
 
-Dieses Modul habe ich zusammen mit
-[Jonas Prijic](https://github.com/OffBeatAtze/net-iot-hsbi-2026-portfolio)
-bearbeitet. Unser gemeinsames Study log halte ich hier fest. Wir haben mit
-Node-RED gearbeitet, die LED und das Display des M5Stick angesteuert und
-die Werte eines selbst angeschlossenen Temperatursensors angezeigt.
+Wir haben mit Node-RED gearbeitet, die LED und das Display des M5Stick
+angesteuert und die Werte eines selbst angeschlossenen Temperatursensors angezeigt.
 Das Firmware-Update über WLAN hat unser Professor durchgeführt.
 
 Die offenen praktischen Teile haben im Unterricht nicht mehr geklappt.
@@ -24,7 +21,9 @@ Explain how this class works — learning goals as the contract, negotiable task
 evidence in a portfolio — and start your own portfolio with a note on what you
 already know, what you expect, and who your pod is.
 
-**Nachweise:** [Einstieg aus der Pre-Study](#einstieg-aus-der-pre-study),
+**Nachweise:** [Vorkenntnisse und Erwartungen](#who-i-am),
+[Zusammenarbeit im Pod](#my-pod),
+[MQTT-Test aus der Pre-Study](#pre-study-artefact),
 [Grundlagen im Pod](#task-1),
 [Austausch mit einem anderen Pod](#task-2).
 
@@ -103,7 +102,28 @@ Beim Entwurf der Raumklima-Anzeige habe ich den Weg vom Sensor bis zur Anzeige
 gezeichnet und den Broker als Schwachstelle erkannt. Die Systemgeschichte liegt
 als schriftlicher Entwurf vor.
 
-## Einstieg aus der Pre-Study
+## Who I am
+
+**Lernziele:** [LG1](#lg1)
+
+Ich habe eine Ausbildung in der Anwendungsentwicklung abgeschlossen. Im
+Kurs möchte ich genauer verstehen, wie vernetzte Geräte miteinander
+kommunizieren, und die Lücken schließen, die nach der Ausbildung bei
+diesem Thema geblieben sind.
+
+## My pod
+
+**Lernziele:** [LG1](#lg1)
+
+Mein Partner ist
+[Jonas Prijic](https://github.com/OffBeatAtze/net-iot-hsbi-2026-portfolio).
+Er nutzt zu Hause Home Assistant und hat damit schon Erfahrungen mit
+Tailscale und MQTT gesammelt. Wir haben den Temperatursensor gemeinsam
+angeschlossen und seine Werte in Node-RED angezeigt. Als Anwendung passt
+dazu die Raumklima-Anzeige aus meiner Pre-Study. Das gemeinsame Study Log
+steht in diesem Bericht.
+
+## Pre-study artefact
 
 **Lernziele:** [LG1](#lg1)
 
@@ -111,6 +131,8 @@ Beim [ersten MQTT-Test](../PreStudy/mqtt.md) habe ich meine eigene Nachricht
 über einen öffentlichen Broker zurückbekommen. Sender und Empfänger konnten
 also derselbe Client sein. In Modul 1 kam mit dem M5Stick ein eigenes Gerät
 hinzu: Messwerte und Schaltbefehle liefen zwischen Stick und Node-RED.
+
+![Empfangene MQTT-Nachricht im HiveMQ-Webclient](../PreStudy/evidence/mqtt-received.jpg)
 
 ## Study log
 
@@ -193,6 +215,9 @@ drei Grad. Die Werte des anderen Pods haben wir nicht festgehalten.
 Zum OTA-Update haben wir darüber gesprochen, ob der andere Pod die
 Aktualisierung über WLAN mitbekommen hatte. Dabei ging es auch darum,
 woran man nach dem Update erkennt, ob der Sensor tatsächlich Werte liefert.
+
+**Agreed learning (pod discussion):** Aus dem Gespräch haben wir keine
+gemeinsame Erkenntnis festgehalten.
 
 <a id="task-3"></a>
 ## Aufgabe 3 – Nachrichten in Node-RED
